@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +24,7 @@ namespace SistemskeOperacije
                 broker.OpenConnection();
                 broker.BeginTransaction();
 
+                Validate();
                 ExecuteConcreteOperation();
 
                 broker.Commit();
@@ -40,5 +42,6 @@ namespace SistemskeOperacije
 
         protected abstract void ExecuteConcreteOperation();
 
+        protected virtual void Validate() { }
     }
 }
