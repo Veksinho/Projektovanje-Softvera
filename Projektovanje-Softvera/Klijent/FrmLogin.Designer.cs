@@ -39,6 +39,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Location = new Point(40, 38);
             label1.Name = "label1";
@@ -48,6 +49,7 @@
             // 
             // txtKorisnickoIme
             // 
+            txtKorisnickoIme.Anchor = AnchorStyles.None;
             txtKorisnickoIme.Location = new Point(170, 35);
             txtKorisnickoIme.Name = "txtKorisnickoIme";
             txtKorisnickoIme.Size = new Size(250, 27);
@@ -55,6 +57,7 @@
             // 
             // txtSifra
             // 
+            txtSifra.Anchor = AnchorStyles.None;
             txtSifra.Location = new Point(170, 87);
             txtSifra.Name = "txtSifra";
             txtSifra.Size = new Size(250, 27);
@@ -63,6 +66,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Location = new Point(40, 90);
             label2.Name = "label2";
@@ -72,6 +76,7 @@
             // 
             // btnPrijavi
             // 
+            btnPrijavi.Anchor = AnchorStyles.None;
             btnPrijavi.Location = new Point(198, 155);
             btnPrijavi.Name = "btnPrijavi";
             btnPrijavi.Size = new Size(94, 29);
@@ -82,6 +87,7 @@
             // 
             // btnOdustani
             // 
+            btnOdustani.Anchor = AnchorStyles.None;
             btnOdustani.Location = new Point(326, 155);
             btnOdustani.Name = "btnOdustani";
             btnOdustani.Size = new Size(94, 29);
@@ -92,6 +98,7 @@
             // 
             // lblPoruka
             // 
+            lblPoruka.Anchor = AnchorStyles.None;
             lblPoruka.AutoSize = true;
             lblPoruka.ForeColor = Color.Salmon;
             lblPoruka.Location = new Point(49, 126);

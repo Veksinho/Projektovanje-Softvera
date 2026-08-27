@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Klijent.GuiControllers;
+using Klijent.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +17,43 @@ namespace Klijent
         public FrmGlavna()
         {
             InitializeComponent();
+            PrikaziPrijavljenogBrokera();
+        }
+
+        public void PostaviSadrzaj(UserControl control)
+        {
+            //pnlSadrzaj.Controls.Clear();
+            //control.Dock = DockStyle.Fill;
+            //pnlSadrzaj.Controls.Add(control);
+        }
+
+        private void PrikaziPrijavljenogBrokera()
+        {
+            if (Session.Instance.LoggedInBroker == null)
+            {
+                lblPrijavljeniBroker.Text = "Niko nije prijavljen";
+                return;
+            }
+
+            lblPrijavljeniBroker.Text = $"{Session.Instance.LoggedInBroker.Ime} {Session.Instance.LoggedInBroker.Prezime}";
+        }
+
+        private void mniOdjava_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmation = MessageBox.Show(
+                "Da li zelite da se odjavite?", "Odjava",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirmation == DialogResult.Yes)
+            {
+                LoginGuiController.Instance.Odjavi();
+                Close();
+            }
+        }
+
+        private void FrmGlavna_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LoginGuiController.Instance.Odjavi();
         }
     }
 }

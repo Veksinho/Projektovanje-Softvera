@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Klijent.GuiControllers
 {
@@ -21,20 +22,15 @@ namespace Klijent.GuiControllers
 
         private FrmLogin frmLogin;
 
-        internal void ShowFrmLogin()
+        internal bool ShowFrmLogin()
         {
-            try
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                frmLogin = new FrmLogin();
-                frmLogin.AutoSize = true;
-                Application.Run(frmLogin);
-            }
-            catch (SocketException)
-            {
-                MessageBox.Show("Nije moguce uspostaviti komunikaciju sa serverom!");
-            }
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            frmLogin = new FrmLogin();
+            frmLogin.AutoSize = true;
+
+            return frmLogin.ShowDialog() == DialogResult.OK;
         }
 
         internal bool Login(string username, string password)

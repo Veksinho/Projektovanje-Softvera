@@ -48,7 +48,7 @@ namespace Server
 
         private void FrmServer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            server.Stop();
+            Environment.Exit(0);
         }
     }
 }

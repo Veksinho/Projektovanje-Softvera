@@ -10,9 +10,14 @@ namespace Klijent
         [STAThread]
         static void Main()
         {
+            ApplicationConfiguration.Initialize();
+
             try
             {
-                LoginGuiController.Instance.ShowFrmLogin();
+                if (LoginGuiController.Instance.ShowFrmLogin())
+                {
+                    MainCoordinator.Instance.PokreniGlavnuFormu();
+                }
             }
             finally
             {

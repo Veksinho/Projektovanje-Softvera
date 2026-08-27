@@ -35,26 +35,29 @@
             // 
             // btnStart
             // 
+            btnStart.Anchor = AnchorStyles.None;
             btnStart.Location = new Point(54, 52);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(122, 50);
             btnStart.TabIndex = 0;
-            btnStart.Text = "Pokreni";
+            btnStart.Text = "POKRENI";
             btnStart.UseVisualStyleBackColor = true;
             btnStart.Click += btnStart_Click;
             // 
             // btnStop
             // 
+            btnStop.Anchor = AnchorStyles.None;
             btnStop.Location = new Point(54, 131);
             btnStop.Name = "btnStop";
             btnStop.Size = new Size(122, 50);
             btnStop.TabIndex = 1;
-            btnStop.Text = "Zaustavi";
+            btnStop.Text = "ZAUSTAVI";
             btnStop.UseVisualStyleBackColor = true;
             btnStop.Click += btnStop_Click;
             // 
             // txtStatus
             // 
+            txtStatus.Anchor = AnchorStyles.None;
             txtStatus.Location = new Point(218, 102);
             txtStatus.Name = "txtStatus";
             txtStatus.Size = new Size(196, 27);
