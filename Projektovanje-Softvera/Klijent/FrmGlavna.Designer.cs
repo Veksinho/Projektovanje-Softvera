@@ -30,20 +30,22 @@
         {
             mnsGlavni = new MenuStrip();
             mniDokumenti = new ToolStripMenuItem();
-            mniPruzalacUsluge = new ToolStripMenuItem();
-            mniPrimalacUsluge = new ToolStripMenuItem();
-            mniSifarnici = new ToolStripMenuItem();
-            podešavanjaToolStripMenuItem = new ToolStripMenuItem();
-            oProgramuToolStripMenuItem = new ToolStripMenuItem();
-            mniOdjava = new ToolStripMenuItem();
             mniListing = new ToolStripMenuItem();
             mniKarta = new ToolStripMenuItem();
+            mniPruzalacUsluge = new ToolStripMenuItem();
             mniBroker = new ToolStripMenuItem();
+            mniPrimalacUsluge = new ToolStripMenuItem();
             MniKonsignator = new ToolStripMenuItem();
             mniPravnoLice = new ToolStripMenuItem();
             mniFizickoLice = new ToolStripMenuItem();
+            mniSifarnici = new ToolStripMenuItem();
             mniDogadjaj = new ToolStripMenuItem();
             mniKategorijaDogadjaja = new ToolStripMenuItem();
+            mniKategorijaDogadjajaKreiraj = new ToolStripMenuItem();
+            mniKategorijaDogadjajaPretrazi = new ToolStripMenuItem();
+            podešavanjaToolStripMenuItem = new ToolStripMenuItem();
+            oProgramuToolStripMenuItem = new ToolStripMenuItem();
+            mniOdjava = new ToolStripMenuItem();
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
@@ -68,12 +70,30 @@
             mniDokumenti.Size = new Size(96, 24);
             mniDokumenti.Text = "Dokumenti";
             // 
+            // mniListing
+            // 
+            mniListing.Name = "mniListing";
+            mniListing.Size = new Size(135, 26);
+            mniListing.Text = "Listing";
+            // 
+            // mniKarta
+            // 
+            mniKarta.Name = "mniKarta";
+            mniKarta.Size = new Size(135, 26);
+            mniKarta.Text = "Karta";
+            // 
             // mniPruzalacUsluge
             // 
             mniPruzalacUsluge.DropDownItems.AddRange(new ToolStripItem[] { mniBroker });
             mniPruzalacUsluge.Name = "mniPruzalacUsluge";
             mniPruzalacUsluge.Size = new Size(125, 24);
             mniPruzalacUsluge.Text = "Pružalac usluge";
+            // 
+            // mniBroker
+            // 
+            mniBroker.Name = "mniBroker";
+            mniBroker.Size = new Size(135, 26);
+            mniBroker.Text = "Broker";
             // 
             // mniPrimalacUsluge
             // 
@@ -82,12 +102,56 @@
             mniPrimalacUsluge.Size = new Size(127, 24);
             mniPrimalacUsluge.Text = "Primalac usluge";
             // 
+            // MniKonsignator
+            // 
+            MniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniPravnoLice, mniFizickoLice });
+            MniKonsignator.Name = "MniKonsignator";
+            MniKonsignator.Size = new Size(172, 26);
+            MniKonsignator.Text = "Konsignator";
+            // 
+            // mniPravnoLice
+            // 
+            mniPravnoLice.Name = "mniPravnoLice";
+            mniPravnoLice.Size = new Size(164, 26);
+            mniPravnoLice.Text = "Pravno lice";
+            // 
+            // mniFizickoLice
+            // 
+            mniFizickoLice.Name = "mniFizickoLice";
+            mniFizickoLice.Size = new Size(164, 26);
+            mniFizickoLice.Text = "Fizičko lice";
+            // 
             // mniSifarnici
             // 
             mniSifarnici.DropDownItems.AddRange(new ToolStripItem[] { mniDogadjaj, mniKategorijaDogadjaja });
             mniSifarnici.Name = "mniSifarnici";
             mniSifarnici.Size = new Size(76, 24);
             mniSifarnici.Text = "Šifarnici";
+            // 
+            // mniDogadjaj
+            // 
+            mniDogadjaj.Name = "mniDogadjaj";
+            mniDogadjaj.Size = new Size(229, 26);
+            mniDogadjaj.Text = "Događaj";
+            // 
+            // mniKategorijaDogadjaja
+            // 
+            mniKategorijaDogadjaja.DropDownItems.AddRange(new ToolStripItem[] { mniKategorijaDogadjajaKreiraj, mniKategorijaDogadjajaPretrazi });
+            mniKategorijaDogadjaja.Name = "mniKategorijaDogadjaja";
+            mniKategorijaDogadjaja.Size = new Size(229, 26);
+            mniKategorijaDogadjaja.Text = "Kategorija događaja";
+            // 
+            // mniKategorijaDogadjajaKreiraj
+            // 
+            mniKategorijaDogadjajaKreiraj.Name = "mniKategorijaDogadjajaKreiraj";
+            mniKategorijaDogadjajaKreiraj.Size = new Size(224, 26);
+            mniKategorijaDogadjajaKreiraj.Text = "Kreiraj";
+            // 
+            // mniKategorijaDogadjajaPretrazi
+            // 
+            mniKategorijaDogadjajaPretrazi.Name = "mniKategorijaDogadjajaPretrazi";
+            mniKategorijaDogadjajaPretrazi.Size = new Size(224, 26);
+            mniKategorijaDogadjajaPretrazi.Text = "Pretraži";
             // 
             // podešavanjaToolStripMenuItem
             // 
@@ -107,55 +171,6 @@
             mniOdjava.Size = new Size(70, 24);
             mniOdjava.Text = "Odjava";
             mniOdjava.Click += mniOdjava_Click;
-            // 
-            // mniListing
-            // 
-            mniListing.Name = "mniListing";
-            mniListing.Size = new Size(224, 26);
-            mniListing.Text = "Listing";
-            // 
-            // mniKarta
-            // 
-            mniKarta.Name = "mniKarta";
-            mniKarta.Size = new Size(224, 26);
-            mniKarta.Text = "Karta";
-            // 
-            // mniBroker
-            // 
-            mniBroker.Name = "mniBroker";
-            mniBroker.Size = new Size(224, 26);
-            mniBroker.Text = "Broker";
-            // 
-            // MniKonsignator
-            // 
-            MniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniPravnoLice, mniFizickoLice });
-            MniKonsignator.Name = "MniKonsignator";
-            MniKonsignator.Size = new Size(224, 26);
-            MniKonsignator.Text = "Konsignator";
-            // 
-            // mniPravnoLice
-            // 
-            mniPravnoLice.Name = "mniPravnoLice";
-            mniPravnoLice.Size = new Size(224, 26);
-            mniPravnoLice.Text = "Pravno lice";
-            // 
-            // mniFizickoLice
-            // 
-            mniFizickoLice.Name = "mniFizickoLice";
-            mniFizickoLice.Size = new Size(224, 26);
-            mniFizickoLice.Text = "Fizičko lice";
-            // 
-            // mniDogadjaj
-            // 
-            mniDogadjaj.Name = "mniDogadjaj";
-            mniDogadjaj.Size = new Size(229, 26);
-            mniDogadjaj.Text = "Događaj";
-            // 
-            // mniKategorijaDogadjaja
-            // 
-            mniKategorijaDogadjaja.Name = "mniKategorijaDogadjaja";
-            mniKategorijaDogadjaja.Size = new Size(229, 26);
-            mniKategorijaDogadjaja.Text = "Kategorija događaja";
             // 
             // stsStatus
             // 
@@ -221,5 +236,7 @@
         private StatusStrip stsStatus;
         private ToolStripStatusLabel lblPrijavljeniBroker;
         private Panel pnlSadrzaj;
+        private ToolStripMenuItem mniKategorijaDogadjajaKreiraj;
+        private ToolStripMenuItem mniKategorijaDogadjajaPretrazi;
     }
 }

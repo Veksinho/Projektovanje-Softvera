@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\DBBroker\DBBroker.csproj" />
+    <ProjectReference Include="..\DBBroker\DatabaseBroker.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DBBroker
+namespace DatabaseBroker
 {
     internal class DBConnection
     {

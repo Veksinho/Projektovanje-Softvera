@@ -11,7 +11,6 @@ namespace SistemskeOperacije
     public class PrijaviBrokerSO(Broker b) : SOBase
     {
         private readonly Broker b = b;
-        public Broker? Result { get; set; }
 
         protected override void Validate()
         {
@@ -30,14 +29,14 @@ namespace SistemskeOperacije
         {
 
             List<IEntity> foundBrokers =
-                broker.GetByCondition(b, b.SearchCondition);
+                dbBroker.GetByCondition(b, b.SearchCondition);
 
-            Result = foundBrokers.Cast<Broker>().FirstOrDefault();
-
-            if (Result == null)
+            if (foundBrokers.Count == 0)
             {
                 throw new Exception("Pogrešno korisničko ime ili šifra.");
             }
+
+            Result = foundBrokers.Cast<Broker>().FirstOrDefault();
         }
     }
 }

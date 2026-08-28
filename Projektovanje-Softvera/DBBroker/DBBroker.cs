@@ -2,12 +2,12 @@
 using Microsoft.Data.SqlClient;
 using System.Data.Common;
 
-namespace DBBroker
+namespace DatabaseBroker
 {
-    public class Broker
+    public class DBBroker
     {
         private readonly DBConnection connection;
-        public Broker()
+        public DBBroker()
         {
             connection = new DBConnection();
         }
@@ -80,7 +80,7 @@ namespace DBBroker
         public void Edit(IEntity e)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = $"UPDATE {e.TableName} SET {e.UpdateValues} WHERE {e.PrimaryKeyCondition}";
+            command.CommandText = $"UPDATE {e.TableName.Split(" ")[1]} SET {e.UpdateValues} FROM {e.TableName} WHERE {e.PrimaryKeyCondition}";
 
             command.ExecuteNonQuery();
         }
@@ -88,7 +88,7 @@ namespace DBBroker
         public void Delete(IEntity e)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM {e.TableName} WHERE {e.PrimaryKeyCondition}";
+            command.CommandText = $"DELETE {e.TableName.Split(" ")[1]} FROM {e.TableName} WHERE {e.PrimaryKeyCondition}";
 
             command.ExecuteNonQuery();
         }

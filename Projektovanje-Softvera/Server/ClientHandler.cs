@@ -61,6 +61,26 @@ namespace Server
                         Broker broker = serializer.ReadType<Broker>(zahtev.Objekat)!;
                         return Odgovor.Uspeh(Kontroler.Instance.PrijaviBroker(broker));
 
+                    #region KategorijaDogadjaja
+                    case Operacija.UbaciKategorijaDogadjaja:
+                        return Odgovor.Uspeh(Kontroler.Instance.UbaciKategorijaDogadjaja(serializer.ReadType<KategorijaDogadjaja>(zahtev.Objekat)!));
+
+                    case Operacija.PromeniKategorijaDogadjaja:
+                        return Odgovor.Uspeh(Kontroler.Instance.PromeniKategorijaDogadjaja(serializer.ReadType<KategorijaDogadjaja>(zahtev.Objekat)!));
+
+                    case Operacija.PretraziKategorijaDogadjaja:
+                        return Odgovor.Uspeh(Kontroler.Instance.PretraziKategorijaDogadjaja(serializer.ReadType<KategorijaDogadjaja>(zahtev.Objekat)!));
+
+                    case Operacija.ObrisiKategorijaDogadjaja:
+                        return Odgovor.Uspeh(Kontroler.Instance.ObrisiKategorijaDogadjaja(serializer.ReadType<KategorijaDogadjaja>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuKategorijaDogadjaja:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuKategorijaDogadjaja(serializer.ReadType<KategorijaDogadjaja>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuSviKategorijaDogadjaja:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuSviKategorijaDogadjaja());
+                    #endregion
+
                     default:
                         return Odgovor.Neuspeh($"Operacija {zahtev.Operacija} još uvek nije implementirana.");
                 }

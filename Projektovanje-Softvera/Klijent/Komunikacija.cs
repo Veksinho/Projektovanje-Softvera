@@ -71,6 +71,44 @@ namespace Klijent
             return serializer.ReadType<Broker>(response.Objekat)!;
         }
 
+        #region KategorijaDogadjaja
+        public KategorijaDogadjaja UbaciKategorijaDogadjaja(KategorijaDogadjaja kd)
+        {
+            Odgovor response = SendRequest(Operacija.UbaciKategorijaDogadjaja, kd);
+            return serializer.ReadType<KategorijaDogadjaja>(response.Objekat)!;
+        }
+
+        public KategorijaDogadjaja PromeniKategorijaDogadjaja(KategorijaDogadjaja kd)
+        {
+            Odgovor response = SendRequest(Operacija.PromeniKategorijaDogadjaja, kd);
+            return serializer.ReadType<KategorijaDogadjaja>(response.Objekat)!;
+        }
+
+        public KategorijaDogadjaja PretraziKategorijaDogadjaja(KategorijaDogadjaja kd)
+        {
+            Odgovor response = SendRequest(Operacija.PretraziKategorijaDogadjaja, kd);
+            return serializer.ReadType<KategorijaDogadjaja>(response.Objekat)!;
+        }
+
+        public KategorijaDogadjaja ObrisiKategorijaDogadjaja(KategorijaDogadjaja kd)
+        {
+            Odgovor response = SendRequest(Operacija.ObrisiKategorijaDogadjaja, kd);
+            return serializer.ReadType<KategorijaDogadjaja>(response.Objekat)!;
+        }
+
+        public List<KategorijaDogadjaja> VratiListuKategorijaDogadjaja(KategorijaDogadjaja kd)
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuKategorijaDogadjaja, kd);
+            return serializer.ReadType<List<KategorijaDogadjaja>>(response.Objekat)!;
+        }
+
+        public List<KategorijaDogadjaja> VratiListuSviKategorijaDogadjaja()
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuSviKategorijaDogadjaja, null);
+            return serializer.ReadType<List<KategorijaDogadjaja>>(response.Objekat)!;
+        }
+        #endregion
+
         private Odgovor SendRequest(Operacija operation, object? data)
         {
             if (!IsConnected)

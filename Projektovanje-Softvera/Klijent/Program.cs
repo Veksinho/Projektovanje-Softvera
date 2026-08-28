@@ -16,7 +16,7 @@ namespace Klijent
             {
                 if (LoginGuiController.Instance.ShowFrmLogin())
                 {
-                    MainCoordinator.Instance.PokreniGlavnuFormu();
+                    MainCoordinator.Instance.ShowFrmGlavna();
                 }
             }
             finally

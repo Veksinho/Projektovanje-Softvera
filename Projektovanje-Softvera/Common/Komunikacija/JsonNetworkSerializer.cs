@@ -50,7 +50,7 @@ namespace Common.Komunikacija
             return poruka;
         }
 
-        public T? ReadType<T>(object podaci) where T : class
+        public T? ReadType<T>(object? podaci) where T : class
         {
             return podaci == null ? null : JsonSerializer.Deserialize<T>((JsonElement)podaci);
         }

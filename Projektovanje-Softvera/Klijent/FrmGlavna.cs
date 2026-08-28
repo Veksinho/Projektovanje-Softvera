@@ -18,13 +18,18 @@ namespace Klijent
         {
             InitializeComponent();
             PrikaziPrijavljenogBrokera();
+
+            mniKategorijaDogadjajaKreiraj.Click += (sender, e) => KategorijaDogadjajaGuiController.Instance.PrikaziFormuNova();
+            mniKategorijaDogadjajaPretrazi.Click += (sender, e) => KategorijaDogadjajaGuiController.Instance.PrikaziFormuPretraga();
         }
 
-        public void PostaviSadrzaj(UserControl control)
+        public void ChangePanel(UserControl control)
         {
-            //pnlSadrzaj.Controls.Clear();
-            //control.Dock = DockStyle.Fill;
-            //pnlSadrzaj.Controls.Add(control);
+            pnlSadrzaj.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            pnlSadrzaj.Controls.Add(control);
+            pnlSadrzaj.AutoSize = true;
+            pnlSadrzaj.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
         private void PrikaziPrijavljenogBrokera()

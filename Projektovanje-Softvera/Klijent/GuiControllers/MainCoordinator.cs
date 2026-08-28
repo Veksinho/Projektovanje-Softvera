@@ -18,15 +18,15 @@ namespace Klijent.GuiControllers
 
         private FrmGlavna? frmGlavna;
 
-        public void PokreniGlavnuFormu()
+        public void ShowFrmGlavna()
         {
             frmGlavna = new FrmGlavna();
             Application.Run(frmGlavna);
         }
 
-        public void PromeniSadrzaj(UserControl control)
+        public void ChangePanel(UserControl control)
         {
-            frmGlavna?.PostaviSadrzaj(control);
+            frmGlavna?.ChangePanel(control);
         }
     }
 }

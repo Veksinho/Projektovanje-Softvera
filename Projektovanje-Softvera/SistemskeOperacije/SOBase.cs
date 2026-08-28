@@ -1,4 +1,4 @@
-﻿using DBBroker;
+﻿using DatabaseBroker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,33 +10,34 @@ namespace SistemskeOperacije
 {
     public abstract class SOBase
     {
-        protected Broker broker;
+        protected DBBroker dbBroker;
+        public object? Result { get; protected set; }
 
         public SOBase()
         {
-            broker = new Broker();
+            dbBroker = new DBBroker();
         }
 
         public void ExecuteTemplate()
         {
             try
             {
-                broker.OpenConnection();
-                broker.BeginTransaction();
+                dbBroker.OpenConnection();
+                dbBroker.BeginTransaction();
 
                 Validate();
                 ExecuteConcreteOperation();
 
-                broker.Commit();
+                dbBroker.Commit();
             }
             catch (Exception ex)
             {
-                broker.Rollback();
+                dbBroker.Rollback();
                 throw;
             }
             finally
             {
-                broker.CloseConnection();
+                dbBroker.CloseConnection();
             }
         }
 
