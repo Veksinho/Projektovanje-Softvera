@@ -1,6 +1,7 @@
 ﻿using Common.Domen;
 using SistemskeOperacije;
 using SistemskeOperacije.KategorijaDogadjajaSO;
+using SistemskeOperacije.DogadjajSO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,6 +81,50 @@ namespace Server
             VratiListuSviKategorijaDogadjajaSO so = new VratiListuSviKategorijaDogadjajaSO();
             so.ExecuteTemplate();
             return (List<KategorijaDogadjaja>)so.Result!;
+        }
+        #endregion
+
+        #region Dogadjaj
+        public Dogadjaj UbaciDogadjaj(Dogadjaj d)
+        {
+            UbaciDogadjajSO so = new UbaciDogadjajSO(d);
+            so.ExecuteTemplate();
+            return (Dogadjaj)so.Result!;
+        }
+
+        public Dogadjaj PromeniDogadjaj(Dogadjaj d)
+        {
+            PromeniDogadjajSO so = new PromeniDogadjajSO(d);
+            so.ExecuteTemplate();
+            return (Dogadjaj)so.Result!;
+        }
+
+        public Dogadjaj PretraziDogadjaj(Dogadjaj d)
+        {
+            PretraziDogadjajSO so = new PretraziDogadjajSO(d);
+            so.ExecuteTemplate();
+            return (Dogadjaj)so.Result!;
+        }
+
+        public Dogadjaj ObrisiDogadjaj(Dogadjaj d)
+        {
+            ObrisiDogadjajSO so = new ObrisiDogadjajSO(d);
+            so.ExecuteTemplate();
+            return (Dogadjaj)so.Result!;
+        }
+
+        public List<Dogadjaj> VratiListuDogadjaj(Dogadjaj d)
+        {
+            VratiListuDogadjajSO so = new VratiListuDogadjajSO(d);
+            so.ExecuteTemplate();
+            return (List<Dogadjaj>)so.Result!;
+        }
+
+        public List<Dogadjaj> VratiListuSviDogadjaj()
+        {
+            VratiListuSviDogadjajSO so = new VratiListuSviDogadjajSO();
+            so.ExecuteTemplate();
+            return (List<Dogadjaj>)so.Result!;
         }
         #endregion
 

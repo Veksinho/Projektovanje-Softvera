@@ -23,9 +23,7 @@ namespace Klijent.GuiControllers
             }
         }
 
-        private KategorijaDogadjajaGuiController()
-        {
-        }
+        private KategorijaDogadjajaGuiController() { }
 
         private UCKategorijaDogadjaja? ucKategorijaDogadjaja;
         private UCPretragaKategorijaDogadjaja? ucPretragaKategorijaDogadjaja;
@@ -43,13 +41,39 @@ namespace Klijent.GuiControllers
             ucPretragaKategorijaDogadjaja = new UCPretragaKategorijaDogadjaja();
             ucPretragaKategorijaDogadjaja.BtnPretrazi.Click += Pretrazi;
             ucPretragaKategorijaDogadjaja.BtnPonisti.Click += Ponisti;
+            ucPretragaKategorijaDogadjaja.BtnPrikazi.Click += PrikaziFormuDetalji;
             ucPretragaKategorijaDogadjaja.BtnIzmeni.Click += PrikaziFormuIzmena;
             ucPretragaKategorijaDogadjaja.BtnObrisi.Click += ObrisiKategoriju;
-            ucPretragaKategorijaDogadjaja.DgvRezultati.CellDoubleClick += PrikaziFormuIzmena;
+            ucPretragaKategorijaDogadjaja.DgvRezultati.CellDoubleClick += PrikaziFormuDetalji;
 
             MainCoordinator.Instance.ChangePanel(ucPretragaKategorijaDogadjaja);
 
             OsveziListu();
+        }
+
+        private void PrikaziFormuDetalji(object? sender, EventArgs e)
+        {
+            KategorijaDogadjaja? selected = ucPretragaKategorijaDogadjaja!.DgvRezultati.CurrentRow == null ? null : ucPretragaKategorijaDogadjaja.DgvRezultati.CurrentRow.DataBoundItem as KategorijaDogadjaja;
+
+            if (selected == null)
+            {
+                MessageBox.Show("Niste izabrali kategoriju događaja!");
+                return;
+            }
+
+            try
+            {
+                KategorijaDogadjaja found = Komunikacija.Instance.PretraziKategorijaDogadjaja(
+                    new KategorijaDogadjaja { IdKategorijaDogadjaja = selected.IdKategorijaDogadjaja });
+
+                MessageBox.Show("Sistem je našao kategoriju događaja.");
+
+                ucKategorijaDogadjaja = new UCKategorijaDogadjaja(FormMode.Details, found);
+                ucKategorijaDogadjaja.BtnNazad.Click += Odustani;
+
+                MainCoordinator.Instance.ChangePanel(ucKategorijaDogadjaja);
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
         private void PrikaziFormuIzmena(object? sender, EventArgs e)
@@ -66,6 +90,8 @@ namespace Klijent.GuiControllers
             {
                 KategorijaDogadjaja found = Komunikacija.Instance.PretraziKategorijaDogadjaja(
                     new KategorijaDogadjaja { IdKategorijaDogadjaja = selected.IdKategorijaDogadjaja });
+
+                MessageBox.Show("Sistem je našao kategoriju događaja.");
 
                 ucKategorijaDogadjaja = new UCKategorijaDogadjaja(FormMode.Edit, found);
                 ucKategorijaDogadjaja.BtnIzmeni.Click += PromeniKategoriju;

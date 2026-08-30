@@ -19,8 +19,11 @@ namespace Klijent
             InitializeComponent();
             PrikaziPrijavljenogBrokera();
 
-            mniKategorijaDogadjajaKreiraj.Click += (sender, e) => KategorijaDogadjajaGuiController.Instance.PrikaziFormuNova();
+            mniKategorijaDogadjajaUbaci.Click += (sender, e) => KategorijaDogadjajaGuiController.Instance.PrikaziFormuNova();
             mniKategorijaDogadjajaPretrazi.Click += (sender, e) => KategorijaDogadjajaGuiController.Instance.PrikaziFormuPretraga();
+
+            mniDogadjajUbaci.Click += (s, e) => DogadjajGuiController.Instance.PrikaziFormuNova();
+            mniDogadjajPretrazi.Click += (s, e) => DogadjajGuiController.Instance.PrikaziFormuPretraga();
         }
 
         public void ChangePanel(UserControl control)

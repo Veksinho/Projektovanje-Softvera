@@ -81,6 +81,32 @@ namespace Server
                         return Odgovor.Uspeh(Kontroler.Instance.VratiListuSviKategorijaDogadjaja());
                     #endregion
 
+                    #region Dogadjaj
+                    case Operacija.UbaciDogadjaj:
+                        return Odgovor.Uspeh(Kontroler.Instance.UbaciDogadjaj(
+                            serializer.ReadType<Dogadjaj>(zahtev.Objekat)!));
+
+                    case Operacija.PromeniDogadjaj:
+                        return Odgovor.Uspeh(Kontroler.Instance.PromeniDogadjaj(
+                            serializer.ReadType<Dogadjaj>(zahtev.Objekat)!));
+
+                    case Operacija.PretraziDogadjaj:
+                        return Odgovor.Uspeh(Kontroler.Instance.PretraziDogadjaj(
+                            serializer.ReadType<Dogadjaj>(zahtev.Objekat)!));
+
+                    case Operacija.ObrisiDogadjaj:
+                        return Odgovor.Uspeh(Kontroler.Instance.ObrisiDogadjaj(
+                            serializer.ReadType<Dogadjaj>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuDogadjaj:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuDogadjaj(
+                            serializer.ReadType<Dogadjaj>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuSviDogadjaj:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuSviDogadjaj());
+                    #endregion
+
+
                     default:
                         return Odgovor.Neuspeh($"Operacija {zahtev.Operacija} još uvek nije implementirana.");
                 }

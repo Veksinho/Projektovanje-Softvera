@@ -15,7 +15,7 @@ namespace Common.Domen
         public string Mesto { get; set; }
 
         public override string ToString() =>
-            $"{Naziv} ({DatumOdrzavanja:dd.MM.yyyy.}, {Mesto})";
+            $"{Naziv} - {DatumOdrzavanja:dd.MM.yyyy}, {Mesto}";
 
         public string TableName => "Dogadjaj d";
 

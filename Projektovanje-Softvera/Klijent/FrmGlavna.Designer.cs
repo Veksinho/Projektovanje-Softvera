@@ -41,7 +41,7 @@
             mniSifarnici = new ToolStripMenuItem();
             mniDogadjaj = new ToolStripMenuItem();
             mniKategorijaDogadjaja = new ToolStripMenuItem();
-            mniKategorijaDogadjajaKreiraj = new ToolStripMenuItem();
+            mniKategorijaDogadjajaUbaci = new ToolStripMenuItem();
             mniKategorijaDogadjajaPretrazi = new ToolStripMenuItem();
             podešavanjaToolStripMenuItem = new ToolStripMenuItem();
             oProgramuToolStripMenuItem = new ToolStripMenuItem();
@@ -49,6 +49,8 @@
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
+            mniDogadjajUbaci = new ToolStripMenuItem();
+            mniDogadjajPretrazi = new ToolStripMenuItem();
             mnsGlavni.SuspendLayout();
             stsStatus.SuspendLayout();
             SuspendLayout();
@@ -130,22 +132,23 @@
             // 
             // mniDogadjaj
             // 
+            mniDogadjaj.DropDownItems.AddRange(new ToolStripItem[] { mniDogadjajUbaci, mniDogadjajPretrazi });
             mniDogadjaj.Name = "mniDogadjaj";
             mniDogadjaj.Size = new Size(229, 26);
             mniDogadjaj.Text = "Događaj";
             // 
             // mniKategorijaDogadjaja
             // 
-            mniKategorijaDogadjaja.DropDownItems.AddRange(new ToolStripItem[] { mniKategorijaDogadjajaKreiraj, mniKategorijaDogadjajaPretrazi });
+            mniKategorijaDogadjaja.DropDownItems.AddRange(new ToolStripItem[] { mniKategorijaDogadjajaUbaci, mniKategorijaDogadjajaPretrazi });
             mniKategorijaDogadjaja.Name = "mniKategorijaDogadjaja";
             mniKategorijaDogadjaja.Size = new Size(229, 26);
             mniKategorijaDogadjaja.Text = "Kategorija događaja";
             // 
-            // mniKategorijaDogadjajaKreiraj
+            // mniKategorijaDogadjajaUbaci
             // 
-            mniKategorijaDogadjajaKreiraj.Name = "mniKategorijaDogadjajaKreiraj";
-            mniKategorijaDogadjajaKreiraj.Size = new Size(224, 26);
-            mniKategorijaDogadjajaKreiraj.Text = "Kreiraj";
+            mniKategorijaDogadjajaUbaci.Name = "mniKategorijaDogadjajaUbaci";
+            mniKategorijaDogadjajaUbaci.Size = new Size(224, 26);
+            mniKategorijaDogadjajaUbaci.Text = "Ubaci";
             // 
             // mniKategorijaDogadjajaPretrazi
             // 
@@ -195,6 +198,18 @@
             pnlSadrzaj.Size = new Size(982, 553);
             pnlSadrzaj.TabIndex = 4;
             // 
+            // mniDogadjajUbaci
+            // 
+            mniDogadjajUbaci.Name = "mniDogadjajUbaci";
+            mniDogadjajUbaci.Size = new Size(224, 26);
+            mniDogadjajUbaci.Text = "Ubaci";
+            // 
+            // mniDogadjajPretrazi
+            // 
+            mniDogadjajPretrazi.Name = "mniDogadjajPretrazi";
+            mniDogadjajPretrazi.Size = new Size(224, 26);
+            mniDogadjajPretrazi.Text = "Pretrazi";
+            // 
             // FrmGlavna
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -236,7 +251,9 @@
         private StatusStrip stsStatus;
         private ToolStripStatusLabel lblPrijavljeniBroker;
         private Panel pnlSadrzaj;
-        private ToolStripMenuItem mniKategorijaDogadjajaKreiraj;
+        private ToolStripMenuItem mniKategorijaDogadjajaUbaci;
         private ToolStripMenuItem mniKategorijaDogadjajaPretrazi;
+        private ToolStripMenuItem mniDogadjajUbaci;
+        private ToolStripMenuItem mniDogadjajPretrazi;
     }
 }

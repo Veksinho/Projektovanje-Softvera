@@ -12,28 +12,31 @@ using System.Windows.Forms;
 
 namespace Klijent.UserControls
 {
-    public partial class UCKategorijaDogadjaja : UserControl
+    public partial class UCDogadjaj : UserControl
     {
-        private readonly KategorijaDogadjaja kd;
-        public UCKategorijaDogadjaja(FormMode mode, KategorijaDogadjaja kd)
+        private readonly Dogadjaj d;
+
+        public UCDogadjaj(FormMode mode, Dogadjaj dogadjaj)
         {
             InitializeComponent();
+            this.d = dogadjaj;
 
-            this.kd = kd;
-            
-            txtId.Text = mode == FormMode.Add ? "" : kd.IdKategorijaDogadjaja.ToString();
-            txtNaziv.Text = kd.Naziv;
-            txtOpis.Text = kd.Opis;
+            txtId.Text = mode == FormMode.Add ? "" : d.IdDogadjaj.ToString();
+            txtNaziv.Text = d.Naziv;
+            txtMesto.Text = d.Mesto;
+            dtpDatumOdrzavanja.Value = d.DatumOdrzavanja == default
+                ? DateTime.Today
+                : d.DatumOdrzavanja;
 
             SrediFormu(mode);
         }
 
-        public KategorijaDogadjaja VratiObjekat()
+        public Dogadjaj VratiObjekat()
         {
-            kd.Naziv = txtNaziv.Text.Trim();
-            kd.Opis = txtOpis.Text.Trim();
-
-            return kd;
+            d.Naziv = txtNaziv.Text.Trim();
+            d.Mesto = txtMesto.Text.Trim();
+            d.DatumOdrzavanja = dtpDatumOdrzavanja.Value.Date;
+            return d;
         }
 
         private void SrediFormu(FormMode mode)
@@ -41,19 +44,19 @@ namespace Klijent.UserControls
             switch (mode)
             {
                 case FormMode.Add:
+                    dtpDatumOdrzavanja.MinDate = DateTime.Today;
                     btnIzmeni.Visible = false;
                     btnNazad.Visible = false;
                     break;
- 
                 case FormMode.Edit:
                     btnKreiraj.Visible = false;
                     break;
- 
                 case FormMode.Details:
                     btnKreiraj.Visible = false;
                     btnIzmeni.Visible = false;
                     txtNaziv.Enabled = false;
-                    txtOpis.Enabled = false;
+                    txtMesto.Enabled = false;
+                    dtpDatumOdrzavanja.Enabled = false;
                     break;
             }
         }

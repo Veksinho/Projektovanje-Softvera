@@ -109,6 +109,45 @@ namespace Klijent
         }
         #endregion
 
+        #region Dogadjaj
+        public Dogadjaj UbaciDogadjaj(Dogadjaj d)
+        {
+            Odgovor response = SendRequest(Operacija.UbaciDogadjaj, d);
+            return serializer.ReadType<Dogadjaj>(response.Objekat)!;
+        }
+
+        public Dogadjaj PromeniDogadjaj(Dogadjaj d)
+        {
+            Odgovor response = SendRequest(Operacija.PromeniDogadjaj, d);
+            return serializer.ReadType<Dogadjaj>(response.Objekat)!;
+        }
+
+        public Dogadjaj PretraziDogadjaj(Dogadjaj d)
+        {
+            Odgovor response = SendRequest(Operacija.PretraziDogadjaj, d);
+            return serializer.ReadType<Dogadjaj>(response.Objekat)!;
+        }
+
+        public Dogadjaj ObrisiDogadjaj(Dogadjaj d)
+        {
+            Odgovor response = SendRequest(Operacija.ObrisiDogadjaj, d);
+            return serializer.ReadType<Dogadjaj>(response.Objekat)!;
+        }
+
+        public List<Dogadjaj> VratiListuDogadjaj(Dogadjaj d)
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuDogadjaj, d);
+            return serializer.ReadType<List<Dogadjaj>>(response.Objekat)!;
+        }
+
+        public List<Dogadjaj> VratiListuSviDogadjaj()
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuSviDogadjaj, null);
+            return serializer.ReadType<List<Dogadjaj>>(response.Objekat)!;
+        }
+        #endregion
+
+
         private Odgovor SendRequest(Operacija operation, object? data)
         {
             if (!IsConnected)
