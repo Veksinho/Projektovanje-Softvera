@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Klijent.GuiControllers
 {
@@ -151,16 +152,16 @@ namespace Klijent.GuiControllers
 
         private void ObrisiKategoriju(object? sender, EventArgs e)
         {
-            KategorijaDogadjaja? izabranaKd = ucPretragaKategorijaDogadjaja!.DgvRezultati.CurrentRow == null ? null : ucPretragaKategorijaDogadjaja.DgvRezultati.CurrentRow.DataBoundItem as KategorijaDogadjaja;
+            KategorijaDogadjaja? selected = ucPretragaKategorijaDogadjaja!.DgvRezultati.CurrentRow == null ? null : ucPretragaKategorijaDogadjaja.DgvRezultati.CurrentRow.DataBoundItem as KategorijaDogadjaja;
 
-            if (izabranaKd == null)
+            if (selected == null)
             {
                 MessageBox.Show("Niste izabrali kategoriju događaja!");
                 return;
             }
 
             DialogResult confirmation = MessageBox.Show(
-                $"Da li želite da obrišete kategoriju '{izabranaKd.Naziv}'?",
+                $"Da li želite da obrišete kategoriju '{selected.Naziv}'?",
                 "Potvrda",
                 MessageBoxButtons.YesNo);
 
@@ -171,7 +172,12 @@ namespace Klijent.GuiControllers
 
             try
             {
-                Komunikacija.Instance.ObrisiKategorijaDogadjaja(izabranaKd);
+                KategorijaDogadjaja found = Komunikacija.Instance.PretraziKategorijaDogadjaja(
+                    new KategorijaDogadjaja { IdKategorijaDogadjaja = selected.IdKategorijaDogadjaja });
+
+                MessageBox.Show("Sistem je našao kategoriju događaja.");
+
+                Komunikacija.Instance.ObrisiKategorijaDogadjaja(found);
                 MessageBox.Show("Sistem je obrisao kategoriju dogadjaja.");
 
                 OsveziListu();

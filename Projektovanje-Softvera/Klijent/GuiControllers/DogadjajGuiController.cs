@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Klijent.GuiControllers
 {
@@ -119,14 +120,19 @@ namespace Klijent.GuiControllers
 
         private void ObrisiDogadjaj(object? sender, EventArgs e)
         {
-            Dogadjaj? izabran = ucPretragaDogadjaj!.DgvRezultati.CurrentRow?.DataBoundItem as Dogadjaj;
-            if (izabran == null) { MessageBox.Show("Niste izabrali događaj!"); return; }
+            Dogadjaj? selected = ucPretragaDogadjaj!.DgvRezultati.CurrentRow?.DataBoundItem as Dogadjaj;
+            if (selected == null) { MessageBox.Show("Niste izabrali događaj!"); return; }
 
-            if (MessageBox.Show($"Da li želite da obrišete događaj '{izabran.Naziv}'?", "Potvrda",
+            if (MessageBox.Show($"Da li želite da obrišete događaj '{selected.Naziv}'?", "Potvrda",
                     MessageBoxButtons.YesNo) != DialogResult.Yes) return;
             try
             {
-                Komunikacija.Instance.ObrisiDogadjaj(izabran);
+                Dogadjaj found = Komunikacija.Instance.PretraziDogadjaj(
+                    new Dogadjaj { IdDogadjaj = selected.IdDogadjaj });
+
+                MessageBox.Show("Sistem je našao događaj.");
+
+                Komunikacija.Instance.ObrisiDogadjaj(selected);
                 MessageBox.Show("Sistem je obrisao događaj.");
                 OsveziListu();
             }
