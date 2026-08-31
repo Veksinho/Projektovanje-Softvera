@@ -24,6 +24,10 @@ namespace Klijent
 
             mniDogadjajUbaci.Click += (s, e) => DogadjajGuiController.Instance.PrikaziFormuNova();
             mniDogadjajPretrazi.Click += (s, e) => DogadjajGuiController.Instance.PrikaziFormuPretraga();
+
+            mniBrokerKreiraj.Click += (s, e) => BrokerGuiController.Instance.PrikaziFormuNova();
+            mniBrokerPretrazi.Click += (s, e) => BrokerGuiController.Instance.PrikaziFormuPretraga();
+
         }
 
         public void ChangePanel(UserControl control)

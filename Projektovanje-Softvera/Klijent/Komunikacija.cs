@@ -147,6 +147,43 @@ namespace Klijent
         }
         #endregion
 
+        #region Broker
+        public Broker KreirajBroker(Broker b)
+        {
+            Odgovor response = SendRequest(Operacija.KreirajBroker, b);
+            return serializer.ReadType<Broker>(response.Objekat)!;
+        }
+
+        public Broker PromeniBroker(Broker b)
+        {
+            Odgovor response = SendRequest(Operacija.PromeniBroker, b);
+            return serializer.ReadType<Broker>(response.Objekat)!;
+        }
+
+        public Broker PretraziBroker(Broker b)
+        {
+            Odgovor response = SendRequest(Operacija.PretraziBroker, b);
+            return serializer.ReadType<Broker>(response.Objekat)!;
+        }
+
+        public Broker ObrisiBroker(Broker b)
+        {
+            Odgovor response = SendRequest(Operacija.ObrisiBroker, b);
+            return serializer.ReadType<Broker>(response.Objekat)!;
+        }
+
+        public List<Broker> VratiListuBroker(Broker b)
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuBroker, b);
+            return serializer.ReadType<List<Broker>>(response.Objekat)!;
+        }
+
+        public List<Broker> VratiListuSviBroker()
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuSviBroker, null);
+            return serializer.ReadType<List<Broker>>(response.Objekat)!;
+        }
+        #endregion
 
         private Odgovor SendRequest(Operacija operation, object? data)
         {

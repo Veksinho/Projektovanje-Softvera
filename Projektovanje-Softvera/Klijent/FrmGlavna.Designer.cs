@@ -40,6 +40,8 @@
             mniFizickoLice = new ToolStripMenuItem();
             mniSifarnici = new ToolStripMenuItem();
             mniDogadjaj = new ToolStripMenuItem();
+            mniDogadjajUbaci = new ToolStripMenuItem();
+            mniDogadjajPretrazi = new ToolStripMenuItem();
             mniKategorijaDogadjaja = new ToolStripMenuItem();
             mniKategorijaDogadjajaUbaci = new ToolStripMenuItem();
             mniKategorijaDogadjajaPretrazi = new ToolStripMenuItem();
@@ -49,8 +51,8 @@
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
-            mniDogadjajUbaci = new ToolStripMenuItem();
-            mniDogadjajPretrazi = new ToolStripMenuItem();
+            mniBrokerKreiraj = new ToolStripMenuItem();
+            mniBrokerPretrazi = new ToolStripMenuItem();
             mnsGlavni.SuspendLayout();
             stsStatus.SuspendLayout();
             SuspendLayout();
@@ -93,8 +95,9 @@
             // 
             // mniBroker
             // 
+            mniBroker.DropDownItems.AddRange(new ToolStripItem[] { mniBrokerKreiraj, mniBrokerPretrazi });
             mniBroker.Name = "mniBroker";
-            mniBroker.Size = new Size(135, 26);
+            mniBroker.Size = new Size(224, 26);
             mniBroker.Text = "Broker";
             // 
             // mniPrimalacUsluge
@@ -137,6 +140,18 @@
             mniDogadjaj.Size = new Size(229, 26);
             mniDogadjaj.Text = "Događaj";
             // 
+            // mniDogadjajUbaci
+            // 
+            mniDogadjajUbaci.Name = "mniDogadjajUbaci";
+            mniDogadjajUbaci.Size = new Size(142, 26);
+            mniDogadjajUbaci.Text = "Ubaci";
+            // 
+            // mniDogadjajPretrazi
+            // 
+            mniDogadjajPretrazi.Name = "mniDogadjajPretrazi";
+            mniDogadjajPretrazi.Size = new Size(142, 26);
+            mniDogadjajPretrazi.Text = "Pretrazi";
+            // 
             // mniKategorijaDogadjaja
             // 
             mniKategorijaDogadjaja.DropDownItems.AddRange(new ToolStripItem[] { mniKategorijaDogadjajaUbaci, mniKategorijaDogadjajaPretrazi });
@@ -147,13 +162,13 @@
             // mniKategorijaDogadjajaUbaci
             // 
             mniKategorijaDogadjajaUbaci.Name = "mniKategorijaDogadjajaUbaci";
-            mniKategorijaDogadjajaUbaci.Size = new Size(224, 26);
+            mniKategorijaDogadjajaUbaci.Size = new Size(142, 26);
             mniKategorijaDogadjajaUbaci.Text = "Ubaci";
             // 
             // mniKategorijaDogadjajaPretrazi
             // 
             mniKategorijaDogadjajaPretrazi.Name = "mniKategorijaDogadjajaPretrazi";
-            mniKategorijaDogadjajaPretrazi.Size = new Size(224, 26);
+            mniKategorijaDogadjajaPretrazi.Size = new Size(142, 26);
             mniKategorijaDogadjajaPretrazi.Text = "Pretraži";
             // 
             // podešavanjaToolStripMenuItem
@@ -198,17 +213,17 @@
             pnlSadrzaj.Size = new Size(982, 553);
             pnlSadrzaj.TabIndex = 4;
             // 
-            // mniDogadjajUbaci
+            // mniBrokerKreiraj
             // 
-            mniDogadjajUbaci.Name = "mniDogadjajUbaci";
-            mniDogadjajUbaci.Size = new Size(224, 26);
-            mniDogadjajUbaci.Text = "Ubaci";
+            mniBrokerKreiraj.Name = "mniBrokerKreiraj";
+            mniBrokerKreiraj.Size = new Size(224, 26);
+            mniBrokerKreiraj.Text = "Kreiraj";
             // 
-            // mniDogadjajPretrazi
+            // mniBrokerPretrazi
             // 
-            mniDogadjajPretrazi.Name = "mniDogadjajPretrazi";
-            mniDogadjajPretrazi.Size = new Size(224, 26);
-            mniDogadjajPretrazi.Text = "Pretrazi";
+            mniBrokerPretrazi.Name = "mniBrokerPretrazi";
+            mniBrokerPretrazi.Size = new Size(224, 26);
+            mniBrokerPretrazi.Text = "Pretraži";
             // 
             // FrmGlavna
             // 
@@ -255,5 +270,7 @@
         private ToolStripMenuItem mniKategorijaDogadjajaPretrazi;
         private ToolStripMenuItem mniDogadjajUbaci;
         private ToolStripMenuItem mniDogadjajPretrazi;
+        private ToolStripMenuItem mniBrokerKreiraj;
+        private ToolStripMenuItem mniBrokerPretrazi;
     }
 }

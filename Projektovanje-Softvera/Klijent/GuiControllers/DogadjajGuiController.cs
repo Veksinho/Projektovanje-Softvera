@@ -132,7 +132,7 @@ namespace Klijent.GuiControllers
 
                 MessageBox.Show("Sistem je našao događaj.");
 
-                Komunikacija.Instance.ObrisiDogadjaj(selected);
+                Komunikacija.Instance.ObrisiDogadjaj(found);
                 MessageBox.Show("Sistem je obrisao događaj.");
                 OsveziListu();
             }

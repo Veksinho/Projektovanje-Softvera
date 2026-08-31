@@ -1,7 +1,8 @@
 ﻿using Common.Domen;
 using SistemskeOperacije;
-using SistemskeOperacije.KategorijaDogadjajaSO;
+using SistemskeOperacije.BrokerSO;
 using SistemskeOperacije.DogadjajSO;
+using SistemskeOperacije.KategorijaDogadjajaSO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,5 +129,48 @@ namespace Server
         }
         #endregion
 
+        #region Broker
+        public Broker KreirajBroker(Broker b)
+        {
+            KreirajBrokerSO so = new KreirajBrokerSO(b);
+            so.ExecuteTemplate();
+            return (Broker)so.Result!;
+        }
+
+        public Broker PromeniBroker(Broker b)
+        {
+            PromeniBrokerSO so = new PromeniBrokerSO(b);
+            so.ExecuteTemplate();
+            return (Broker)so.Result!;
+        }
+
+        public Broker PretraziBroker(Broker b)
+        {
+            PretraziBrokerSO so = new PretraziBrokerSO(b);
+            so.ExecuteTemplate();
+            return (Broker)so.Result!;
+        }
+
+        public Broker ObrisiBroker(Broker b)
+        {
+            ObrisiBrokerSO so = new ObrisiBrokerSO(b);
+            so.ExecuteTemplate();
+            return (Broker)so.Result!;
+        }
+
+        public List<Broker> VratiListuBroker(Broker b)
+        {
+            VratiListuBrokerSO so = new VratiListuBrokerSO(b);
+            so.ExecuteTemplate();
+            return (List<Broker>)so.Result!;
+        }
+
+        public List<Broker> VratiListuSviBroker()
+        {
+            VratiListuSviBrokerSO so = new VratiListuSviBrokerSO();
+            so.ExecuteTemplate();
+            return (List<Broker>)so.Result!;
+        }
+        #endregion
     }
 }

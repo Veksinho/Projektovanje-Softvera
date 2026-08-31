@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Common.Domen
@@ -18,11 +19,18 @@ namespace Common.Domen
 
         public List<BrKd> Specijalizacije { get; set; } = new List<BrKd>();
 
-        public override string ToString() => $"{Ime} {Prezime}";
+        [JsonIgnore]
+        public string SpecijalizacijePrikaz => string.Join(", ", Specijalizacije
+            .Where(s => s.KategorijaDogadjaja != null)
+            .Select(s => s.KategorijaDogadjaja.Naziv));
+
+        public override string ToString() => $"{Ime} {Prezime} ({KorisnickoIme})";
 
         public string TableName => "Broker b";
 
-        public string Join => "";
+        public string Join =>
+            "LEFT JOIN BrKd bkd ON b.idBroker = bkd.idBroker " +
+            "LEFT JOIN KategorijaDogadjaja kd ON bkd.idKategorijaDogadjaja = kd.idKategorijaDogadjaja";
 
         public string InsertColumns => "korisnickoIme, sifra, ime, prezime, telefon";
 
@@ -65,6 +73,16 @@ namespace Common.Domen
                 if (!string.IsNullOrWhiteSpace(Telefon))
                     uslovi.Add($"b.telefon LIKE '%{Telefon}%'");
 
+                if (Specijalizacije != null
+                    && Specijalizacije.Count > 0
+                    && Specijalizacije[0].KategorijaDogadjaja != null
+                    && Specijalizacije[0].KategorijaDogadjaja.IdKategorijaDogadjaja > 0)
+                {
+                    uslovi.Add($"b.idBroker IN (SELECT idBroker FROM BrKd " +
+                        $"WHERE idKategorijaDogadjaja = " +
+                        $"{Specijalizacije[0].KategorijaDogadjaja.IdKategorijaDogadjaja})");
+                }
+
                 return string.Join(" AND ", uslovi);
             }
         }
@@ -76,22 +94,44 @@ namespace Common.Domen
 
         public List<IEntity> GetReaderList(SqlDataReader reader)
         {
-            var lista = new List<IEntity>();
+            var brokerMap = new Dictionary<int, Broker>();
 
             while (reader.Read())
             {
-                lista.Add(new Broker
+                int id = (int)reader["idBroker"];
+
+                if (!brokerMap.TryGetValue(id, out Broker b))
                 {
-                    IdBroker = (int)reader["idBroker"],
-                    KorisnickoIme = (string)reader["korisnickoIme"],
-                    Sifra = (string)reader["sifra"],
-                    Ime = (string)reader["ime"],
-                    Prezime = (string)reader["prezime"],
-                    Telefon = (string)reader["telefon"]
-                });
+                    b = new Broker
+                    {
+                        IdBroker = id,
+                        KorisnickoIme = (string)reader["korisnickoIme"],
+                        Sifra = (string)reader["sifra"],
+                        Ime = (string)reader["ime"],
+                        Prezime = (string)reader["prezime"],
+                        Telefon = (string)reader["telefon"]
+                    };
+
+                    brokerMap.Add(id, b);
+                }
+
+                if (reader["idKategorijaDogadjaja"] != DBNull.Value)
+                {
+                    b.Specijalizacije.Add(new BrKd
+                    {
+                        Broker = b,
+                        KategorijaDogadjaja = new KategorijaDogadjaja
+                        {
+                            IdKategorijaDogadjaja = (int)reader["idKategorijaDogadjaja"],
+                            Naziv = (string)reader["naziv"],
+                            Opis = (string)reader["opis"]
+                        },
+                        DatumSpecijalizacije = (DateTime)reader["datumSpecijalizacije"]
+                    });
+                }
             }
 
-            return lista;
+            return brokerMap.Values.OrderBy(x => x.IdBroker).Cast<IEntity>().ToList();
         }
     }
 }

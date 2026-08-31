@@ -11,6 +11,14 @@ namespace Common.Komunikacija
 {
     public class JsonNetworkSerializer
     {
+        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+        {
+            WriteIndented = false,
+            PropertyNamingPolicy = null,
+            Converters = { new JsonStringEnumConverter() },
+            ReferenceHandler = ReferenceHandler.Preserve,
+        };
+
         private readonly NetworkStream stream;
         private readonly StreamReader reader;
         private readonly StreamWriter writer;
@@ -27,7 +35,7 @@ namespace Common.Komunikacija
 
         public void Send(object poruka)
         {
-            string json = JsonSerializer.Serialize(poruka, poruka.GetType());
+            string json = JsonSerializer.Serialize(poruka, poruka.GetType(), Options);
             writer.WriteLine(json);
         }
 
@@ -40,7 +48,7 @@ namespace Common.Komunikacija
                 throw new IOException("Veza je prekinuta.");
             }
 
-            T? poruka = JsonSerializer.Deserialize<T>(json);
+            T? poruka = JsonSerializer.Deserialize<T>(json, Options);
 
             if (poruka == null)
             {
@@ -52,7 +60,7 @@ namespace Common.Komunikacija
 
         public T? ReadType<T>(object? podaci) where T : class
         {
-            return podaci == null ? null : JsonSerializer.Deserialize<T>((JsonElement)podaci);
+            return podaci == null ? null : JsonSerializer.Deserialize<T>((JsonElement)podaci, Options);
         }
 
         public void Close()

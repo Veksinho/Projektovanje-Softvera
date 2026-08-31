@@ -106,6 +106,30 @@ namespace Server
                         return Odgovor.Uspeh(Kontroler.Instance.VratiListuSviDogadjaj());
                     #endregion
 
+                    #region Broker
+                    case Operacija.KreirajBroker:
+                        return Odgovor.Uspeh(Kontroler.Instance.KreirajBroker(
+                            serializer.ReadType<Broker>(zahtev.Objekat)!));
+
+                    case Operacija.PromeniBroker:
+                        return Odgovor.Uspeh(Kontroler.Instance.PromeniBroker(
+                            serializer.ReadType<Broker>(zahtev.Objekat)!));
+
+                    case Operacija.PretraziBroker:
+                        return Odgovor.Uspeh(Kontroler.Instance.PretraziBroker(
+                            serializer.ReadType<Broker>(zahtev.Objekat)!));
+
+                    case Operacija.ObrisiBroker:
+                        return Odgovor.Uspeh(Kontroler.Instance.ObrisiBroker(
+                            serializer.ReadType<Broker>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuBroker:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuBroker(
+                            serializer.ReadType<Broker>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuSviBroker:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuSviBroker());
+                    #endregion
 
                     default:
                         return Odgovor.Neuspeh($"Operacija {zahtev.Operacija} još uvek nije implementirana.");

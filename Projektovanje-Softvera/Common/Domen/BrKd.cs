@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Common.Domen
@@ -26,10 +27,10 @@ namespace Common.Domen
 
         public string InsertValues =>
             $"{Broker.IdBroker}, {KategorijaDogadjaja.IdKategorijaDogadjaja}, " +
-            $"'{DatumSpecijalizacije}'";
+            $"'{DatumSpecijalizacije:yyyy-MM-dd}'";
 
         public string UpdateValues =>
-            $"datumSpecijalizacije = '{DatumSpecijalizacije}'";
+            $"datumSpecijalizacije = '{DatumSpecijalizacije:yyyy-MM-dd}'";
 
         public string PrimaryKeyCondition =>
             $"bkd.idBroker = {Broker.IdBroker} AND " +
@@ -50,9 +51,7 @@ namespace Common.Domen
             }
         }
 
-        public void SetId(object id)
-        {
-        }
+        public void SetId(object id) { }
 
         public List<IEntity> GetReaderList(SqlDataReader reader)
         {
