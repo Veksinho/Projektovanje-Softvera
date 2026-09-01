@@ -2,33 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Common.Domen
 {
-    public class FizickoLice : Konsignator
+    public class FizickoLice : Konsignator, ISpecialization
     {
         public string Jmbg { get; set; }
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string BrojLicneKarte { get; set; }
 
+        [JsonIgnore]
         public override string Name => $"{Ime} {Prezime}";
 
-        public override string SubtypeTableName => "FizickoLice";
+        [JsonIgnore]
+        public override string TipPrikaz => "Fizičko lice";
 
-        public override string SubtypeInsertColumns =>
+        [JsonIgnore]
+        public string SubtypeTableName => "FizickoLice";
+
+        [JsonIgnore]
+        public string SubtypeInsertColumns =>
             "idKonsignator, jmbg, ime, prezime, brojLicneKarte";
 
-        public override string SubtypeInsertValues =>
+        [JsonIgnore]
+        public string SubtypeInsertValues =>
             $"{IdKonsignator}, '{Jmbg}', '{Ime}', " +
             $"'{Prezime}', '{BrojLicneKarte}'";
 
-        public override string SubtypeUpdateValues =>
+        [JsonIgnore]
+        public string SubtypeUpdateValues =>
             $"jmbg = '{Jmbg}', " +
             $"ime = '{Ime}', " +
             $"prezime = '{Prezime}', " +
             $"brojLicneKarte = '{BrojLicneKarte}'";
+
+        [JsonIgnore]
+        public string SubtypePrimaryKeyCondition => $"idKonsignator = {IdKonsignator}";
 
         protected override string AdditionalSearchCondition
         {

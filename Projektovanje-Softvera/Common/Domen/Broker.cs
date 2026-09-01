@@ -26,18 +26,23 @@ namespace Common.Domen
 
         public override string ToString() => $"{Ime} {Prezime} ({KorisnickoIme})";
 
+        [JsonIgnore]
         public string TableName => "Broker b";
 
+        [JsonIgnore]
         public string Join =>
             "LEFT JOIN BrKd bkd ON b.idBroker = bkd.idBroker " +
             "LEFT JOIN KategorijaDogadjaja kd ON bkd.idKategorijaDogadjaja = kd.idKategorijaDogadjaja";
 
+        [JsonIgnore]
         public string InsertColumns => "korisnickoIme, sifra, ime, prezime, telefon";
 
+        [JsonIgnore]
         public string InsertValues =>
             $"'{KorisnickoIme}', '{Sifra}', " +
             $"'{Ime}', '{Prezime}', '{Telefon}'";
 
+        [JsonIgnore]
         public string UpdateValues =>
             $"korisnickoIme = '{KorisnickoIme}', " +
             $"sifra = '{Sifra}', " +
@@ -45,8 +50,10 @@ namespace Common.Domen
             $"prezime = '{Prezime}', " +
             $"telefon = '{Telefon}'";
 
+        [JsonIgnore]
         public string PrimaryKeyCondition => $"b.idBroker = {IdBroker}";
 
+        [JsonIgnore]
         public string SearchCondition
         {
             get

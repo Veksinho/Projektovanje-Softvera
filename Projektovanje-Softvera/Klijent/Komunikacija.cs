@@ -185,6 +185,44 @@ namespace Klijent
         }
         #endregion
 
+        #region Konsignator
+        public Konsignator KreirajKonsignator(Konsignator k)
+        {
+            Odgovor response = SendRequest(Operacija.KreirajKonsignator, k);
+            return serializer.ReadType<Konsignator>(response.Objekat)!;
+        }
+
+        public Konsignator PromeniKonsignator(Konsignator k)
+        {
+            Odgovor response = SendRequest(Operacija.PromeniKonsignator, k);
+            return serializer.ReadType<Konsignator>(response.Objekat)!;
+        }
+
+        public Konsignator PretraziKonsignator(Konsignator k)
+        {
+            Odgovor response = SendRequest(Operacija.PretraziKonsignator, k);
+            return serializer.ReadType<Konsignator>(response.Objekat)!;
+        }
+
+        public Konsignator ObrisiKonsignator(Konsignator k)
+        {
+            Odgovor response = SendRequest(Operacija.ObrisiKonsignator, k);
+            return serializer.ReadType<Konsignator>(response.Objekat)!;
+        }
+
+        public List<Konsignator> VratiListuKonsignator(Konsignator k)
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuKonsignator, k);
+            return serializer.ReadType<List<Konsignator>>(response.Objekat)!;
+        }
+
+        public List<Konsignator> VratiListuSviKonsignator()
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuSviKonsignator, null);
+            return serializer.ReadType<List<Konsignator>>(response.Objekat)!;
+        }
+        #endregion
+
         private Odgovor SendRequest(Operacija operation, object? data)
         {
             if (!IsConnected)

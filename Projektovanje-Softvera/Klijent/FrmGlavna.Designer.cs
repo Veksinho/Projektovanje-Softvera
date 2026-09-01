@@ -34,10 +34,12 @@
             mniKarta = new ToolStripMenuItem();
             mniPruzalacUsluge = new ToolStripMenuItem();
             mniBroker = new ToolStripMenuItem();
+            mniBrokerKreiraj = new ToolStripMenuItem();
+            mniBrokerPretrazi = new ToolStripMenuItem();
             mniPrimalacUsluge = new ToolStripMenuItem();
             MniKonsignator = new ToolStripMenuItem();
-            mniPravnoLice = new ToolStripMenuItem();
-            mniFizickoLice = new ToolStripMenuItem();
+            mniKonsignatorKreiraj = new ToolStripMenuItem();
+            mniKonsignatorPretrazi = new ToolStripMenuItem();
             mniSifarnici = new ToolStripMenuItem();
             mniDogadjaj = new ToolStripMenuItem();
             mniDogadjajUbaci = new ToolStripMenuItem();
@@ -51,8 +53,6 @@
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
-            mniBrokerKreiraj = new ToolStripMenuItem();
-            mniBrokerPretrazi = new ToolStripMenuItem();
             mnsGlavni.SuspendLayout();
             stsStatus.SuspendLayout();
             SuspendLayout();
@@ -100,6 +100,18 @@
             mniBroker.Size = new Size(224, 26);
             mniBroker.Text = "Broker";
             // 
+            // mniBrokerKreiraj
+            // 
+            mniBrokerKreiraj.Name = "mniBrokerKreiraj";
+            mniBrokerKreiraj.Size = new Size(224, 26);
+            mniBrokerKreiraj.Text = "Kreiraj";
+            // 
+            // mniBrokerPretrazi
+            // 
+            mniBrokerPretrazi.Name = "mniBrokerPretrazi";
+            mniBrokerPretrazi.Size = new Size(224, 26);
+            mniBrokerPretrazi.Text = "Pretraži";
+            // 
             // mniPrimalacUsluge
             // 
             mniPrimalacUsluge.DropDownItems.AddRange(new ToolStripItem[] { MniKonsignator });
@@ -109,22 +121,22 @@
             // 
             // MniKonsignator
             // 
-            MniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniPravnoLice, mniFizickoLice });
+            MniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniKonsignatorKreiraj, mniKonsignatorPretrazi });
             MniKonsignator.Name = "MniKonsignator";
-            MniKonsignator.Size = new Size(172, 26);
+            MniKonsignator.Size = new Size(224, 26);
             MniKonsignator.Text = "Konsignator";
             // 
-            // mniPravnoLice
+            // mniKonsignatorKreiraj
             // 
-            mniPravnoLice.Name = "mniPravnoLice";
-            mniPravnoLice.Size = new Size(164, 26);
-            mniPravnoLice.Text = "Pravno lice";
+            mniKonsignatorKreiraj.Name = "mniKonsignatorKreiraj";
+            mniKonsignatorKreiraj.Size = new Size(224, 26);
+            mniKonsignatorKreiraj.Text = "Kreiraj";
             // 
-            // mniFizickoLice
+            // mniKonsignatorPretrazi
             // 
-            mniFizickoLice.Name = "mniFizickoLice";
-            mniFizickoLice.Size = new Size(164, 26);
-            mniFizickoLice.Text = "Fizičko lice";
+            mniKonsignatorPretrazi.Name = "mniKonsignatorPretrazi";
+            mniKonsignatorPretrazi.Size = new Size(224, 26);
+            mniKonsignatorPretrazi.Text = "Pretraži";
             // 
             // mniSifarnici
             // 
@@ -213,18 +225,6 @@
             pnlSadrzaj.Size = new Size(982, 553);
             pnlSadrzaj.TabIndex = 4;
             // 
-            // mniBrokerKreiraj
-            // 
-            mniBrokerKreiraj.Name = "mniBrokerKreiraj";
-            mniBrokerKreiraj.Size = new Size(224, 26);
-            mniBrokerKreiraj.Text = "Kreiraj";
-            // 
-            // mniBrokerPretrazi
-            // 
-            mniBrokerPretrazi.Name = "mniBrokerPretrazi";
-            mniBrokerPretrazi.Size = new Size(224, 26);
-            mniBrokerPretrazi.Text = "Pretraži";
-            // 
             // FrmGlavna
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -255,8 +255,8 @@
         private ToolStripMenuItem mniBroker;
         private ToolStripMenuItem mniPrimalacUsluge;
         private ToolStripMenuItem MniKonsignator;
-        private ToolStripMenuItem mniPravnoLice;
-        private ToolStripMenuItem mniFizickoLice;
+        private ToolStripMenuItem mniKonsignatorKreiraj;
+        private ToolStripMenuItem mniKonsignatorPretrazi;
         private ToolStripMenuItem mniSifarnici;
         private ToolStripMenuItem mniDogadjaj;
         private ToolStripMenuItem mniKategorijaDogadjaja;

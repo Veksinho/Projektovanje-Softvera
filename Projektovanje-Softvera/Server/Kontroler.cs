@@ -3,6 +3,7 @@ using SistemskeOperacije;
 using SistemskeOperacije.BrokerSO;
 using SistemskeOperacije.DogadjajSO;
 using SistemskeOperacije.KategorijaDogadjajaSO;
+using SistemskeOperacije.KonsignatorSO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,6 +171,50 @@ namespace Server
             VratiListuSviBrokerSO so = new VratiListuSviBrokerSO();
             so.ExecuteTemplate();
             return (List<Broker>)so.Result!;
+        }
+        #endregion
+
+        #region Konsignator
+        public Konsignator KreirajKonsignator(Konsignator k)
+        {
+            KreirajKonsignatorSO so = new KreirajKonsignatorSO(k);
+            so.ExecuteTemplate();
+            return (Konsignator)so.Result!;
+        }
+
+        public Konsignator PromeniKonsignator(Konsignator k)
+        {
+            PromeniKonsignatorSO so = new PromeniKonsignatorSO(k);
+            so.ExecuteTemplate();
+            return (Konsignator)so.Result!;
+        }
+
+        public Konsignator PretraziKonsignator(Konsignator k)
+        {
+            PretraziKonsignatorSO so = new PretraziKonsignatorSO(k);
+            so.ExecuteTemplate();
+            return (Konsignator)so.Result!;
+        }
+
+        public Konsignator ObrisiKonsignator(Konsignator k)
+        {
+            ObrisiKonsignatorSO so = new ObrisiKonsignatorSO(k);
+            so.ExecuteTemplate();
+            return (Konsignator)so.Result!;
+        }
+
+        public List<Konsignator> VratiListuKonsignator(Konsignator k)
+        {
+            VratiListuKonsignatorSO so = new VratiListuKonsignatorSO(k);
+            so.ExecuteTemplate();
+            return (List<Konsignator>)so.Result!;
+        }
+
+        public List<Konsignator> VratiListuSviKonsignator()
+        {
+            VratiListuSviKonsignatorSO so = new VratiListuSviKonsignatorSO();
+            so.ExecuteTemplate();
+            return (List<Konsignator>)so.Result!;
         }
         #endregion
     }

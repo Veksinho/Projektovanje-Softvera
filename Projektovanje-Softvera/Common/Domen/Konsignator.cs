@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Common.Domen.Enumeracije;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Common.Domen
 {
+    [JsonDerivedType(typeof(Konsignator), "K")]
     [JsonDerivedType(typeof(FizickoLice), "FL")]
     [JsonDerivedType(typeof(PravnoLice), "PL")]
-    public abstract class Konsignator : IEntity
+    public class Konsignator : IEntity
     {
         public int IdKonsignator { get; set; }
         public string Email { get; set; }
@@ -18,38 +20,43 @@ namespace Common.Domen
         public string Adresa { get; set; }
         public DateTime DatumRegistracije { get; set; }
 
-        public abstract string Name { get; }
+        public TipKonsignatora? TipKriterijum { get; set; }
+        public string? NazivKriterijum { get; set; }
+
+        [JsonIgnore]
+        public virtual string Name => "";
+
+        [JsonIgnore]
+        public virtual string TipPrikaz => "";
 
         public override string ToString() => Name;
 
-        public abstract string SubtypeTableName { get; }
-
-        public abstract string SubtypeInsertColumns { get; }
-
-        public abstract string SubtypeInsertValues { get; }
-
-        public abstract string SubtypeUpdateValues { get; }
-
+        [JsonIgnore]
         public string TableName => "Konsignator k";
 
+        [JsonIgnore]
         public string Join =>
             "LEFT JOIN PravnoLice pl ON pl.idKonsignator = k.idKonsignator " +
             "LEFT JOIN FizickoLice fl ON fl.idKonsignator = k.idKonsignator";
 
+        [JsonIgnore]
         public string InsertColumns => "email, telefon, adresa, datumRegistracije";
 
+        [JsonIgnore]
         public string InsertValues =>
             $"'{Email}', '{Telefon}', " +
-            $"'{Adresa} ', ' {DatumRegistracije}'";
+            $"'{Adresa}', '{DatumRegistracije:yyyy-MM-dd}'";
 
+        [JsonIgnore]
         public string UpdateValues =>
             $"email = '{Email}', " +
             $"telefon = '{Telefon}', " +
-            $"adresa = '{Adresa}', " +
-            $"datumRegistracije = '{DatumRegistracije}'";
+            $"adresa = '{Adresa}'";
 
+        [JsonIgnore]
         public string PrimaryKeyCondition => $"k.idKonsignator = {IdKonsignator}";
 
+        [JsonIgnore]
         public string SearchCondition
         {
             get
@@ -65,6 +72,16 @@ namespace Common.Domen
                 if (!string.IsNullOrWhiteSpace(Adresa))
                     uslovi.Add($"k.adresa LIKE '%{Adresa}%'");
 
+                if (TipKriterijum == TipKonsignatora.fizicko_lice)
+                    uslovi.Add("fl.idKonsignator IS NOT NULL");
+                else if (TipKriterijum == TipKonsignatora.pravno_lice)
+                    uslovi.Add("pl.idKonsignator IS NOT NULL");
+
+                if (!string.IsNullOrWhiteSpace(NazivKriterijum))
+                    uslovi.Add($"(fl.ime LIKE '%{NazivKriterijum}%' " +
+                               $"OR fl.prezime LIKE '%{NazivKriterijum}%' " +
+                               $"OR pl.naziv LIKE '%{NazivKriterijum}%')");
+
                 string dodatni = AdditionalSearchCondition;
                 if (!string.IsNullOrWhiteSpace(dodatni))
                     uslovi.Add(dodatni);
@@ -73,7 +90,7 @@ namespace Common.Domen
             }
         }
 
-        protected abstract string AdditionalSearchCondition { get; }
+        protected virtual string AdditionalSearchCondition => "";
 
         public void SetId(object id)
         {
@@ -97,7 +114,7 @@ namespace Common.Domen
                         NazivFirme = (string)reader["naziv"]
                     };
                 }
-                else
+                else if (reader["jmbg"] != DBNull.Value)
                 {
                     k = new FizickoLice
                     {
@@ -106,6 +123,11 @@ namespace Common.Domen
                         Prezime = (string)reader["prezime"],
                         BrojLicneKarte = (string)reader["brojLicneKarte"]
                     };
+                }
+                else
+                {
+                    throw new Exception(
+                        $"Konsignator {reader["idKonsignator"]} nema podatke o tipu.");
                 }
 
                 k.IdKonsignator = (int)reader["idKonsignator"];

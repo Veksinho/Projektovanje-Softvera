@@ -92,5 +92,34 @@ namespace DatabaseBroker
 
             command.ExecuteNonQuery();
         }
+
+        public void AddSubtype(ISpecialization s)
+        {
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                $"INSERT INTO {s.SubtypeTableName} ({s.SubtypeInsertColumns}) " +
+                $"VALUES ({s.SubtypeInsertValues})";
+
+            command.ExecuteNonQuery();
+        }
+
+        public void EditSubtype(ISpecialization s)
+        {
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                $"UPDATE {s.SubtypeTableName} SET {s.SubtypeUpdateValues} " +
+                $"WHERE {s.SubtypePrimaryKeyCondition}";
+
+            command.ExecuteNonQuery();
+        }
+
+        public void DeleteSubtype(ISpecialization s)
+        {
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                $"DELETE FROM {s.SubtypeTableName} WHERE {s.SubtypePrimaryKeyCondition}";
+
+            command.ExecuteNonQuery();
+        }
     }
 }

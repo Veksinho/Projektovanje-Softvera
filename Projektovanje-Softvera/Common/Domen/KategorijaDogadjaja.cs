@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Common.Domen
@@ -15,18 +16,25 @@ namespace Common.Domen
 
         public override string ToString() => Naziv;
 
+        [JsonIgnore]
         public string TableName => "KategorijaDogadjaja kd";
 
+        [JsonIgnore]
         public string Join => "";
 
+        [JsonIgnore]
         public string InsertColumns => "naziv, opis";
 
+        [JsonIgnore]
         public string InsertValues => $"'{Naziv}', '{Opis}'";
 
+        [JsonIgnore]
         public string UpdateValues => $"naziv = '{Naziv}', opis = '{Opis}'";
 
+        [JsonIgnore]
         public string PrimaryKeyCondition => $"kd.idKategorijaDogadjaja = {IdKategorijaDogadjaja}";
 
+        [JsonIgnore]
         public string SearchCondition
         {
             get

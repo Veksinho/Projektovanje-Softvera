@@ -17,25 +17,32 @@ namespace Common.Domen
         public override string ToString() =>
             $"{KategorijaDogadjaja?.Naziv} (od {DatumSpecijalizacije:dd.MM.yyyy.})";
 
+        [JsonIgnore]
         public string TableName => "BrKd bkd";
 
+        [JsonIgnore]
         public string Join =>
             "JOIN Broker b ON b.idBroker = bkd.idBroker " +
             "JOIN KategorijaDogadjaja kd ON kd.idKategorijaDogadjaja = bkd.idKategorijaDogadjaja";
 
+        [JsonIgnore]
         public string InsertColumns => "idBroker, idKategorijaDogadjaja, datumSpecijalizacije";
 
+        [JsonIgnore]
         public string InsertValues =>
             $"{Broker.IdBroker}, {KategorijaDogadjaja.IdKategorijaDogadjaja}, " +
             $"'{DatumSpecijalizacije:yyyy-MM-dd}'";
 
+        [JsonIgnore]
         public string UpdateValues =>
             $"datumSpecijalizacije = '{DatumSpecijalizacije:yyyy-MM-dd}'";
 
+        [JsonIgnore]
         public string PrimaryKeyCondition =>
             $"bkd.idBroker = {Broker.IdBroker} AND " +
             $"bkd.idKategorijaDogadjaja = {KategorijaDogadjaja.IdKategorijaDogadjaja}";
 
+        [JsonIgnore]
         public string SearchCondition
         {
             get

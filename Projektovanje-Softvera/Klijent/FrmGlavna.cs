@@ -28,13 +28,15 @@ namespace Klijent
             mniBrokerKreiraj.Click += (s, e) => BrokerGuiController.Instance.PrikaziFormuNova();
             mniBrokerPretrazi.Click += (s, e) => BrokerGuiController.Instance.PrikaziFormuPretraga();
 
+            mniKonsignatorKreiraj.Click += (s, e) => KonsignatorGuiController.Instance.PrikaziFormuNova();
+            mniKonsignatorPretrazi.Click += (s, e) => KonsignatorGuiController.Instance.PrikaziFormuPretraga();
         }
 
         public void ChangePanel(UserControl control)
         {
             pnlSadrzaj.Controls.Clear();
-            control.Dock = DockStyle.Fill;
             pnlSadrzaj.Controls.Add(control);
+            control.Dock = DockStyle.Fill;
             pnlSadrzaj.AutoSize = true;
             pnlSadrzaj.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
