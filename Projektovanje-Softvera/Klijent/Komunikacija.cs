@@ -223,6 +223,39 @@ namespace Klijent
         }
         #endregion
 
+        #region Karta
+        public Karta KreirajKarta(Karta ka)
+        {
+            Odgovor response = SendRequest(Operacija.KreirajKarta, ka);
+            return serializer.ReadType<Karta>(response.Objekat)!;
+        }
+
+        public Karta PromeniKarta(Karta ka)
+        {
+            Odgovor response = SendRequest(Operacija.PromeniKarta, ka);
+            return serializer.ReadType<Karta>(response.Objekat)!;
+        }
+
+        public Karta PretraziKarta(Karta ka)
+        {
+            Odgovor response = SendRequest(Operacija.PretraziKarta, ka);
+            return serializer.ReadType<Karta>(response.Objekat)!;
+        }
+
+        public List<Karta> VratiListuKarta(Karta ka)
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuKarta, ka);
+            return serializer.ReadType<List<Karta>>(response.Objekat)!;
+        }
+
+        public List<Karta> VratiListuSviKarta()
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuSviKarta, null);
+            return serializer.ReadType<List<Karta>>(response.Objekat)!;
+        }
+
+        #endregion
+
         private Odgovor SendRequest(Operacija operation, object? data)
         {
             if (!IsConnected)

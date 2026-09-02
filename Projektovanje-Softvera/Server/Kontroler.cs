@@ -4,6 +4,7 @@ using SistemskeOperacije.BrokerSO;
 using SistemskeOperacije.DogadjajSO;
 using SistemskeOperacije.KategorijaDogadjajaSO;
 using SistemskeOperacije.KonsignatorSO;
+using SistemskeOperacije.KartaSO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -215,6 +216,43 @@ namespace Server
             VratiListuSviKonsignatorSO so = new VratiListuSviKonsignatorSO();
             so.ExecuteTemplate();
             return (List<Konsignator>)so.Result!;
+        }
+        #endregion
+
+        #region Karta
+        public Karta KreirajKarta(Karta ka)
+        {
+            KreirajKartaSO so = new KreirajKartaSO(ka);
+            so.ExecuteTemplate();
+            return (Karta)so.Result!;
+        }
+
+        public Karta PromeniKarta(Karta ka)
+        {
+            PromeniKartaSO so = new PromeniKartaSO(ka);
+            so.ExecuteTemplate();
+            return (Karta)so.Result!;
+        }
+
+        public Karta PretraziKarta(Karta ka)
+        {
+            PretraziKartaSO so = new PretraziKartaSO(ka);
+            so.ExecuteTemplate();
+            return (Karta)so.Result!;
+        }
+
+        public List<Karta> VratiListuKarta(Karta ka)
+        {
+            VratiListuKartaSO so = new VratiListuKartaSO(ka);
+            so.ExecuteTemplate();
+            return (List<Karta>)so.Result!;
+        }
+
+        public List<Karta> VratiListuSviKarta()
+        {
+            VratiListuSviKartaSO so = new VratiListuSviKartaSO();
+            so.ExecuteTemplate();
+            return (List<Karta>)so.Result!;
         }
         #endregion
     }

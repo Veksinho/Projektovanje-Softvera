@@ -53,6 +53,8 @@
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
+            mniKartaKreiraj = new ToolStripMenuItem();
+            mniKartaPretrazi = new ToolStripMenuItem();
             mniGlavni.SuspendLayout();
             stsStatus.SuspendLayout();
             SuspendLayout();
@@ -77,13 +79,14 @@
             // mniListing
             // 
             mniListing.Name = "mniListing";
-            mniListing.Size = new Size(135, 26);
+            mniListing.Size = new Size(224, 26);
             mniListing.Text = "Listing";
             // 
             // mniKarta
             // 
+            mniKarta.DropDownItems.AddRange(new ToolStripItem[] { mniKartaKreiraj, mniKartaPretrazi });
             mniKarta.Name = "mniKarta";
-            mniKarta.Size = new Size(135, 26);
+            mniKarta.Size = new Size(224, 26);
             mniKarta.Text = "Karta";
             // 
             // mniPruzalacUsluge
@@ -155,13 +158,13 @@
             // mniDogadjajUbaci
             // 
             mniDogadjajUbaci.Name = "mniDogadjajUbaci";
-            mniDogadjajUbaci.Size = new Size(224, 26);
+            mniDogadjajUbaci.Size = new Size(142, 26);
             mniDogadjajUbaci.Text = "Ubaci";
             // 
             // mniDogadjajPretrazi
             // 
             mniDogadjajPretrazi.Name = "mniDogadjajPretrazi";
-            mniDogadjajPretrazi.Size = new Size(224, 26);
+            mniDogadjajPretrazi.Size = new Size(142, 26);
             mniDogadjajPretrazi.Text = "Pretraži";
             // 
             // mniKategorijaDogadjaja
@@ -225,6 +228,18 @@
             pnlSadrzaj.Size = new Size(982, 553);
             pnlSadrzaj.TabIndex = 4;
             // 
+            // mniKartaKreiraj
+            // 
+            mniKartaKreiraj.Name = "mniKartaKreiraj";
+            mniKartaKreiraj.Size = new Size(224, 26);
+            mniKartaKreiraj.Text = "Kreiraj";
+            // 
+            // mniKartaPretrazi
+            // 
+            mniKartaPretrazi.Name = "mniKartaPretrazi";
+            mniKartaPretrazi.Size = new Size(224, 26);
+            mniKartaPretrazi.Text = "Pretraži";
+            // 
             // FrmGlavna
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -272,5 +287,7 @@
         private ToolStripMenuItem mniDogadjajPretrazi;
         private ToolStripMenuItem mniBrokerKreiraj;
         private ToolStripMenuItem mniBrokerPretrazi;
+        private ToolStripMenuItem mniKartaKreiraj;
+        private ToolStripMenuItem mniKartaPretrazi;
     }
 }
