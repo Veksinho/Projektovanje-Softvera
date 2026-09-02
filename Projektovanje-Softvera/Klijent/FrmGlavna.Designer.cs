@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            mnsGlavni = new MenuStrip();
+            mniGlavni = new MenuStrip();
             mniDokumenti = new ToolStripMenuItem();
             mniListing = new ToolStripMenuItem();
             mniKarta = new ToolStripMenuItem();
@@ -37,7 +37,7 @@
             mniBrokerKreiraj = new ToolStripMenuItem();
             mniBrokerPretrazi = new ToolStripMenuItem();
             mniPrimalacUsluge = new ToolStripMenuItem();
-            MniKonsignator = new ToolStripMenuItem();
+            mniKonsignator = new ToolStripMenuItem();
             mniKonsignatorKreiraj = new ToolStripMenuItem();
             mniKonsignatorPretrazi = new ToolStripMenuItem();
             mniSifarnici = new ToolStripMenuItem();
@@ -53,19 +53,19 @@
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
-            mnsGlavni.SuspendLayout();
+            mniGlavni.SuspendLayout();
             stsStatus.SuspendLayout();
             SuspendLayout();
             // 
-            // mnsGlavni
+            // mniGlavni
             // 
-            mnsGlavni.ImageScalingSize = new Size(20, 20);
-            mnsGlavni.Items.AddRange(new ToolStripItem[] { mniDokumenti, mniPruzalacUsluge, mniPrimalacUsluge, mniSifarnici, podešavanjaToolStripMenuItem, oProgramuToolStripMenuItem, mniOdjava });
-            mnsGlavni.Location = new Point(0, 0);
-            mnsGlavni.Name = "mnsGlavni";
-            mnsGlavni.Size = new Size(982, 28);
-            mnsGlavni.TabIndex = 2;
-            mnsGlavni.Text = "menuStrip1";
+            mniGlavni.ImageScalingSize = new Size(20, 20);
+            mniGlavni.Items.AddRange(new ToolStripItem[] { mniDokumenti, mniPruzalacUsluge, mniPrimalacUsluge, mniSifarnici, podešavanjaToolStripMenuItem, oProgramuToolStripMenuItem, mniOdjava });
+            mniGlavni.Location = new Point(0, 0);
+            mniGlavni.Name = "mniGlavni";
+            mniGlavni.Size = new Size(982, 28);
+            mniGlavni.TabIndex = 2;
+            mniGlavni.Text = "menuStrip1";
             // 
             // mniDokumenti
             // 
@@ -77,13 +77,13 @@
             // mniListing
             // 
             mniListing.Name = "mniListing";
-            mniListing.Size = new Size(135, 26);
+            mniListing.Size = new Size(224, 26);
             mniListing.Text = "Listing";
             // 
             // mniKarta
             // 
             mniKarta.Name = "mniKarta";
-            mniKarta.Size = new Size(135, 26);
+            mniKarta.Size = new Size(224, 26);
             mniKarta.Text = "Karta";
             // 
             // mniPruzalacUsluge
@@ -103,28 +103,28 @@
             // mniBrokerKreiraj
             // 
             mniBrokerKreiraj.Name = "mniBrokerKreiraj";
-            mniBrokerKreiraj.Size = new Size(224, 26);
+            mniBrokerKreiraj.Size = new Size(142, 26);
             mniBrokerKreiraj.Text = "Kreiraj";
             // 
             // mniBrokerPretrazi
             // 
             mniBrokerPretrazi.Name = "mniBrokerPretrazi";
-            mniBrokerPretrazi.Size = new Size(224, 26);
+            mniBrokerPretrazi.Size = new Size(142, 26);
             mniBrokerPretrazi.Text = "Pretraži";
             // 
             // mniPrimalacUsluge
             // 
-            mniPrimalacUsluge.DropDownItems.AddRange(new ToolStripItem[] { MniKonsignator });
+            mniPrimalacUsluge.DropDownItems.AddRange(new ToolStripItem[] { mniKonsignator });
             mniPrimalacUsluge.Name = "mniPrimalacUsluge";
             mniPrimalacUsluge.Size = new Size(127, 24);
             mniPrimalacUsluge.Text = "Primalac usluge";
             // 
-            // MniKonsignator
+            // mniKonsignator
             // 
-            MniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniKonsignatorKreiraj, mniKonsignatorPretrazi });
-            MniKonsignator.Name = "MniKonsignator";
-            MniKonsignator.Size = new Size(224, 26);
-            MniKonsignator.Text = "Konsignator";
+            mniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniKonsignatorKreiraj, mniKonsignatorPretrazi });
+            mniKonsignator.Name = "mniKonsignator";
+            mniKonsignator.Size = new Size(224, 26);
+            mniKonsignator.Text = "Konsignator";
             // 
             // mniKonsignatorKreiraj
             // 
@@ -232,14 +232,14 @@
             ClientSize = new Size(982, 603);
             Controls.Add(pnlSadrzaj);
             Controls.Add(stsStatus);
-            Controls.Add(mnsGlavni);
-            MainMenuStrip = mnsGlavni;
+            Controls.Add(mniGlavni);
+            MainMenuStrip = mniGlavni;
             Name = "FrmGlavna";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sistem za preprodaju karata";
             FormClosing += FrmGlavna_FormClosing;
-            mnsGlavni.ResumeLayout(false);
-            mnsGlavni.PerformLayout();
+            mniGlavni.ResumeLayout(false);
+            mniGlavni.PerformLayout();
             stsStatus.ResumeLayout(false);
             stsStatus.PerformLayout();
             ResumeLayout(false);
@@ -247,14 +247,14 @@
         }
 
         #endregion
-        private MenuStrip mnsGlavni;
+        private MenuStrip mniGlavni;
         private ToolStripMenuItem mniDokumenti;
         private ToolStripMenuItem mniListing;
         private ToolStripMenuItem mniKarta;
         private ToolStripMenuItem mniPruzalacUsluge;
         private ToolStripMenuItem mniBroker;
         private ToolStripMenuItem mniPrimalacUsluge;
-        private ToolStripMenuItem MniKonsignator;
+        private ToolStripMenuItem mniKonsignator;
         private ToolStripMenuItem mniKonsignatorKreiraj;
         private ToolStripMenuItem mniKonsignatorPretrazi;
         private ToolStripMenuItem mniSifarnici;

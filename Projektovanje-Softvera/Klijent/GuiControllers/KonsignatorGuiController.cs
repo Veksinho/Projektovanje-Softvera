@@ -33,7 +33,6 @@ namespace Klijent.GuiControllers
         public void PrikaziFormuNova()
         {
             ucKonsignator = new UCKonsignator(FormMode.Add, new FizickoLice());
-            ucKonsignator.BtnNazad.Click += Odustani;
             ucKonsignator.BtnKreiraj.Click += KreirajKonsignator;
 
             MainCoordinator.Instance.ChangePanel(ucKonsignator);
@@ -150,7 +149,7 @@ namespace Klijent.GuiControllers
             if (selected == null) return;
 
             if (MessageBox.Show($"Da li želite da obrišete konsignatora '{selected.Name}'?",
-                    "Potveda", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+                    "Potvrda", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
 
             try
             {

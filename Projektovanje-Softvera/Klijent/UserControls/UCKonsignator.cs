@@ -44,14 +44,6 @@ namespace Klijent.UserControls
 
             PrikaziPodtip();
             SrediFormu(mode);
-
-            Load += (s, e) =>
-            {
-                System.Diagnostics.Debug.WriteLine($"Load: ClientSize={pnlPodtip.ClientSize}, " +
-                    $"dete={pnlPodtip.Controls[0].Bounds}");
-                pnlPodtip.PerformLayout();
-                System.Diagnostics.Debug.WriteLine($"Posle PerformLayout: {pnlPodtip.Controls[0].Bounds}");
-            };
         }
 
         public Konsignator VratiObjekat()
@@ -112,6 +104,7 @@ namespace Klijent.UserControls
             {
                 case FormMode.Add:
                     btnIzmeni.Visible = false;
+                    btnNazad.Visible = false;
                     break;
 
                 case FormMode.Edit:

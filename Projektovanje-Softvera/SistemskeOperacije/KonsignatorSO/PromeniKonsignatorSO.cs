@@ -23,9 +23,9 @@ namespace SistemskeOperacije.KonsignatorSO
                 throw new Exception("Nije prosleđen id konsignatora.");
 
             if (string.IsNullOrWhiteSpace(k.Email))
-                throw new Exception("E-pošta konsignatora je obavezna.");
+                throw new Exception("E-mail konsignatora je obavezna.");
             if (!k.Email.Contains('@'))
-                throw new Exception("E-pošta konsignatora nije ispravna.");
+                throw new Exception("E-mail konsignatora nije u odgovarajućem formatu.");
             if (string.IsNullOrWhiteSpace(k.Telefon))
                 throw new Exception("Telefon konsignatora je obavezan.");
             if (string.IsNullOrWhiteSpace(k.Adresa))
