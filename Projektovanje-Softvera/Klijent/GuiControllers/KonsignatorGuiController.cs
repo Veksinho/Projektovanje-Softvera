@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Domen.Enumeracije;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
@@ -42,7 +43,7 @@ namespace Klijent.GuiControllers
         {
             ucPretragaKonsignator = new UCPretragaKonsignator();
 
-            ucPretragaKonsignator.CmbTipKonsignatora.DataSource = StavkaTipKonsignatora.GetAll();
+            ucPretragaKonsignator.CmbTipKonsignatora.DataSource = StavkaEnuma<TipKonsignatora>.GetAll();
             ucPretragaKonsignator.CmbTipKonsignatora.SelectedIndex = -1;
 
             ucPretragaKonsignator.BtnPretrazi.Click += Pretrazi;
@@ -192,15 +193,15 @@ namespace Klijent.GuiControllers
         {
             try
             {
-                var izabraniTip = ucPretragaKonsignator!.CmbTipKonsignatora.SelectedItem
-                    as StavkaTipKonsignatora;
+                StavkaEnuma<TipKonsignatora>? izabraniTip = ucPretragaKonsignator!.CmbTipKonsignatora.SelectedItem
+                    as StavkaEnuma<TipKonsignatora>;
 
                 Konsignator kriterijum = new Konsignator
                 {
                     NazivKriterijum = ucPretragaKonsignator.TxtNaziv.Text.Trim(),
                     Email = ucPretragaKonsignator.TxtEmail.Text.Trim(),
                     Telefon = ucPretragaKonsignator.TxtTelefon.Text.Trim(),
-                    TipKriterijum = izabraniTip?.Tip
+                    TipKriterijum = izabraniTip?.Vrednost
                 };
 
                 bool bezKriterijuma =

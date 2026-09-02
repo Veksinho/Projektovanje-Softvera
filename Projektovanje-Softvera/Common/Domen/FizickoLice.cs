@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.Domen.Enumeracije;
+using Common.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +19,8 @@ namespace Common.Domen
         [JsonIgnore]
         public override string Name => $"{Ime} {Prezime}";
 
-        [JsonIgnore]
-        public override string TipPrikaz => "Fizičko lice";
+        [JsonIgnore] 
+        public override string TipPrikaz => EnumHelper.Naziv(TipKonsignatora.fizicko_lice);
 
         [JsonIgnore]
         public string SubtypeTableName => "FizickoLice";

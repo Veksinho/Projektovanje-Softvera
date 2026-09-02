@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Common.Domen
@@ -26,8 +27,10 @@ namespace Common.Domen
         public override string ToString() =>
             $"Sektor {Sektor}, red {Red}, sediste {Sediste}";
 
+        [JsonIgnore]
         public string TableName => "Karta ka";
 
+        [JsonIgnore]
         public string Join =>
             "LEFT JOIN Listing l ON l.idListing = ka.idListing " +
             "JOIN Konsignator k ON k.idKonsignator = ka.idKonsignator " +
@@ -35,15 +38,18 @@ namespace Common.Domen
             "LEFT JOIN FizickoLice fl ON fl.idKonsignator = k.idKonsignator " +
             "JOIN Dogadjaj d ON d.idDogadjaj = ka.idDogadjaj";
 
+        [JsonIgnore]
         public string InsertColumns =>
             "sektor, red, sediste, nominalnaCena, tip, format, status, " +
             "idListing, idKonsignator, idDogadjaj";
 
+        [JsonIgnore]
         public string InsertValues =>
             $"'{Sektor}', '{Red}', '{Sediste}', " +
             $"{NominalnaCena}, '{Tip}', '{Format}', '{Status}', " +
             $"{ListingIdOrNull}, {Konsignator.IdKonsignator}, {Dogadjaj.IdDogadjaj}";
 
+        [JsonIgnore]
         public string UpdateValues =>
             $"sektor = '{Sektor}', " +
             $"red = '{Red}', " +
@@ -56,13 +62,16 @@ namespace Common.Domen
             $"idKonsignator = {Konsignator.IdKonsignator}, " +
             $"idDogadjaj = {Dogadjaj.IdDogadjaj}";
 
+        [JsonIgnore]
         private string ListingIdOrNull =>
             Listing == null || Listing.IdListing == 0
                 ? "NULL"
                 : Listing.IdListing.ToString();
 
+        [JsonIgnore]
         public string PrimaryKeyCondition => $"ka.idKarta = {IdKarta}";
 
+        [JsonIgnore]
         public string SearchCondition
         {
             get

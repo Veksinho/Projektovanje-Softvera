@@ -40,7 +40,7 @@ namespace DatabaseBroker
         public List<IEntity> GetAll(IEntity e)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT * FROM {e.TableName} {e.Join}";
+            command.CommandText = $"SELECT {e.SelectColumns} FROM {e.TableName} {e.Join}";
             using var reader = command.ExecuteReader();
 
             return e.GetReaderList(reader);
@@ -49,7 +49,7 @@ namespace DatabaseBroker
         public List<IEntity> GetByCondition(IEntity e, string uslov)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT * FROM {e.TableName} {e.Join} WHERE {uslov}";
+            command.CommandText = $"SELECT {e.SelectColumns} FROM {e.TableName} {e.Join} WHERE {uslov}";
             using var reader = command.ExecuteReader();
 
             return e.GetReaderList(reader);
@@ -58,7 +58,7 @@ namespace DatabaseBroker
         public IEntity? GetById(IEntity e)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT * FROM {e.TableName} {e.Join} WHERE {e.PrimaryKeyCondition}";
+            command.CommandText = $"SELECT {e.SelectColumns} FROM {e.TableName} {e.Join} WHERE {e.PrimaryKeyCondition}";
             using var reader = command.ExecuteReader();
             var lista = e.GetReaderList(reader);
 

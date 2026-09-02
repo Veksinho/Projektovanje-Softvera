@@ -29,7 +29,7 @@ namespace Klijent.UserControls
             this.k = konsignator;
             this.mode = mode;
 
-            cmbTipKonsignatora.DataSource = StavkaTipKonsignatora.GetAll();
+            cmbTipKonsignatora.DataSource = StavkaEnuma<TipKonsignatora>.GetAll();
             cmbTipKonsignatora.SelectedIndex = k is PravnoLice ? 1 : 0;
             cmbTipKonsignatora.SelectedIndexChanged += CmbTipKonsignatora_SelectedIndexChanged;
 

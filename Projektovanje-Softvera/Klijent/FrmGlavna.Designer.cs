@@ -77,13 +77,13 @@
             // mniListing
             // 
             mniListing.Name = "mniListing";
-            mniListing.Size = new Size(224, 26);
+            mniListing.Size = new Size(135, 26);
             mniListing.Text = "Listing";
             // 
             // mniKarta
             // 
             mniKarta.Name = "mniKarta";
-            mniKarta.Size = new Size(224, 26);
+            mniKarta.Size = new Size(135, 26);
             mniKarta.Text = "Karta";
             // 
             // mniPruzalacUsluge
@@ -97,7 +97,7 @@
             // 
             mniBroker.DropDownItems.AddRange(new ToolStripItem[] { mniBrokerKreiraj, mniBrokerPretrazi });
             mniBroker.Name = "mniBroker";
-            mniBroker.Size = new Size(224, 26);
+            mniBroker.Size = new Size(135, 26);
             mniBroker.Text = "Broker";
             // 
             // mniBrokerKreiraj
@@ -123,19 +123,19 @@
             // 
             mniKonsignator.DropDownItems.AddRange(new ToolStripItem[] { mniKonsignatorKreiraj, mniKonsignatorPretrazi });
             mniKonsignator.Name = "mniKonsignator";
-            mniKonsignator.Size = new Size(224, 26);
+            mniKonsignator.Size = new Size(172, 26);
             mniKonsignator.Text = "Konsignator";
             // 
             // mniKonsignatorKreiraj
             // 
             mniKonsignatorKreiraj.Name = "mniKonsignatorKreiraj";
-            mniKonsignatorKreiraj.Size = new Size(224, 26);
+            mniKonsignatorKreiraj.Size = new Size(142, 26);
             mniKonsignatorKreiraj.Text = "Kreiraj";
             // 
             // mniKonsignatorPretrazi
             // 
             mniKonsignatorPretrazi.Name = "mniKonsignatorPretrazi";
-            mniKonsignatorPretrazi.Size = new Size(224, 26);
+            mniKonsignatorPretrazi.Size = new Size(142, 26);
             mniKonsignatorPretrazi.Text = "Pretraži";
             // 
             // mniSifarnici
@@ -155,14 +155,14 @@
             // mniDogadjajUbaci
             // 
             mniDogadjajUbaci.Name = "mniDogadjajUbaci";
-            mniDogadjajUbaci.Size = new Size(142, 26);
+            mniDogadjajUbaci.Size = new Size(224, 26);
             mniDogadjajUbaci.Text = "Ubaci";
             // 
             // mniDogadjajPretrazi
             // 
             mniDogadjajPretrazi.Name = "mniDogadjajPretrazi";
-            mniDogadjajPretrazi.Size = new Size(142, 26);
-            mniDogadjajPretrazi.Text = "Pretrazi";
+            mniDogadjajPretrazi.Size = new Size(224, 26);
+            mniDogadjajPretrazi.Text = "Pretraži";
             // 
             // mniKategorijaDogadjaja
             // 

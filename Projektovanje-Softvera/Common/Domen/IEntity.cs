@@ -14,6 +14,8 @@ namespace Common.Domen
 
         string Join { get; }
 
+        string SelectColumns => "*";
+
         string InsertColumns { get; }
 
         string InsertValues { get; }
