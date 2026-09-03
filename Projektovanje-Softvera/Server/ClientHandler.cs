@@ -173,6 +173,24 @@ namespace Server
                         return Odgovor.Uspeh(Kontroler.Instance.VratiListuSviKarta());
                     #endregion
 
+                    #region Listing
+                    case Operacija.KreirajListing:
+                        return Odgovor.Uspeh(Kontroler.Instance.KreirajListing(
+                            serializer.ReadType<Listing>(zahtev.Objekat)!));
+
+                    case Operacija.PromeniListing:
+                        return Odgovor.Uspeh(Kontroler.Instance.PromeniListing(
+                            serializer.ReadType<Listing>(zahtev.Objekat)!));
+
+                    case Operacija.PretraziListing:
+                        return Odgovor.Uspeh(Kontroler.Instance.PretraziListing(
+                            serializer.ReadType<Listing>(zahtev.Objekat)!));
+
+                    case Operacija.VratiListuListing:
+                        return Odgovor.Uspeh(Kontroler.Instance.VratiListuListing(
+                            serializer.ReadType<Listing>(zahtev.Objekat)!));
+                    #endregion
+
                     default:
                         return Odgovor.Neuspeh($"Operacija {zahtev.Operacija} još uvek nije implementirana.");
                 }

@@ -256,6 +256,32 @@ namespace Klijent
 
         #endregion
 
+        #region Listing
+        public Listing KreirajListing(Listing l)
+        {
+            Odgovor response = SendRequest(Operacija.KreirajListing, l);
+            return serializer.ReadType<Listing>(response.Objekat)!;
+        }
+
+        public Listing PromeniListing(Listing l)
+        {
+            Odgovor response = SendRequest(Operacija.PromeniListing, l);
+            return serializer.ReadType<Listing>(response.Objekat)!;
+        }
+
+        public Listing PretraziListing(Listing l)
+        {
+            Odgovor response = SendRequest(Operacija.PretraziListing, l);
+            return serializer.ReadType<Listing>(response.Objekat)!;
+        }
+
+        public List<Listing> VratiListuListing(Listing l)
+        {
+            Odgovor response = SendRequest(Operacija.VratiListuListing, l);
+            return serializer.ReadType<List<Listing>>(response.Objekat)!;
+        }
+        #endregion
+
         private Odgovor SendRequest(Operacija operation, object? data)
         {
             if (!IsConnected)

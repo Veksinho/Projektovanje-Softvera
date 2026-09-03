@@ -31,7 +31,11 @@
             mniGlavni = new MenuStrip();
             mniDokumenti = new ToolStripMenuItem();
             mniListing = new ToolStripMenuItem();
+            mniListingKreiraj = new ToolStripMenuItem();
+            mniListingPretrazi = new ToolStripMenuItem();
             mniKarta = new ToolStripMenuItem();
+            mniKartaKreiraj = new ToolStripMenuItem();
+            mniKartaPretrazi = new ToolStripMenuItem();
             mniPruzalacUsluge = new ToolStripMenuItem();
             mniBroker = new ToolStripMenuItem();
             mniBrokerKreiraj = new ToolStripMenuItem();
@@ -53,8 +57,6 @@
             stsStatus = new StatusStrip();
             lblPrijavljeniBroker = new ToolStripStatusLabel();
             pnlSadrzaj = new Panel();
-            mniKartaKreiraj = new ToolStripMenuItem();
-            mniKartaPretrazi = new ToolStripMenuItem();
             mniGlavni.SuspendLayout();
             stsStatus.SuspendLayout();
             SuspendLayout();
@@ -65,7 +67,7 @@
             mniGlavni.Items.AddRange(new ToolStripItem[] { mniDokumenti, mniPruzalacUsluge, mniPrimalacUsluge, mniSifarnici, podešavanjaToolStripMenuItem, oProgramuToolStripMenuItem, mniOdjava });
             mniGlavni.Location = new Point(0, 0);
             mniGlavni.Name = "mniGlavni";
-            mniGlavni.Size = new Size(982, 28);
+            mniGlavni.Size = new Size(1154, 28);
             mniGlavni.TabIndex = 2;
             mniGlavni.Text = "menuStrip1";
             // 
@@ -78,9 +80,22 @@
             // 
             // mniListing
             // 
+            mniListing.DropDownItems.AddRange(new ToolStripItem[] { mniListingKreiraj, mniListingPretrazi });
             mniListing.Name = "mniListing";
             mniListing.Size = new Size(224, 26);
             mniListing.Text = "Listing";
+            // 
+            // mniListingKreiraj
+            // 
+            mniListingKreiraj.Name = "mniListingKreiraj";
+            mniListingKreiraj.Size = new Size(224, 26);
+            mniListingKreiraj.Text = "Kreiraj";
+            // 
+            // mniListingPretrazi
+            // 
+            mniListingPretrazi.Name = "mniListingPretrazi";
+            mniListingPretrazi.Size = new Size(224, 26);
+            mniListingPretrazi.Text = "Pretraži";
             // 
             // mniKarta
             // 
@@ -88,6 +103,18 @@
             mniKarta.Name = "mniKarta";
             mniKarta.Size = new Size(224, 26);
             mniKarta.Text = "Karta";
+            // 
+            // mniKartaKreiraj
+            // 
+            mniKartaKreiraj.Name = "mniKartaKreiraj";
+            mniKartaKreiraj.Size = new Size(142, 26);
+            mniKartaKreiraj.Text = "Kreiraj";
+            // 
+            // mniKartaPretrazi
+            // 
+            mniKartaPretrazi.Name = "mniKartaPretrazi";
+            mniKartaPretrazi.Size = new Size(142, 26);
+            mniKartaPretrazi.Text = "Pretraži";
             // 
             // mniPruzalacUsluge
             // 
@@ -211,7 +238,7 @@
             stsStatus.Items.AddRange(new ToolStripItem[] { lblPrijavljeniBroker });
             stsStatus.Location = new Point(0, 581);
             stsStatus.Name = "stsStatus";
-            stsStatus.Size = new Size(982, 22);
+            stsStatus.Size = new Size(1154, 22);
             stsStatus.TabIndex = 3;
             stsStatus.Text = "statusStrip1";
             // 
@@ -225,26 +252,14 @@
             pnlSadrzaj.Dock = DockStyle.Fill;
             pnlSadrzaj.Location = new Point(0, 28);
             pnlSadrzaj.Name = "pnlSadrzaj";
-            pnlSadrzaj.Size = new Size(982, 553);
+            pnlSadrzaj.Size = new Size(1154, 553);
             pnlSadrzaj.TabIndex = 4;
-            // 
-            // mniKartaKreiraj
-            // 
-            mniKartaKreiraj.Name = "mniKartaKreiraj";
-            mniKartaKreiraj.Size = new Size(224, 26);
-            mniKartaKreiraj.Text = "Kreiraj";
-            // 
-            // mniKartaPretrazi
-            // 
-            mniKartaPretrazi.Name = "mniKartaPretrazi";
-            mniKartaPretrazi.Size = new Size(224, 26);
-            mniKartaPretrazi.Text = "Pretraži";
             // 
             // FrmGlavna
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(982, 603);
+            ClientSize = new Size(1154, 603);
             Controls.Add(pnlSadrzaj);
             Controls.Add(stsStatus);
             Controls.Add(mniGlavni);
@@ -289,5 +304,7 @@
         private ToolStripMenuItem mniBrokerPretrazi;
         private ToolStripMenuItem mniKartaKreiraj;
         private ToolStripMenuItem mniKartaPretrazi;
+        private ToolStripMenuItem mniListingKreiraj;
+        private ToolStripMenuItem mniListingPretrazi;
     }
 }

@@ -33,6 +33,9 @@ namespace Klijent
 
             mniKartaKreiraj.Click += (s, e) => KartaGuiController.Instance.PrikaziFormuNova();
             mniKartaPretrazi.Click += (s, e) => KartaGuiController.Instance.PrikaziFormuPretraga();
+
+            mniListingKreiraj.Click += (s, e) => ListingGuiController.Instance.PrikaziFormuNova();
+            mniListingPretrazi.Click += (s, e) => ListingGuiController.Instance.PrikaziFormuPretraga();
         }
 
         public void ChangePanel(UserControl control)
