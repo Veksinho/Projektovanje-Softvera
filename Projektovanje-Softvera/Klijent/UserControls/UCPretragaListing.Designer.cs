@@ -312,7 +312,7 @@
             gbPoKarti.Controls.Add(txtSektor);
             gbPoKarti.Controls.Add(lblTipKarte);
             gbPoKarti.Controls.Add(cmbTipKarte);
-            gbPoKarti.Location = new Point(14, 184);
+            gbPoKarti.Location = new Point(14, 180);
             gbPoKarti.Margin = new Padding(3, 4, 3, 4);
             gbPoKarti.Name = "gbPoKarti";
             gbPoKarti.Padding = new Padding(3, 4, 3, 4);
@@ -358,18 +358,17 @@
             // 
             // dgvRezultati
             // 
-            dgvRezultati.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvRezultati.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRezultati.Location = new Point(14, 285);
+            dgvRezultati.Location = new Point(14, 270);
             dgvRezultati.Margin = new Padding(3, 4, 3, 4);
             dgvRezultati.Name = "dgvRezultati";
             dgvRezultati.RowHeadersWidth = 51;
-            dgvRezultati.Size = new Size(1120, 249);
+            dgvRezultati.Size = new Size(1120, 210);
             dgvRezultati.TabIndex = 8;
             // 
             // btnPonisti
             // 
-            btnPonisti.Location = new Point(1040, 231);
+            btnPonisti.Location = new Point(1040, 227);
             btnPonisti.Name = "btnPonisti";
             btnPonisti.Size = new Size(94, 29);
             btnPonisti.TabIndex = 16;
@@ -378,7 +377,7 @@
             // 
             // btnPretrazi
             // 
-            btnPretrazi.Location = new Point(940, 231);
+            btnPretrazi.Location = new Point(940, 227);
             btnPretrazi.Name = "btnPretrazi";
             btnPretrazi.Size = new Size(94, 29);
             btnPretrazi.TabIndex = 15;
@@ -387,7 +386,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(1040, 552);
+            btnIzmeni.Location = new Point(1040, 499);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(94, 31);
             btnIzmeni.TabIndex = 22;
@@ -396,7 +395,7 @@
             // 
             // btnPrikazi
             // 
-            btnPrikazi.Location = new Point(940, 552);
+            btnPrikazi.Location = new Point(940, 499);
             btnPrikazi.Name = "btnPrikazi";
             btnPrikazi.Size = new Size(94, 31);
             btnPrikazi.TabIndex = 21;
@@ -418,7 +417,7 @@
             Controls.Add(dgvRezultati);
             Margin = new Padding(3, 4, 3, 4);
             Name = "UCPretragaListing";
-            Size = new Size(1148, 597);
+            Size = new Size(1148, 555);
             gbPoListingu.ResumeLayout(false);
             gbPoListingu.PerformLayout();
             gbPoKonsignatoru.ResumeLayout(false);
