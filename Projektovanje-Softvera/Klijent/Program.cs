@@ -14,9 +14,11 @@ namespace Klijent
 
             try
             {
-                if (LoginGuiController.Instance.ShowFrmLogin())
+                while (LoginGuiController.Instance.ShowFrmLogin())
                 {
-                    MainCoordinator.Instance.ShowFrmGlavna();
+                    bool logout = MainCoordinator.Instance.ShowFrmGlavna();
+                    LoginGuiController.Instance.Odjavi();
+                    if (!logout) break;
                 }
             }
             finally

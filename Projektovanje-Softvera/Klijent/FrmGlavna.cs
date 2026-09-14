@@ -40,11 +40,10 @@ namespace Klijent
 
         public void ChangePanel(UserControl control)
         {
+            foreach (Control c in pnlSadrzaj.Controls) c.Dispose();
             pnlSadrzaj.Controls.Clear();
-            pnlSadrzaj.Controls.Add(control);
             control.Dock = DockStyle.Fill;
-            pnlSadrzaj.AutoSize = true;
-            pnlSadrzaj.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            pnlSadrzaj.Controls.Add(control);
         }
 
         private void PrikaziPrijavljenogBrokera()
@@ -58,22 +57,18 @@ namespace Klijent
             lblPrijavljeniBroker.Text = $"{Session.Instance.LoggedInBroker.Ime} {Session.Instance.LoggedInBroker.Prezime}";
         }
 
+        public bool LogoutRequested { get; private set; }
+
         private void mniOdjava_Click(object sender, EventArgs e)
         {
             DialogResult confirmation = MessageBox.Show(
                 "Da li zelite da se odjavite?", "Odjava",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (confirmation == DialogResult.Yes)
-            {
-                LoginGuiController.Instance.Odjavi();
-                Close();
-            }
-        }
+            if (confirmation != DialogResult.Yes) return;
 
-        private void FrmGlavna_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            LoginGuiController.Instance.Odjavi();
+            LogoutRequested = true;
+            Close();
         }
     }
 }

@@ -18,10 +18,14 @@ namespace Klijent.GuiControllers
 
         private FrmGlavna? frmGlavna;
 
-        public void ShowFrmGlavna()
+        public bool ShowFrmGlavna()
         {
             frmGlavna = new FrmGlavna();
             Application.Run(frmGlavna);
+
+            bool odjava = frmGlavna.LogoutRequested;
+            frmGlavna = null;
+            return odjava;
         }
 
         public void ChangePanel(UserControl control)

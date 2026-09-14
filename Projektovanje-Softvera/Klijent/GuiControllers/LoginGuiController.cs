@@ -20,17 +20,16 @@ namespace Klijent.GuiControllers
         {
         }
 
-        private FrmLogin frmLogin;
+        private FrmLogin? frmLogin;
 
         internal bool ShowFrmLogin()
         {
+            using (frmLogin = new FrmLogin())
+            {
+                frmLogin.AutoSize = true;
+                return frmLogin.ShowDialog() == DialogResult.OK;
+            }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            frmLogin = new FrmLogin();
-            frmLogin.AutoSize = true;
-
-            return frmLogin.ShowDialog() == DialogResult.OK;
         }
 
         internal bool Login(string username, string password)

@@ -267,7 +267,6 @@
             Name = "FrmGlavna";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sistem za preprodaju karata";
-            FormClosing += FrmGlavna_FormClosing;
             mniGlavni.ResumeLayout(false);
             mniGlavni.PerformLayout();
             stsStatus.ResumeLayout(false);
