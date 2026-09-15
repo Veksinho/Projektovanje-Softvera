@@ -47,6 +47,11 @@ namespace Klijent.GuiControllers
             {
                 ucPretragaBroker = new UCPretragaBroker();
 
+                ucPretragaBroker.SelectedBrokerId =
+                    Session.Instance.LoggedInBroker == null
+                        ? 0
+                        : Session.Instance.LoggedInBroker.IdBroker;
+
                 ucPretragaBroker.CmbKategorija.DataSource = UcitajKategorije();
                 ucPretragaBroker.CmbKategorija.SelectedIndex = -1;
 
@@ -56,6 +61,7 @@ namespace Klijent.GuiControllers
                 ucPretragaBroker.BtnIzmeni.Click += PrikaziFormuIzmena;
                 ucPretragaBroker.BtnObrisi.Click += ObrisiBroker;
                 ucPretragaBroker.DgvRezultati.CellDoubleClick += PrikaziFormuDetalji;
+                ucPretragaBroker.DgvRezultati.SelectionChanged += SelectionChanged;
 
                 MainCoordinator.Instance.ChangePanel(ucPretragaBroker);
 
@@ -67,15 +73,28 @@ namespace Klijent.GuiControllers
             }
         }
 
-        private void PrikaziFormuDetalji(object? sender, EventArgs e)
+        private Broker? GetSelectedBroker()
         {
-            Broker? selected = ucPretragaBroker!.DgvRezultati.CurrentRow?.DataBoundItem as Broker;
+            Broker? selected = ucPretragaBroker!.GetSelected();
 
             if (selected == null)
-            {
                 MessageBox.Show("Niste izabrali brokera!");
-                return;
-            }
+
+            return selected;
+        }
+
+        private static bool IsLoggedInBroker(Broker broker)
+            => Session.Instance.LoggedInBroker != null
+               && broker.IdBroker == Session.Instance.LoggedInBroker.IdBroker;
+
+        private void SelectionChanged(object? sender, EventArgs e)
+            => ucPretragaBroker!.EnableEditDeleteButtons();
+
+        private void PrikaziFormuDetalji(object? sender, EventArgs e)
+        {
+            Broker? selected = GetSelectedBroker();
+
+            if (selected == null) return;
 
             try
             {
@@ -97,11 +116,13 @@ namespace Klijent.GuiControllers
 
         private void PrikaziFormuIzmena(object? sender, EventArgs e)
         {
-            Broker? selected = ucPretragaBroker!.DgvRezultati.CurrentRow?.DataBoundItem as Broker;
+            Broker? selected = GetSelectedBroker();
 
-            if (selected == null)
+            if (selected == null) return;
+
+            if (!IsLoggedInBroker(selected))
             {
-                MessageBox.Show("Niste izabrali brokera!");
+                MessageBox.Show("Možete izmeniti samo svoje podatke!");
                 return;
             }
 
@@ -146,11 +167,19 @@ namespace Klijent.GuiControllers
         {
             Broker b = ucBroker!.VratiObjekat();
 
+            if (!IsLoggedInBroker(b))
+            {
+                MessageBox.Show("Možete izmeniti samo svoje podatke!");
+                return;
+            }
+
             if (!Validiraj(b)) return;
 
             try
             {
-                Komunikacija.Instance.PromeniBroker(b);
+                Session.Instance.LoggedInBroker = Komunikacija.Instance.PromeniBroker(b);
+                MainCoordinator.Instance.OsveziPrijavljenogBrokera();
+
                 MessageBox.Show("Sistem je zapamtio brokera.");
                 PrikaziFormuPretraga();
             }
@@ -162,11 +191,13 @@ namespace Klijent.GuiControllers
 
         private void ObrisiBroker(object? sender, EventArgs e)
         {
-            Broker? selected = ucPretragaBroker!.DgvRezultati.CurrentRow?.DataBoundItem as Broker;
+            Broker? selected = GetSelectedBroker();
 
-            if (selected == null)
+            if (selected == null) return;
+
+            if (!IsLoggedInBroker(selected))
             {
-                MessageBox.Show("Niste izabrali brokera!");
+                MessageBox.Show("Možete obrisati samo svoj nalog!");
                 return;
             }
 
@@ -182,7 +213,8 @@ namespace Klijent.GuiControllers
 
                 Komunikacija.Instance.ObrisiBroker(found);
                 MessageBox.Show("Sistem je obrisao brokera.");
-                OsveziListu();
+
+                MainCoordinator.Instance.OdjaviBrokera();
             }
             catch (Exception ex)
             {
@@ -241,6 +273,8 @@ namespace Klijent.GuiControllers
                     : Komunikacija.Instance.VratiListuBroker(kriterijum);
 
                 ucPretragaBroker.DgvRezultati.DataSource = new BindingList<Broker>(lista);
+                ucPretragaBroker.HighlightCurrentRow();
+                ucPretragaBroker.EnableEditDeleteButtons();
 
                 if (lista.Count == 0)
                     MessageBox.Show("Sistem ne može da nađe brokere po zadatim kriterijumima.");

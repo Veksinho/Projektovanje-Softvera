@@ -46,7 +46,7 @@ namespace Klijent
             pnlSadrzaj.Controls.Add(control);
         }
 
-        private void PrikaziPrijavljenogBrokera()
+        public void PrikaziPrijavljenogBrokera()
         {
             if (Session.Instance.LoggedInBroker == null)
             {
@@ -54,7 +54,7 @@ namespace Klijent
                 return;
             }
 
-            lblPrijavljeniBroker.Text = $"{Session.Instance.LoggedInBroker.Ime} {Session.Instance.LoggedInBroker.Prezime}";
+            lblPrijavljeniBroker.Text = $"{Session.Instance.LoggedInBroker}";
         }
 
         public bool LogoutRequested { get; private set; }
@@ -67,6 +67,11 @@ namespace Klijent
 
             if (confirmation != DialogResult.Yes) return;
 
+            Odjavi();
+        }
+
+        public void Odjavi()
+        {
             LogoutRequested = true;
             Close();
         }

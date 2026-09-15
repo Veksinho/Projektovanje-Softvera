@@ -32,5 +32,15 @@ namespace Klijent.GuiControllers
         {
             frmGlavna?.ChangePanel(control);
         }
+
+        public void OsveziPrijavljenogBrokera()
+        {
+            frmGlavna?.PrikaziPrijavljenogBrokera();
+        }
+
+        public void OdjaviBrokera()
+        {
+            frmGlavna?.Odjavi();
+        }
     }
 }

@@ -13,10 +13,41 @@ namespace Klijent.UserControls
 {
     public partial class UCPretragaBroker : UserControl
     {
+        private Font? fontCurrentBrokerRow;
+
         public UCPretragaBroker()
         {
             InitializeComponent();
             SrediTabelu();
+
+            Disposed += (s, e) => fontCurrentBrokerRow?.Dispose();
+        }
+
+        public int SelectedBrokerId { get; set; }
+
+        public Broker? GetSelected()
+            => dgvRezultati.CurrentRow?.DataBoundItem as Broker;
+
+        public bool IsCurrentBroker(Broker? broker)
+            => broker != null && broker.IdBroker == SelectedBrokerId;
+
+        public void HighlightCurrentRow()
+        {
+            fontCurrentBrokerRow ??= new Font(dgvRezultati.Font, FontStyle.Bold);
+
+            foreach (DataGridViewRow row in dgvRezultati.Rows)
+            {
+                bool current = IsCurrentBroker(row.DataBoundItem as Broker);
+                row.DefaultCellStyle.Font = current ? fontCurrentBrokerRow : dgvRezultati.Font;
+            }
+        }
+
+        public void EnableEditDeleteButtons()
+        {
+            bool current = IsCurrentBroker(GetSelected());
+
+            btnIzmeni.Enabled = current;
+            btnObrisi.Enabled = current;
         }
 
         private void SrediTabelu()
