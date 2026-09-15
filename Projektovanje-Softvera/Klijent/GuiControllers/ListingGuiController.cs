@@ -21,16 +21,17 @@ namespace Klijent.GuiControllers
         private UCListing? ucListing;
         private UCPretragaListing? ucPretragaListing;
 
+        private List<Konsignator> UcitajKonsignatore() => Komunikacija.Instance.VratiListuSviKonsignator();
+        private List<Dogadjaj> UcitajDogadjaje() => Komunikacija.Instance.VratiListuSviDogadjaj();
+        private List<Broker> UcitajBrokere() => Komunikacija.Instance.VratiListuSviBroker();
+
         public void PrikaziFormuNova()
         {
             try
             {
-                List<Broker> sviBrokeri = Komunikacija.Instance.VratiListuSviBroker();
-                List<Konsignator> sviKonsignatori = Komunikacija.Instance.VratiListuSviKonsignator();
-
                 ucListing = new UCListing(FormMode.Add,
                     new Listing { Broker = Session.Instance.LoggedInBroker },
-                    sviBrokeri, sviKonsignatori);
+                    UcitajBrokere(), UcitajKonsignatore());
                 ucListing.BtnKreiraj.Click += KreirajListing;
                 ucListing.CmbKonsignator.SelectedIndexChanged += PromenjenKonsignator;
 
@@ -44,11 +45,9 @@ namespace Klijent.GuiControllers
             try
             {
                 ucPretragaListing = new UCPretragaListing();
-                ucPretragaListing.CmbKonsignator.DataSource =
-                    Komunikacija.Instance.VratiListuSviKonsignator();
+                ucPretragaListing.CmbKonsignator.DataSource = UcitajKonsignatore();
                 ucPretragaListing.CmbKonsignator.SelectedIndex = -1;
-                ucPretragaListing.CmbDogadjaj.DataSource =
-                    Komunikacija.Instance.VratiListuSviDogadjaj();
+                ucPretragaListing.CmbDogadjaj.DataSource = UcitajDogadjaje();
                 ucPretragaListing.CmbDogadjaj.SelectedIndex = -1;
 
                 ucPretragaListing.BtnPretrazi.Click += Pretrazi;
@@ -82,10 +81,7 @@ namespace Klijent.GuiControllers
                     new Listing { IdListing = selected.IdListing });
                 MessageBox.Show("Sistem je našao listing.");
 
-                List<Broker> sviBrokeri = Komunikacija.Instance.VratiListuSviBroker();
-                List<Konsignator> sviKonsignatori = Komunikacija.Instance.VratiListuSviKonsignator();
-
-                ucListing = new UCListing(FormMode.Details, found, sviBrokeri, sviKonsignatori);
+                ucListing = new UCListing(FormMode.Details, found, UcitajBrokere(), UcitajKonsignatore());
                 ucListing.BtnNazad.Click += Odustani;
 
                 MainCoordinator.Instance.ChangePanel(ucListing);
@@ -105,10 +101,7 @@ namespace Klijent.GuiControllers
                     new Listing { IdListing = selected.IdListing });
                 MessageBox.Show("Sistem je našao listing.");
 
-                List<Broker> sviBrokeri = Komunikacija.Instance.VratiListuSviBroker();
-                List<Konsignator> sviKonsignatori = Komunikacija.Instance.VratiListuSviKonsignator();
-
-                ucListing = new UCListing(FormMode.Edit, found, sviBrokeri, sviKonsignatori);
+                ucListing = new UCListing(FormMode.Edit, found, UcitajBrokere(), UcitajKonsignatore());
                 ucListing.BtnIzmeni.Click += PromeniListing;
                 ucListing.BtnNazad.Click += Odustani;
 
@@ -177,7 +170,18 @@ namespace Klijent.GuiControllers
 
         private void Ponisti(object? sender, EventArgs e)
         {
-            ucPretragaListing!.PonistiKriterijume();
+            ucPretragaListing!.CmbStatus.SelectedIndex = -1;
+            ucPretragaListing!.CmbSplit.SelectedIndex = -1;
+            ucPretragaListing!.CmbTipKarte.SelectedIndex = -1;
+            ucPretragaListing!.CmbKonsignator.SelectedIndex = -1;
+            ucPretragaListing!.CmbDogadjaj.SelectedIndex = -1;
+            ucPretragaListing!.DtpObjavljenOd.Checked = false;
+            ucPretragaListing!.DtpObjavljenDo.Checked = false;
+            ucPretragaListing!.TxtCenaOd.Clear();
+            ucPretragaListing!.TxtCenaDo.Clear();
+            ucPretragaListing!.TxtNazivKonsignatora.Clear();
+            ucPretragaListing!.TxtMesto.Clear();
+            ucPretragaListing!.TxtSektor.Clear();
             OsveziListu();
         }
 

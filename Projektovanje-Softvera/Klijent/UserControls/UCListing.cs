@@ -170,7 +170,7 @@ namespace Klijent.UserControls
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colIdKarta",
-                HeaderText = "Id",
+                HeaderText = "ID",
                 DataPropertyName = nameof(Karta.IdKarta),
                 FillWeight = 10
             });

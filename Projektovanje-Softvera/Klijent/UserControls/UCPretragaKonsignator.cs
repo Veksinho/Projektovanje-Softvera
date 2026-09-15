@@ -27,7 +27,7 @@ namespace Klijent.UserControls
             dgvRezultati.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colId",
-                HeaderText = "Šifra",
+                HeaderText = "ID",
                 DataPropertyName = nameof(Konsignator.IdKonsignator),
                 FillWeight = 8
             });

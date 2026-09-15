@@ -29,22 +29,6 @@ namespace Klijent.UserControls
             SrediTabelu();
         }
 
-        public void PonistiKriterijume()
-        {
-            cmbStatus.SelectedIndex = -1;
-            cmbSplit.SelectedIndex = -1;
-            cmbTipKarte.SelectedIndex = -1;
-            cmbKonsignator.SelectedIndex = -1;
-            cmbDogadjaj.SelectedIndex = -1;
-            dtpObjavljenOd.Checked = false;
-            dtpObjavljenDo.Checked = false;
-            txtCenaOd.Clear();
-            txtCenaDo.Clear();
-            txtNazivKonsignatora.Clear();
-            txtMesto.Clear();
-            txtSektor.Clear();
-        }
-
         private void SrediTabelu()
         {
             dgvRezultati.AutoGenerateColumns = false;
@@ -53,7 +37,7 @@ namespace Klijent.UserControls
             dgvRezultati.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colIdListing",
-                HeaderText = "Id",
+                HeaderText = "ID",
                 DataPropertyName = nameof(Listing.IdListing),
                 FillWeight = 7
             });

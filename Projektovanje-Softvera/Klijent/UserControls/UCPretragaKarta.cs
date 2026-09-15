@@ -35,7 +35,7 @@ namespace Klijent.UserControls
             dgvRezultati.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colId",
-                HeaderText = "Šifra",
+                HeaderText = "ID",
                 DataPropertyName = nameof(Karta.IdKarta),
                 FillWeight = 7
             });
