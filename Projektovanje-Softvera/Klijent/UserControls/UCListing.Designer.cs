@@ -137,6 +137,7 @@
             // cmbBroker
             // 
             cmbBroker.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbBroker.FormattingEnabled = true;
             cmbBroker.Location = new Point(457, 40);
             cmbBroker.Margin = new Padding(3, 4, 3, 4);
             cmbBroker.Name = "cmbBroker";
@@ -155,6 +156,7 @@
             // cmbKonsignator
             // 
             cmbKonsignator.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbKonsignator.FormattingEnabled = true;
             cmbKonsignator.Location = new Point(834, 40);
             cmbKonsignator.Margin = new Padding(3, 4, 3, 4);
             cmbKonsignator.Name = "cmbKonsignator";
@@ -173,6 +175,7 @@
             // cmbStatus
             // 
             cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbStatus.FormattingEnabled = true;
             cmbStatus.Location = new Point(137, 76);
             cmbStatus.Margin = new Padding(3, 4, 3, 4);
             cmbStatus.Name = "cmbStatus";
@@ -263,6 +266,7 @@
             // cmbSplit
             // 
             cmbSplit.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbSplit.FormattingEnabled = true;
             cmbSplit.Location = new Point(834, 111);
             cmbSplit.Margin = new Padding(3, 4, 3, 4);
             cmbSplit.Name = "cmbSplit";
