@@ -114,7 +114,7 @@
             lblId.Name = "lblId";
             lblId.Size = new Size(25, 20);
             lblId.TabIndex = 0;
-            lblId.Text = "Id:";
+            lblId.Text = "ID";
             // 
             // txtId
             // 
@@ -132,7 +132,7 @@
             lblBroker.Name = "lblBroker";
             lblBroker.Size = new Size(55, 20);
             lblBroker.TabIndex = 2;
-            lblBroker.Text = "Broker:";
+            lblBroker.Text = "Broker";
             // 
             // cmbBroker
             // 
@@ -150,7 +150,7 @@
             lblKonsignator.Name = "lblKonsignator";
             lblKonsignator.Size = new Size(92, 20);
             lblKonsignator.TabIndex = 4;
-            lblKonsignator.Text = "Konsignator:";
+            lblKonsignator.Text = "Konsignator";
             // 
             // cmbKonsignator
             // 
@@ -168,7 +168,7 @@
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(52, 20);
             lblStatus.TabIndex = 6;
-            lblStatus.Text = "Status:";
+            lblStatus.Text = "Status";
             // 
             // cmbStatus
             // 
@@ -186,7 +186,7 @@
             lblDatumObjave.Name = "lblDatumObjave";
             lblDatumObjave.Size = new Size(106, 20);
             lblDatumObjave.TabIndex = 8;
-            lblDatumObjave.Text = "Datum objave:";
+            lblDatumObjave.Text = "Datum objave";
             // 
             // dtpDatumObjave
             // 
@@ -204,7 +204,7 @@
             lblDatumIsteka.Name = "lblDatumIsteka";
             lblDatumIsteka.Size = new Size(99, 20);
             lblDatumIsteka.TabIndex = 10;
-            lblDatumIsteka.Text = "Datum isteka:";
+            lblDatumIsteka.Text = "Datum isteka";
             // 
             // dtpDatumIsteka
             // 
@@ -222,7 +222,7 @@
             lblCenaPoKarti.Name = "lblCenaPoKarti";
             lblCenaPoKarti.Size = new Size(100, 20);
             lblCenaPoKarti.TabIndex = 12;
-            lblCenaPoKarti.Text = "Cena po karti:";
+            lblCenaPoKarti.Text = "Cena po karti";
             // 
             // txtCenaPoKarti
             // 
@@ -240,7 +240,7 @@
             lblProcenatProvizije.Name = "lblProcenatProvizije";
             lblProcenatProvizije.Size = new Size(94, 20);
             lblProcenatProvizije.TabIndex = 14;
-            lblProcenatProvizije.Text = "Provizija (%):";
+            lblProcenatProvizije.Text = "Provizija (%)";
             // 
             // txtProcenatProvizije
             // 
@@ -256,9 +256,9 @@
             lblSplit.AutoSize = true;
             lblSplit.Location = new Point(709, 115);
             lblSplit.Name = "lblSplit";
-            lblSplit.Size = new Size(106, 20);
+            lblSplit.Size = new Size(42, 20);
             lblSplit.TabIndex = 16;
-            lblSplit.Text = "Način prodaje:";
+            lblSplit.Text = "Split";
             // 
             // cmbSplit
             // 
@@ -276,7 +276,7 @@
             lblMinKolicina.Name = "lblMinKolicina";
             lblMinKolicina.Size = new Size(95, 20);
             lblMinKolicina.TabIndex = 18;
-            lblMinKolicina.Text = "Min. količina:";
+            lblMinKolicina.Text = "Min. količina";
             // 
             // numMinKolicina
             // 
@@ -296,7 +296,7 @@
             lblNapomena.Name = "lblNapomena";
             lblNapomena.Size = new Size(86, 20);
             lblNapomena.TabIndex = 20;
-            lblNapomena.Text = "Napomena:";
+            lblNapomena.Text = "Napomena";
             // 
             // txtNapomena
             // 
@@ -335,7 +335,7 @@
             lblSlobodne.Name = "lblSlobodne";
             lblSlobodne.Size = new Size(203, 20);
             lblSlobodne.TabIndex = 0;
-            lblSlobodne.Text = "Slobodne karte konsignatora:";
+            lblSlobodne.Text = "Slobodne karte konsignatora";
             // 
             // dgvSlobodneKarte
             // 
@@ -385,7 +385,7 @@
             lblNaListingu.Name = "lblNaListingu";
             lblNaListingu.Size = new Size(119, 20);
             lblNaListingu.TabIndex = 5;
-            lblNaListingu.Text = "Karte na listingu:";
+            lblNaListingu.Text = "Karte na listingu";
             // 
             // dgvKarteNaListingu
             // 

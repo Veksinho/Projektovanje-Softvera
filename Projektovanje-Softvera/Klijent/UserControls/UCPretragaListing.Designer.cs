@@ -98,11 +98,12 @@
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(52, 20);
             lblStatus.TabIndex = 0;
-            lblStatus.Text = "Status:";
+            lblStatus.Text = "Status";
             // 
             // cmbStatus
             // 
             cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbStatus.FormattingEnabled = true;
             cmbStatus.Location = new Point(126, 33);
             cmbStatus.Margin = new Padding(3, 4, 3, 4);
             cmbStatus.Name = "cmbStatus";
@@ -114,13 +115,14 @@
             lblSplit.AutoSize = true;
             lblSplit.Location = new Point(314, 37);
             lblSplit.Name = "lblSplit";
-            lblSplit.Size = new Size(106, 20);
+            lblSplit.Size = new Size(42, 20);
             lblSplit.TabIndex = 2;
-            lblSplit.Text = "Način prodaje:";
+            lblSplit.Text = "Split";
             // 
             // cmbSplit
             // 
             cmbSplit.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbSplit.FormattingEnabled = true;
             cmbSplit.Location = new Point(400, 33);
             cmbSplit.Margin = new Padding(3, 4, 3, 4);
             cmbSplit.Name = "cmbSplit";
@@ -134,7 +136,7 @@
             lblObjavljenOd.Name = "lblObjavljenOd";
             lblObjavljenOd.Size = new Size(97, 20);
             lblObjavljenOd.TabIndex = 4;
-            lblObjavljenOd.Text = "Objavljen od:";
+            lblObjavljenOd.Text = "Objavljen od";
             // 
             // dtpObjavljenOd
             // 
@@ -154,7 +156,7 @@
             lblObjavljenDo.Name = "lblObjavljenDo";
             lblObjavljenDo.Size = new Size(30, 20);
             lblObjavljenDo.TabIndex = 6;
-            lblObjavljenDo.Text = "do:";
+            lblObjavljenDo.Text = "do";
             // 
             // dtpObjavljenDo
             // 
@@ -174,7 +176,7 @@
             lblCenaOd.Name = "lblCenaOd";
             lblCenaOd.Size = new Size(67, 20);
             lblCenaOd.TabIndex = 8;
-            lblCenaOd.Text = "Cena od:";
+            lblCenaOd.Text = "Cena od";
             // 
             // txtCenaOd
             // 
@@ -192,7 +194,7 @@
             lblCenaDo.Name = "lblCenaDo";
             lblCenaDo.Size = new Size(30, 20);
             lblCenaDo.TabIndex = 10;
-            lblCenaDo.Text = "do:";
+            lblCenaDo.Text = "do";
             // 
             // txtCenaDo
             // 
@@ -226,11 +228,12 @@
             lblKonsignator.Name = "lblKonsignator";
             lblKonsignator.Size = new Size(92, 20);
             lblKonsignator.TabIndex = 0;
-            lblKonsignator.Text = "Konsignator:";
+            lblKonsignator.Text = "Konsignator";
             // 
             // cmbKonsignator
             // 
             cmbKonsignator.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbKonsignator.FormattingEnabled = true;
             cmbKonsignator.Location = new Point(126, 33);
             cmbKonsignator.Margin = new Padding(3, 4, 3, 4);
             cmbKonsignator.Name = "cmbKonsignator";
@@ -244,7 +247,7 @@
             lblNazivKonsignatora.Name = "lblNazivKonsignatora";
             lblNazivKonsignatora.Size = new Size(49, 20);
             lblNazivKonsignatora.TabIndex = 2;
-            lblNazivKonsignatora.Text = "Naziv:";
+            lblNazivKonsignatora.Text = "Naziv";
             // 
             // txtNazivKonsignatora
             // 
@@ -277,11 +280,12 @@
             lblDogadjaj.Name = "lblDogadjaj";
             lblDogadjaj.Size = new Size(70, 20);
             lblDogadjaj.TabIndex = 0;
-            lblDogadjaj.Text = "Događaj:";
+            lblDogadjaj.Text = "Događaj";
             // 
             // cmbDogadjaj
             // 
             cmbDogadjaj.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDogadjaj.FormattingEnabled = true;
             cmbDogadjaj.Location = new Point(126, 28);
             cmbDogadjaj.Margin = new Padding(3, 4, 3, 4);
             cmbDogadjaj.Name = "cmbDogadjaj";
@@ -295,7 +299,7 @@
             lblMesto.Name = "lblMesto";
             lblMesto.Size = new Size(53, 20);
             lblMesto.TabIndex = 2;
-            lblMesto.Text = "Mesto:";
+            lblMesto.Text = "Mesto";
             // 
             // txtMesto
             // 
@@ -328,7 +332,7 @@
             lblSektor.Name = "lblSektor";
             lblSektor.Size = new Size(54, 20);
             lblSektor.TabIndex = 0;
-            lblSektor.Text = "Sektor:";
+            lblSektor.Text = "Sektor";
             // 
             // txtSektor
             // 
@@ -345,11 +349,12 @@
             lblTipKarte.Name = "lblTipKarte";
             lblTipKarte.Size = new Size(70, 20);
             lblTipKarte.TabIndex = 2;
-            lblTipKarte.Text = "Tip karte:";
+            lblTipKarte.Text = "Tip karte";
             // 
             // cmbTipKarte
             // 
             cmbTipKarte.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTipKarte.FormattingEnabled = true;
             cmbTipKarte.Location = new Point(400, 27);
             cmbTipKarte.Margin = new Padding(3, 4, 3, 4);
             cmbTipKarte.Name = "cmbTipKarte";
