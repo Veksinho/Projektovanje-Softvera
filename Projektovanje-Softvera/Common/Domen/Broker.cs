@@ -17,7 +17,7 @@ namespace Common.Domen
         public string Prezime { get; set; }
         public string Telefon { get; set; }
 
-        public List<BrKd> Specijalizacije { get; set; } = new List<BrKd>();
+        public List<BrokerKategorijaDogadjaja> Specijalizacije { get; set; } = new List<BrokerKategorijaDogadjaja>();
 
         [JsonIgnore]
         public string SpecijalizacijePrikaz => string.Join(", ", Specijalizacije
@@ -124,7 +124,7 @@ namespace Common.Domen
 
                 if (reader["idKategorijaDogadjaja"] != DBNull.Value)
                 {
-                    b.Specijalizacije.Add(new BrKd
+                    b.Specijalizacije.Add(new BrokerKategorijaDogadjaja
                     {
                         Broker = b,
                         KategorijaDogadjaja = new KategorijaDogadjaja

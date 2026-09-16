@@ -30,7 +30,7 @@ namespace SistemskeOperacije.BrokerSO
         protected override void ExecuteConcreteOperation()
         {
             List<IEntity> specijalizacije = dbBroker.GetByCondition(
-                new BrKd(), $"bkd.idBroker = {b.IdBroker}");
+                new BrokerKategorijaDogadjaja(), $"bkd.idBroker = {b.IdBroker}");
 
             foreach (IEntity s in specijalizacije)
                 dbBroker.Delete(s);

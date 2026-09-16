@@ -30,7 +30,7 @@ namespace SistemskeOperacije.KategorijaDogadjajaSO
 
             string condition = $"bkd.idKategorijaDogadjaja = {kd.IdKategorijaDogadjaja}";
 
-            List<IEntity> specializations = dbBroker.GetByCondition(new BrKd(), condition);
+            List<IEntity> specializations = dbBroker.GetByCondition(new BrokerKategorijaDogadjaja(), condition);
 
             if (specializations.Count > 0)
             {

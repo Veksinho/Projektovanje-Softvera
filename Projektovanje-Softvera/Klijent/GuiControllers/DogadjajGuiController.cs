@@ -102,7 +102,9 @@ namespace Klijent.GuiControllers
                 MessageBox.Show("Sistem je zapamtio događaj.");
                 PrikaziFormuPretraga();
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            catch (Exception ex) {
+                MessageBox.Show("Sistem ne može da zapamti događaj.\n" + ex.Message);
+            }
         }
 
         private void PromeniDogadjaj(object? sender, EventArgs e)

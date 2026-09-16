@@ -121,7 +121,7 @@ namespace Klijent.GuiControllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Sistem ne može da zapamti konsignatora.\n" + ex.Message);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Klijent.GuiControllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Sistem ne može da zapamti konsignatora.\n" + ex.Message);
             }
         }
 
@@ -165,7 +165,7 @@ namespace Klijent.GuiControllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Sistem ne može da obriše konsignatora.\n" + ex.Message);
             }
         }
 
@@ -219,6 +219,8 @@ namespace Klijent.GuiControllers
 
                 if (lista.Count == 0)
                     MessageBox.Show("Sistem ne može da nađe konsignatore po zadatim kriterijumima.");
+                else if (lista.Count > 0 && !bezKriterijuma)
+                    MessageBox.Show("Sistem je našao konsignatore po zadatim kriterijumima.");
             }
             catch (Exception ex)
             {

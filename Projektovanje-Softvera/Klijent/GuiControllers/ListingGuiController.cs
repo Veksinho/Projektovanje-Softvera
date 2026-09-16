@@ -122,7 +122,9 @@ namespace Klijent.GuiControllers
                 MessageBox.Show("Sistem je zapamtio listing.");
                 PrikaziFormuPretraga();
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            catch (Exception ex) { 
+                MessageBox.Show("Sistem ne može da zapamti listing.\n" + ex.Message);
+            }
         }
 
         private void PromeniListing(object? sender, EventArgs e)
@@ -136,7 +138,9 @@ namespace Klijent.GuiControllers
                 MessageBox.Show("Sistem je zapamtio listing.");
                 PrikaziFormuPretraga();
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            catch (Exception ex) {
+                MessageBox.Show("Sistem ne može da zapamti listing.\n" + ex.Message);
+            }
         }
 
         private void PromenjenKonsignator(object? sender, EventArgs e)

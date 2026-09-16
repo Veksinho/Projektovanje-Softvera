@@ -14,6 +14,9 @@ namespace SistemskeOperacije
 
         protected override void Validate()
         {
+            if (b == null)
+                throw new ArgumentException("Prosleđeni objekat nije instanca klase Broker.");
+
             if (string.IsNullOrWhiteSpace(b.KorisnickoIme))
             {
                 throw new Exception("Korisničko ime je obavezno.");
@@ -33,7 +36,7 @@ namespace SistemskeOperacije
 
             if (foundBrokers.Count == 0)
             {
-                throw new Exception("Pogrešno korisničko ime ili šifra.");
+                throw new Exception("Korisničko ime ili šifra nisu ispravni.");
             }
 
             Result = foundBrokers.Cast<Broker>().FirstOrDefault();

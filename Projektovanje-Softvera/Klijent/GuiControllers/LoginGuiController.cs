@@ -52,6 +52,8 @@ namespace Klijent.GuiControllers
 
                 Session.Instance.LoggedInBroker = Komunikacija.Instance.PrijaviBroker(broker);
 
+                MessageBox.Show("Korisničko ime i šifra su ispravni.");
+
                 return true;
             }
             catch (Exception ex)

@@ -40,12 +40,12 @@ namespace SistemskeOperacije.BrokerSO
             dbBroker.Edit(b);
 
             List<IEntity> stare = dbBroker.GetByCondition(
-                new BrKd(), $"bkd.idBroker = {b.IdBroker}");
+                new BrokerKategorijaDogadjaja(), $"bkd.idBroker = {b.IdBroker}");
 
             foreach (IEntity s in stare)
                 dbBroker.Delete(s);
 
-            foreach (BrKd s in b.Specijalizacije)
+            foreach (BrokerKategorijaDogadjaja s in b.Specijalizacije)
             {
                 if (s.DatumSpecijalizacije == default)
                     s.DatumSpecijalizacije = DateTime.Today;

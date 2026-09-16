@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Common.Domen
 {
-    public class BrKd : IEntity
+    public class BrokerKategorijaDogadjaja : IEntity
     {
         public Broker Broker { get; set; }
         public KategorijaDogadjaja KategorijaDogadjaja { get; set; }
@@ -66,7 +66,7 @@ namespace Common.Domen
 
             while (reader.Read())
             {
-                lista.Add(new BrKd
+                lista.Add(new BrokerKategorijaDogadjaja
                 {
                     DatumSpecijalizacije = (DateTime)reader["datumSpecijalizacije"],
 

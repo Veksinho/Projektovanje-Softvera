@@ -57,15 +57,15 @@ namespace Klijent.UserControls
             b.Prezime = txtPrezime.Text.Trim();
             b.Telefon = txtTelefon.Text.Trim();
 
-            var nove = new List<BrKd>();
+            var nove = new List<BrokerKategorijaDogadjaja>();
 
             foreach (KategorijaDogadjaja k in clbKategorije.CheckedItems)
             {
-                BrKd? stara = b.Specijalizacije.FirstOrDefault(s =>
+                BrokerKategorijaDogadjaja? stara = b.Specijalizacije.FirstOrDefault(s =>
                     s.KategorijaDogadjaja != null
                     && s.KategorijaDogadjaja.IdKategorijaDogadjaja == k.IdKategorijaDogadjaja);
 
-                nove.Add(new BrKd
+                nove.Add(new BrokerKategorijaDogadjaja
                 {
                     Broker = b,
                     KategorijaDogadjaja = k,

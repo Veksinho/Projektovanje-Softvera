@@ -254,7 +254,7 @@ namespace Klijent.GuiControllers
 
                 if (izabranaKat != null)
                 {
-                    kriterijum.Specijalizacije.Add(new BrKd
+                    kriterijum.Specijalizacije.Add(new BrokerKategorijaDogadjaja
                     {
                         Broker = kriterijum,
                         KategorijaDogadjaja = izabranaKat

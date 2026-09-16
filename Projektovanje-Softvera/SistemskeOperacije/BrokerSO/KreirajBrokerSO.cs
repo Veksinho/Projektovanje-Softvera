@@ -39,7 +39,7 @@ namespace SistemskeOperacije.BrokerSO
         {
             dbBroker.Add(b);
 
-            foreach (BrKd s in b.Specijalizacije)
+            foreach (BrokerKategorijaDogadjaja s in b.Specijalizacije)
             {
                 if (s.DatumSpecijalizacije == default)
                     s.DatumSpecijalizacije = DateTime.Today;
