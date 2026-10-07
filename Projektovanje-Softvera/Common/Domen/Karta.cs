@@ -90,11 +90,11 @@ namespace Common.Domen
                 if (IdKarta > 0)
                     uslovi.Add($"ka.idKarta = {IdKarta}");
                 if (!string.IsNullOrWhiteSpace(Sektor))
-                    uslovi.Add($"ka.sektor LIKE '%{Sektor}%'");
+                    uslovi.Add($"ka.sektor LIKE '%{Sql.Tekst(Sektor)}%'");
                 if (!string.IsNullOrWhiteSpace(Red))
-                    uslovi.Add($"ka.red LIKE '%{Red}%'");
+                    uslovi.Add($"ka.red LIKE '%{Sql.Tekst(Red)}%'");
                 if (!string.IsNullOrWhiteSpace(Sediste))
-                    uslovi.Add($"ka.sediste LIKE '%{Sediste}%'");
+                    uslovi.Add($"ka.sediste LIKE '%{Sql.Tekst(Sediste)}%'");
 
                 if (Tip.HasValue)
                     uslovi.Add($"ka.tip = '{Tip}'");

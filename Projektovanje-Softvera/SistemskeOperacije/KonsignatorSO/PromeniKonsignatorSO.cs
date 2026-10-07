@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace SistemskeOperacije.KonsignatorSO
                 throw new Exception("Broj lične karte fizičkog lica je obavezan.");
 
             List<IEntity> postojeci = dbBroker.GetByCondition(new Konsignator(),
-                $"fl.jmbg = '{fl.Jmbg}' AND k.idKonsignator <> {fl.IdKonsignator}");
+                $"fl.jmbg = '{Sql.Tekst(fl.Jmbg)}' AND k.idKonsignator <> {fl.IdKonsignator}");
 
             if (postojeci.Count > 0)
                 throw new Exception("Konsignator sa unetim JMBG-om već postoji.");
@@ -78,7 +79,7 @@ namespace SistemskeOperacije.KonsignatorSO
                 throw new Exception("Matični broj pravnog lica je obavezan.");
 
             List<IEntity> postojeci = dbBroker.GetByCondition(new Konsignator(),
-                $"pl.pib = '{pl.Pib}' AND k.idKonsignator <> {pl.IdKonsignator}");
+                $"pl.pib = '{Sql.Tekst(pl.Pib)}' AND k.idKonsignator <> {pl.IdKonsignator}");
 
             if (postojeci.Count > 0)
                 throw new Exception("Konsignator sa unetim PIB-om već postoji.");
