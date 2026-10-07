@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace SistemskeOperacije.BrokerSO
                 throw new Exception("Telefon brokera je obavezan.");
 
             List<IEntity> postojeci = dbBroker.GetByCondition(new Broker(),
-                $"b.korisnickoIme = '{b.KorisnickoIme}' AND b.idBroker <> {b.IdBroker}");
+                $"b.korisnickoIme = '{Sql.Tekst(b.KorisnickoIme)}' AND b.idBroker <> {b.IdBroker}");
 
             if (postojeci.Count > 0)
                 throw new Exception("Broker sa unetim korisničkim imenom već postoji.");

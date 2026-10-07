@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Common.Helpers;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,16 +40,16 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string InsertValues =>
-            $"'{KorisnickoIme}', '{Sifra}', " +
-            $"'{Ime}', '{Prezime}', '{Telefon}'";
+            $"'{Sql.Tekst(KorisnickoIme)}', '{Sql.Tekst(Sifra)}', " +
+            $"'{Sql.Tekst(Ime)}', '{Sql.Tekst(Prezime)}', '{Sql.Tekst(Telefon)}'";
 
         [JsonIgnore]
         public string UpdateValues =>
-            $"korisnickoIme = '{KorisnickoIme}', " +
-            $"sifra = '{Sifra}', " +
-            $"ime = '{Ime}', " +
-            $"prezime = '{Prezime}', " +
-            $"telefon = '{Telefon}'";
+            $"korisnickoIme = '{Sql.Tekst(KorisnickoIme)}', " +
+            $"sifra = '{Sql.Tekst(Sifra)}', " +
+            $"ime = '{Sql.Tekst(Ime)}', " +
+            $"prezime = '{Sql.Tekst(Prezime)}', " +
+            $"telefon = '{Sql.Tekst(Telefon)}'";
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"b.idBroker = {IdBroker}";
@@ -65,20 +66,20 @@ namespace Common.Domen
 
                 if (!string.IsNullOrWhiteSpace(Sifra))
                 {
-                    uslovi.Add($"b.korisnickoIme = '{KorisnickoIme}'");
-                    uslovi.Add($"b.sifra = '{Sifra}'");
+                    uslovi.Add($"b.korisnickoIme = '{Sql.Tekst(KorisnickoIme)}'");
+                    uslovi.Add($"b.sifra = '{Sql.Tekst(Sifra)}'");
                 }
                 else if (!string.IsNullOrWhiteSpace(KorisnickoIme))
                 {
-                    uslovi.Add($"b.korisnickoIme LIKE '%{KorisnickoIme}%'");
+                    uslovi.Add($"b.korisnickoIme LIKE '%{Sql.Tekst(KorisnickoIme)}%'");
                 }
 
                 if (!string.IsNullOrWhiteSpace(Ime))
-                    uslovi.Add($"b.ime LIKE '%{Ime}%'");
+                    uslovi.Add($"b.ime LIKE '%{Sql.Tekst(Ime)}%'");
                 if (!string.IsNullOrWhiteSpace(Prezime))
-                    uslovi.Add($"b.prezime LIKE '%{Prezime}%'");
+                    uslovi.Add($"b.prezime LIKE '%{Sql.Tekst(Prezime)}%'");
                 if (!string.IsNullOrWhiteSpace(Telefon))
-                    uslovi.Add($"b.telefon LIKE '%{Telefon}%'");
+                    uslovi.Add($"b.telefon LIKE '%{Sql.Tekst(Telefon)}%'");
 
                 if (Specijalizacije != null
                     && Specijalizacije.Count > 0

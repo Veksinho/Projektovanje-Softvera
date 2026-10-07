@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Common.Helpers;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +27,10 @@ namespace Common.Domen
         public string InsertColumns => "naziv, opis";
 
         [JsonIgnore]
-        public string InsertValues => $"'{Naziv}', '{Opis}'";
+        public string InsertValues => $"'{Sql.Tekst(Naziv)}', '{Sql.Tekst(Opis)}'";
 
         [JsonIgnore]
-        public string UpdateValues => $"naziv = '{Naziv}', opis = '{Opis}'";
+        public string UpdateValues => $"naziv = '{Sql.Tekst(Naziv)}', opis = '{Sql.Tekst(Opis)}'";
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"kd.idKategorijaDogadjaja = {IdKategorijaDogadjaja}";
@@ -44,9 +45,9 @@ namespace Common.Domen
                 if (IdKategorijaDogadjaja > 0)
                     uslovi.Add($"kd.idKategorijaDogadjaja = {IdKategorijaDogadjaja}");
                 if (!string.IsNullOrWhiteSpace(Naziv))
-                    uslovi.Add($"kd.naziv LIKE '%{Naziv}%'");
+                    uslovi.Add($"kd.naziv LIKE '%{Sql.Tekst(Naziv)}%'");
                 if (!string.IsNullOrWhiteSpace(Opis))
-                    uslovi.Add($"kd.opis LIKE '%{Opis}%'");
+                    uslovi.Add($"kd.opis LIKE '%{Sql.Tekst(Opis)}%'");
 
                 return string.Join(" AND ", uslovi);
             }
