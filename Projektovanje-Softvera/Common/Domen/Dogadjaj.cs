@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Common.Helpers;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +30,13 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string InsertValues =>
-            $"'{Naziv}', '{DatumOdrzavanja}', '{Mesto}'";
+            $"'{Sql.Tekst(Naziv)}', '{DatumOdrzavanja:yyyy-MM-dd HH:mm:ss}', '{Sql.Tekst(Mesto)}'";
 
         [JsonIgnore]
         public string UpdateValues =>
-            $"naziv = '{Naziv}', " +
-            $"datumOdrzavanja = '{DatumOdrzavanja}', " +
-            $"mesto = '{Mesto}'";
+            $"naziv = '{Sql.Tekst(Naziv)}', " +
+            $"datumOdrzavanja = '{DatumOdrzavanja:yyyy-MM-dd HH:mm:ss}', " +
+            $"mesto = '{Sql.Tekst(Mesto)}'";
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"d.idDogadjaj = {IdDogadjaj}";
@@ -50,9 +51,9 @@ namespace Common.Domen
                 if (IdDogadjaj > 0)
                     uslovi.Add($"d.idDogadjaj = {IdDogadjaj}");
                 if (!string.IsNullOrWhiteSpace(Naziv))
-                    uslovi.Add($"d.naziv LIKE '%{Naziv}%'");
+                    uslovi.Add($"d.naziv LIKE '%{Sql.Tekst(Naziv)}%'");
                 if (!string.IsNullOrWhiteSpace(Mesto))
-                    uslovi.Add($"d.mesto LIKE '%{Mesto}%'");
+                    uslovi.Add($"d.mesto LIKE '%{Sql.Tekst(Mesto)}%'");
                 if (DatumOdrzavanja != default)
                     uslovi.Add($"CAST(d.datumOdrzavanja AS DATE) = '{DatumOdrzavanja:yyyy-MM-dd}'");
 
