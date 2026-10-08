@@ -120,5 +120,18 @@ namespace SistemskeOperacije.Tests
             Assert.AreEqual(FailedLoginMessage, ex.Message);
             Assert.IsNull(so.Result);
         }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuSqlInjection()
+        {
+            broker.KorisnickoIme = "' OR 1=1 --";
+            broker.Sifra = "bilo sta";
+            so = new PrijaviBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(FailedLoginMessage, ex.Message);
+            Assert.IsNull(so.Result);
+        }
     }
 }
