@@ -3,39 +3,21 @@ using Common.Domen;
 namespace SistemskeOperacije.Tests
 {
     [TestClass]
-    public class PrijaviBrokerSOTest
+    public class PrijaviBrokerSOTest : IntegracioniTest
     {
         private const string FailedLoginMessage = "Korisničko ime ili šifra nisu ispravni.";
         private const string CorrectPassword = "lozinka123";
 
-        private static Broker savedBroker = null!;
+        private Broker savedBroker = null!;
 
         private PrijaviBrokerSO so = null!;
         private Broker broker = null!;
 
-        [ClassInitialize]
-        public static void ClassSetUp(TestContext context)
-        {
-            savedBroker = TestPodaci.KreirajBrokera(CorrectPassword);
-        }
-
-        [ClassCleanup]
-        public static void ClassTearDown()
-        {
-            TestPodaci.ObrisiBrokera(savedBroker.IdBroker);
-        }
-
         [TestInitialize]
         public void SetUp()
         {
+            savedBroker = TestPodaci.KreirajBrokera(CorrectPassword);
             broker = new Broker();
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            so = null!;
-            broker = null!;
         }
 
         [TestMethod]

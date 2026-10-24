@@ -5,39 +5,20 @@ using SistemskeOperacije.KartaSO;
 namespace SistemskeOperacije.Tests
 {
     [TestClass]
-    public class KreirajKartaSOTest
+    public class KreirajKartaSOTest : IntegracioniTest
     {
-        private static Dogadjaj dogadjaj = null!;
-        private static Konsignator konsignator = null!;
+        private Dogadjaj dogadjaj = null!;
+        private Konsignator konsignator = null!;
 
         private KreirajKartaSO so = null!;
         private Karta karta = null!;
 
-        [ClassInitialize]
-        public static void ClassSetUp(TestContext context)
-        {
-            konsignator = TestPodaci.VratiPostojecegKonsignatora();
-            dogadjaj = TestPodaci.KreirajDogadjaj();
-        }
-
-        [ClassCleanup]
-        public static void ClassTearDown()
-        {
-            TestPodaci.ObrisiDogadjaj(dogadjaj.IdDogadjaj);
-        }
-
         [TestInitialize]
         public void SetUp()
         {
+            konsignator = TestPodaci.KreirajFizickoLice();
+            dogadjaj = TestPodaci.KreirajDogadjaj();
             karta = TestPodaci.NapraviKartu(dogadjaj, konsignator);
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            TestPodaci.ObrisiKarteDogadjaja(dogadjaj.IdDogadjaj);
-            so = null!;
-            karta = null!;
         }
 
         [TestMethod]

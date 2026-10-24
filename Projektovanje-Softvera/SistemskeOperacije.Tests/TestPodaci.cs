@@ -25,9 +25,6 @@ namespace SistemskeOperacije.Tests
             return broker;
         }
 
-        public static void ObrisiBrokera(int brokerId) =>
-            TestBaza.Execute($"DELETE FROM BrKd WHERE idBroker = {brokerId}; DELETE FROM Broker WHERE idBroker = {brokerId};");
-
         public static Dogadjaj KreirajDogadjaj()
         {
             Dogadjaj dogadjaj = new Dogadjaj
@@ -41,23 +38,24 @@ namespace SistemskeOperacije.Tests
             return dogadjaj;
         }
 
-        public static void ObrisiKarteDogadjaja(int dogadjajId) =>
-            TestBaza.Execute($"DELETE FROM Karta WHERE idDogadjaj = {dogadjajId};");
-
-        public static void ObrisiDogadjaj(int dogadjajId) =>
-            TestBaza.Execute($"DELETE FROM Karta WHERE idDogadjaj = {dogadjajId}; DELETE FROM Dogadjaj WHERE idDogadjaj = {dogadjajId};");
-
-        public static Konsignator VratiPostojecegKonsignatora()
+        public static FizickoLice KreirajFizickoLice()
         {
-            VratiListuSviKonsignatorSO so = new VratiListuSviKonsignatorSO();
-            so.ExecuteTemplate();
-            List<Konsignator> consignors = (List<Konsignator>)so.Result!;
-
-            if (consignors.Count == 0)
-                Assert.Inconclusive("U bazi mora postojati bar jedan konsignator da bi se testovi izvršili.");
-
-            return consignors[0];
+            string s = UniqueSuffix();
+            FizickoLice fl = new FizickoLice
+            {
+                Email = $"test_{s}@test.rs",
+                Telefon = "0601234567",
+                Adresa = "Test adresa 1",
+                Jmbg = RandomNumbers(13),
+                Ime = "Test",
+                Prezime = "Konsignator",
+                BrojLicneKarte = RandomNumbers(9)
+            };
+            new KreirajKonsignatorSO(fl).ExecuteTemplate();
+            return fl;
         }
+
+        private static string RandomNumbers(int n) => string.Concat(Enumerable.Range(0, n).Select(_ => Random.Shared.Next(10)));
 
         public static Karta NapraviKartu(Dogadjaj dogadjaj, Konsignator konsignator,
             string sektor = "A", string red = "1", string sediste = "1") => new Karta
