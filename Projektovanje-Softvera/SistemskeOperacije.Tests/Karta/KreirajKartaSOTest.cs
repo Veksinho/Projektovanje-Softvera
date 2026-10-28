@@ -144,5 +144,20 @@ namespace SistemskeOperacije.Tests
             Assert.AreEqual(StatusKarte.u_inventaru, saved.Status);
             Assert.IsNull(saved.Listing);
         }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuCenaSaDecimalama()
+        {
+            karta.NominalnaCena = 12.50m;
+            so = new KreirajKartaSO(karta);
+
+            so.ExecuteTemplate();
+
+            PretraziKartaSO searchSo = new PretraziKartaSO(new Karta { IdKarta = karta.IdKarta });
+            searchSo.ExecuteTemplate();
+            Karta saved = (Karta)searchSo.Result!;
+
+            Assert.AreEqual(12.50m, saved.NominalnaCena);
+        }
     }
 }
