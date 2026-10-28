@@ -73,5 +73,23 @@ namespace SistemskeOperacije.Tests
             Assert.AreEqual(dogadjaj.Mesto, saved.Mesto);
             Assert.AreEqual(dogadjaj.DatumOdrzavanja, saved.DatumOdrzavanja);
         }
+
+        [TestMethod]
+        [Ignore("Poznata greška: tekstualni literali nemaju prefiks N, pa se ć, č i đ gube pri upisu; rešava se u Fazi 1")]
+        public void TestIzvrsiOperacijuSrpskaSlova()
+        {
+            dogadjaj.Naziv = "Đurđevdanski koncert Čačak";
+            dogadjaj.Mesto = "Ćuprija";
+            so = new UbaciDogadjajSO(dogadjaj);
+
+            so.ExecuteTemplate();
+
+            PretraziDogadjajSO searchSo = new PretraziDogadjajSO(new Dogadjaj { IdDogadjaj = dogadjaj.IdDogadjaj });
+            searchSo.ExecuteTemplate();
+            Dogadjaj saved = (Dogadjaj)searchSo.Result!;
+
+            Assert.AreEqual("Đurđevdanski koncert Čačak", saved.Naziv);
+            Assert.AreEqual("Ćuprija", saved.Mesto);
+        }
     }
 }

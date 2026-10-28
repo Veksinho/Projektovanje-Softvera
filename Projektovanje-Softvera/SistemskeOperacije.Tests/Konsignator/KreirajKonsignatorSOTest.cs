@@ -1,4 +1,5 @@
 using Common.Domen;
+using Microsoft.Data.SqlClient;
 using SistemskeOperacije.KonsignatorSO;
 
 namespace SistemskeOperacije.Tests
@@ -125,7 +126,7 @@ namespace SistemskeOperacije.Tests
             fizickoLice.Jmbg = "12345678901234";
             so = new KreirajKonsignatorSO(fizickoLice);
 
-            Assert.Throws<Exception>(() => so.ExecuteTemplate());
+            Assert.ThrowsExactly<SqlException>(() => so.ExecuteTemplate());
 
             Assert.AreEqual(0, TestBaza.BrojRedova("Konsignator", $"email = '{fizickoLice.Email}'"));
         }
