@@ -11,6 +11,20 @@ namespace SistemskeOperacije.Tests
 {
     internal static class TestPodaci
     {
+        public const string Apostrof = "O'Brien";
+        public const string SrpskaSlova = "Đurđevdanski koncert Čačak";
+        public const string Kombinovano = "Ćirić O'Đorđević";
+        public const string InjekcijaUslov = "' OR '1'='1";
+        public const string InjekcijaNaredba = "x'; DROP TABLE Karta; --";
+
+        public const string EmailSaApostrofom = "o'brien@test.rs";
+
+        // tekst bez prvog i poslednjeg znaka, za pretragu po delu teksta
+        public static string DeoTeksta(string tekst) => tekst[1..^1];
+
+        // kolone red i sediste su nvarchar(10)
+        public static string Skrati(string tekst, int duzina) => tekst.Length <= duzina ? tekst : tekst[..duzina];
+
         private static string UniqueSuffix() => Guid.NewGuid().ToString("N")[..8];
 
         public static Broker NapraviBrokera(string password) => new Broker

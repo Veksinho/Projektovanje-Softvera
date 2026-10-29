@@ -115,5 +115,35 @@ namespace SistemskeOperacije.Tests
             Assert.AreEqual(FailedLoginMessage, ex.Message);
             Assert.IsNull(so.Result);
         }
+
+        [TestMethod]
+        [DataRow("' OR 1=1 --")]
+        [DataRow("' OR '1'='1")]
+        public void TestIzvrsiOperacijuSqlInjectionKorisnickoIme(string username)
+        {
+            broker.KorisnickoIme = username;
+            broker.Sifra = username;
+            so = new PrijaviBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(FailedLoginMessage, ex.Message);
+            Assert.IsNull(so.Result);
+        }
+
+        [TestMethod]
+        [DataRow("' OR 1=1 --")]
+        [DataRow("' OR '1'='1")]
+        public void TestIzvrsiOperacijuSqlInjectionSifra(string password)
+        {
+            broker.KorisnickoIme = savedBroker.KorisnickoIme;
+            broker.Sifra = password;
+            so = new PrijaviBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(FailedLoginMessage, ex.Message);
+            Assert.IsNull(so.Result);
+        }
     }
 }
