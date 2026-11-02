@@ -55,7 +55,7 @@ namespace Common.Domen
         private int IdKonsignatorSql => Konsignator == null ? 0 : Konsignator.IdKonsignator;
         private string NapomenaSql => string.IsNullOrWhiteSpace(Napomena)
             ? "NULL"
-            : $"'{Sql.Tekst(Napomena)}'";
+            : $"N'{Sql.Tekst(Napomena)}'";
 
         [JsonIgnore]
         public string TableName => "Listing l";
@@ -133,8 +133,8 @@ namespace Common.Domen
                 if (Konsignator != null && !string.IsNullOrWhiteSpace(Konsignator.NazivKriterijum))
                 {
                     string naziv = Sql.Tekst(Konsignator.NazivKriterijum);
-                    uslovi.Add($"(fl.ime LIKE '%{naziv}%' OR fl.prezime LIKE '%{naziv}%' " +
-                               $"OR pl.naziv LIKE '%{naziv}%')");
+                    uslovi.Add($"(fl.ime LIKE N'%{naziv}%' OR fl.prezime LIKE N'%{naziv}%' " +
+                               $"OR pl.naziv LIKE N'%{naziv}%')");
                 }
                 if (DatumObjaveOd != default)
                     uslovi.Add($"CAST(l.datumObjave AS DATE) >= '{DatumObjaveOd:yyyy-MM-dd}'");
@@ -160,13 +160,13 @@ namespace Common.Domen
                 var uslovi = new List<string>();
 
                 if (KriterijumKarta != null && !string.IsNullOrWhiteSpace(KriterijumKarta.Sektor))
-                    uslovi.Add($"ka2.sektor LIKE '%{Sql.Tekst(KriterijumKarta.Sektor)}%'");
+                    uslovi.Add($"ka2.sektor LIKE N'%{Sql.Tekst(KriterijumKarta.Sektor)}%'");
                 if (KriterijumKarta != null && KriterijumKarta.Tip.HasValue)
                     uslovi.Add($"ka2.tip = '{KriterijumKarta.Tip}'");
                 if (KriterijumDogadjaj != null && KriterijumDogadjaj.IdDogadjaj > 0)
                     uslovi.Add($"ka2.idDogadjaj = {KriterijumDogadjaj.IdDogadjaj}");
                 if (KriterijumDogadjaj != null && !string.IsNullOrWhiteSpace(KriterijumDogadjaj.Mesto))
-                    uslovi.Add($"d2.mesto LIKE '%{Sql.Tekst(KriterijumDogadjaj.Mesto)}%'");
+                    uslovi.Add($"d2.mesto LIKE N'%{Sql.Tekst(KriterijumDogadjaj.Mesto)}%'");
 
                 if (uslovi.Count == 0)
                     return string.Empty;

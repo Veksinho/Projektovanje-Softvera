@@ -30,14 +30,14 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string SubtypeInsertValues =>
-            $"{IdKonsignator}, '{Sql.Tekst(Pib)}', " +
-            $"'{Sql.Tekst(MaticniBroj)}', '{Sql.Tekst(NazivFirme)}'";
+            $"{IdKonsignator}, N'{Sql.Tekst(Pib)}', " +
+            $"N'{Sql.Tekst(MaticniBroj)}', N'{Sql.Tekst(NazivFirme)}'";
 
         [JsonIgnore]
         public string SubtypeUpdateValues =>
-            $"pib = '{Sql.Tekst(Pib)}', " +
-            $"maticniBroj = '{Sql.Tekst(MaticniBroj)}', " +
-            $"naziv = '{Sql.Tekst(NazivFirme)}'";
+            $"pib = N'{Sql.Tekst(Pib)}', " +
+            $"maticniBroj = N'{Sql.Tekst(MaticniBroj)}', " +
+            $"naziv = N'{Sql.Tekst(NazivFirme)}'";
 
         [JsonIgnore]
         public string SubtypePrimaryKeyCondition => $"idKonsignator = {IdKonsignator}";
@@ -49,11 +49,11 @@ namespace Common.Domen
                 var uslovi = new List<string>();
 
                 if (!string.IsNullOrWhiteSpace(Pib))
-                    uslovi.Add($"pl.pib LIKE '%{Sql.Tekst(Pib)}%'");
+                    uslovi.Add($"pl.pib LIKE N'%{Sql.Tekst(Pib)}%'");
                 if (!string.IsNullOrWhiteSpace(MaticniBroj))
-                    uslovi.Add($"pl.maticniBroj LIKE '%{Sql.Tekst(MaticniBroj)}%'");
+                    uslovi.Add($"pl.maticniBroj LIKE N'%{Sql.Tekst(MaticniBroj)}%'");
                 if (!string.IsNullOrWhiteSpace(NazivFirme))
-                    uslovi.Add($"pl.naziv LIKE '%{Sql.Tekst(NazivFirme)}%'");
+                    uslovi.Add($"pl.naziv LIKE N'%{Sql.Tekst(NazivFirme)}%'");
 
                 return string.Join(" AND ", uslovi);
             }

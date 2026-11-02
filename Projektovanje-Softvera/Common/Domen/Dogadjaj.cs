@@ -30,13 +30,13 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string InsertValues =>
-            $"'{Sql.Tekst(Naziv)}', '{DatumOdrzavanja:yyyy-MM-dd HH:mm:ss}', '{Sql.Tekst(Mesto)}'";
+            $"N'{Sql.Tekst(Naziv)}', '{DatumOdrzavanja:yyyy-MM-dd HH:mm:ss}', N'{Sql.Tekst(Mesto)}'";
 
         [JsonIgnore]
         public string UpdateValues =>
-            $"naziv = '{Sql.Tekst(Naziv)}', " +
+            $"naziv = N'{Sql.Tekst(Naziv)}', " +
             $"datumOdrzavanja = '{DatumOdrzavanja:yyyy-MM-dd HH:mm:ss}', " +
-            $"mesto = '{Sql.Tekst(Mesto)}'";
+            $"mesto = N'{Sql.Tekst(Mesto)}'";
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"d.idDogadjaj = {IdDogadjaj}";
@@ -51,9 +51,9 @@ namespace Common.Domen
                 if (IdDogadjaj > 0)
                     uslovi.Add($"d.idDogadjaj = {IdDogadjaj}");
                 if (!string.IsNullOrWhiteSpace(Naziv))
-                    uslovi.Add($"d.naziv LIKE '%{Sql.Tekst(Naziv)}%'");
+                    uslovi.Add($"d.naziv LIKE N'%{Sql.Tekst(Naziv)}%'");
                 if (!string.IsNullOrWhiteSpace(Mesto))
-                    uslovi.Add($"d.mesto LIKE '%{Sql.Tekst(Mesto)}%'");
+                    uslovi.Add($"d.mesto LIKE N'%{Sql.Tekst(Mesto)}%'");
                 if (DatumOdrzavanja != default)
                     uslovi.Add($"CAST(d.datumOdrzavanja AS DATE) = '{DatumOdrzavanja:yyyy-MM-dd}'");
 

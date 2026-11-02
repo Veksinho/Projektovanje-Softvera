@@ -64,9 +64,9 @@ namespace SistemskeOperacije.KartaSO
                 return;
 
             string uslov = $"ka.idDogadjaj = {ka.Dogadjaj!.IdDogadjaj} " +
-                           $"AND ka.sektor = '{Sql.Tekst(ka.Sektor)}' " +
-                           $"AND ka.red = '{Sql.Tekst(ka.Red)}' " +
-                           $"AND ka.sediste = '{Sql.Tekst(ka.Sediste)}' " +
+                           $"AND ka.sektor = N'{Sql.Tekst(ka.Sektor)}' " +
+                           $"AND ka.red = N'{Sql.Tekst(ka.Red)}' " +
+                           $"AND ka.sediste = N'{Sql.Tekst(ka.Sediste)}' " +
                            $"AND ka.idKarta <> {ka.IdKarta}";
 
             if (dbBroker.GetByCondition(new Karta(), uslov).Count > 0)
