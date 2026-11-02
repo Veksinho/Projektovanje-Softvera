@@ -58,7 +58,7 @@ namespace SistemskeOperacije.Tests
 
         public static Dogadjaj NapraviDogadjaj(DateTime? datum = null) => new Dogadjaj
         {
-            Naziv = "Test dogadjaj " + UniqueSuffix(),
+            Naziv = "Test događaj " + UniqueSuffix(),
             DatumOdrzavanja = datum ?? DateTime.Today.AddMonths(1),
             Mesto = "Beograd"
         };

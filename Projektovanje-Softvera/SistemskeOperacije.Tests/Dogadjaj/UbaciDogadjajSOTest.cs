@@ -75,7 +75,6 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
-        [Ignore("Poznata greška: tekstualni literali nemaju prefiks N, pa se ć, č i đ gube pri upisu; rešava se u Fazi 1")]
         public void TestIzvrsiOperacijuSrpskaSlova()
         {
             dogadjaj.Naziv = "Đurđevdanski koncert Čačak";
