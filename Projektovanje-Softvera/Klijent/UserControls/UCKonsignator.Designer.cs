@@ -72,6 +72,7 @@
             // 
             // cmbTipKonsignatora
             // 
+            cmbTipKonsignatora.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTipKonsignatora.FormattingEnabled = true;
             cmbTipKonsignatora.Location = new Point(176, 26);
             cmbTipKonsignatora.Name = "cmbTipKonsignatora";

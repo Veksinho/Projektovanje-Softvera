@@ -29,29 +29,29 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            label1 = new Label();
-            cmbKonsignator = new ComboBox();
             cmbDogadjaj = new ComboBox();
             label2 = new Label();
+            cmbKonsignator = new ComboBox();
+            label1 = new Label();
             groupBox2 = new GroupBox();
-            label4 = new Label();
-            txtSektor = new TextBox();
-            txtRed = new TextBox();
-            label3 = new Label();
             txtSediste = new TextBox();
             label5 = new Label();
+            txtRed = new TextBox();
+            label3 = new Label();
+            txtSektor = new TextBox();
+            label4 = new Label();
             groupBox3 = new GroupBox();
-            cmbTip = new ComboBox();
-            label6 = new Label();
-            label7 = new Label();
+            txtNominalnaCena = new TextBox();
             cmbStatus = new ComboBox();
             label8 = new Label();
             cmbFormat = new ComboBox();
             label9 = new Label();
-            txtNominalnaCena = new TextBox();
+            cmbTip = new ComboBox();
+            label6 = new Label();
+            label7 = new Label();
             groupBox4 = new GroupBox();
-            label11 = new Label();
             txtListing = new TextBox();
+            label11 = new Label();
             btnNazad = new Button();
             btnIzmeni = new Button();
             btnKreiraj = new Button();
@@ -74,25 +74,9 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Poreklo";
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(16, 35);
-            label1.Name = "label1";
-            label1.Size = new Size(89, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Konsignator";
-            // 
-            // cmbKonsignator
-            // 
-            cmbKonsignator.FormattingEnabled = true;
-            cmbKonsignator.Location = new Point(159, 32);
-            cmbKonsignator.Name = "cmbKonsignator";
-            cmbKonsignator.Size = new Size(200, 28);
-            cmbKonsignator.TabIndex = 1;
-            // 
             // cmbDogadjaj
             // 
+            cmbDogadjaj.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDogadjaj.FormattingEnabled = true;
             cmbDogadjaj.Location = new Point(484, 32);
             cmbDogadjaj.Name = "cmbDogadjaj";
@@ -107,6 +91,24 @@
             label2.Size = new Size(67, 20);
             label2.TabIndex = 2;
             label2.Text = "Događaj";
+            // 
+            // cmbKonsignator
+            // 
+            cmbKonsignator.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbKonsignator.FormattingEnabled = true;
+            cmbKonsignator.Location = new Point(159, 32);
+            cmbKonsignator.Name = "cmbKonsignator";
+            cmbKonsignator.Size = new Size(200, 28);
+            cmbKonsignator.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 35);
+            label1.Name = "label1";
+            label1.Size = new Size(89, 20);
+            label1.TabIndex = 0;
+            label1.Text = "Konsignator";
             // 
             // groupBox2
             // 
@@ -123,21 +125,21 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Mesto";
             // 
-            // label4
+            // txtSediste
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(16, 36);
-            label4.Name = "label4";
-            label4.Size = new Size(51, 20);
-            label4.TabIndex = 0;
-            label4.Text = "Sektor";
+            txtSediste.Location = new Point(561, 33);
+            txtSediste.Name = "txtSediste";
+            txtSediste.Size = new Size(123, 27);
+            txtSediste.TabIndex = 5;
             // 
-            // txtSektor
+            // label5
             // 
-            txtSektor.Location = new Point(99, 33);
-            txtSektor.Name = "txtSektor";
-            txtSektor.Size = new Size(123, 27);
-            txtSektor.TabIndex = 1;
+            label5.AutoSize = true;
+            label5.Location = new Point(482, 36);
+            label5.Name = "label5";
+            label5.Size = new Size(57, 20);
+            label5.TabIndex = 4;
+            label5.Text = "Sedište";
             // 
             // txtRed
             // 
@@ -155,21 +157,21 @@
             label3.TabIndex = 2;
             label3.Text = "Red";
             // 
-            // txtSediste
+            // txtSektor
             // 
-            txtSediste.Location = new Point(561, 33);
-            txtSediste.Name = "txtSediste";
-            txtSediste.Size = new Size(123, 27);
-            txtSediste.TabIndex = 5;
+            txtSektor.Location = new Point(99, 33);
+            txtSektor.Name = "txtSektor";
+            txtSektor.Size = new Size(123, 27);
+            txtSektor.TabIndex = 1;
             // 
-            // label5
+            // label4
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(482, 36);
-            label5.Name = "label5";
-            label5.Size = new Size(57, 20);
-            label5.TabIndex = 4;
-            label5.Text = "Sedište";
+            label4.AutoSize = true;
+            label4.Location = new Point(16, 36);
+            label4.Name = "label4";
+            label4.Size = new Size(51, 20);
+            label4.TabIndex = 0;
+            label4.Text = "Sektor";
             // 
             // groupBox3
             // 
@@ -188,8 +190,52 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Svojstva karte";
             // 
+            // txtNominalnaCena
+            // 
+            txtNominalnaCena.Location = new Point(159, 32);
+            txtNominalnaCena.Name = "txtNominalnaCena";
+            txtNominalnaCena.Size = new Size(200, 27);
+            txtNominalnaCena.TabIndex = 8;
+            // 
+            // cmbStatus
+            // 
+            cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbStatus.FormattingEnabled = true;
+            cmbStatus.Location = new Point(484, 70);
+            cmbStatus.Name = "cmbStatus";
+            cmbStatus.Size = new Size(200, 28);
+            cmbStatus.TabIndex = 7;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(369, 73);
+            label8.Name = "label8";
+            label8.Size = new Size(49, 20);
+            label8.TabIndex = 6;
+            label8.Text = "Status";
+            // 
+            // cmbFormat
+            // 
+            cmbFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFormat.FormattingEnabled = true;
+            cmbFormat.Location = new Point(159, 70);
+            cmbFormat.Name = "cmbFormat";
+            cmbFormat.Size = new Size(200, 28);
+            cmbFormat.TabIndex = 5;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(16, 73);
+            label9.Name = "label9";
+            label9.Size = new Size(56, 20);
+            label9.TabIndex = 4;
+            label9.Text = "Format";
+            // 
             // cmbTip
             // 
+            cmbTip.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTip.FormattingEnabled = true;
             cmbTip.Location = new Point(484, 32);
             cmbTip.Name = "cmbTip";
@@ -214,47 +260,6 @@
             label7.TabIndex = 0;
             label7.Text = "Nominalna cena";
             // 
-            // cmbStatus
-            // 
-            cmbStatus.FormattingEnabled = true;
-            cmbStatus.Location = new Point(484, 70);
-            cmbStatus.Name = "cmbStatus";
-            cmbStatus.Size = new Size(200, 28);
-            cmbStatus.TabIndex = 7;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(369, 73);
-            label8.Name = "label8";
-            label8.Size = new Size(49, 20);
-            label8.TabIndex = 6;
-            label8.Text = "Status";
-            // 
-            // cmbFormat
-            // 
-            cmbFormat.FormattingEnabled = true;
-            cmbFormat.Location = new Point(159, 70);
-            cmbFormat.Name = "cmbFormat";
-            cmbFormat.Size = new Size(200, 28);
-            cmbFormat.TabIndex = 5;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(16, 73);
-            label9.Name = "label9";
-            label9.Size = new Size(56, 20);
-            label9.TabIndex = 4;
-            label9.Text = "Format";
-            // 
-            // txtNominalnaCena
-            // 
-            txtNominalnaCena.Location = new Point(159, 32);
-            txtNominalnaCena.Name = "txtNominalnaCena";
-            txtNominalnaCena.Size = new Size(200, 27);
-            txtNominalnaCena.TabIndex = 8;
-            // 
             // groupBox4
             // 
             groupBox4.Controls.Add(txtListing);
@@ -266,14 +271,6 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Listing";
             // 
-            // label11
-            // 
-            label11.Location = new Point(16, 38);
-            label11.Name = "label11";
-            label11.Size = new Size(117, 50);
-            label11.TabIndex = 0;
-            label11.Text = "Trenutno na listingu";
-            // 
             // txtListing
             // 
             txtListing.Enabled = false;
@@ -281,6 +278,14 @@
             txtListing.Name = "txtListing";
             txtListing.Size = new Size(525, 27);
             txtListing.TabIndex = 1;
+            // 
+            // label11
+            // 
+            label11.Location = new Point(16, 38);
+            label11.Name = "label11";
+            label11.Size = new Size(117, 50);
+            label11.TabIndex = 0;
+            label11.Text = "Trenutno na listingu";
             // 
             // btnNazad
             // 

@@ -73,6 +73,7 @@
             // 
             // cmbStatus
             // 
+            cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbStatus.FormattingEnabled = true;
             cmbStatus.Location = new Point(97, 104);
             cmbStatus.Name = "cmbStatus";
@@ -90,6 +91,7 @@
             // 
             // cmbTip
             // 
+            cmbTip.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTip.FormattingEnabled = true;
             cmbTip.Location = new Point(97, 69);
             cmbTip.Name = "cmbTip";
@@ -152,6 +154,7 @@
             // 
             // cmbKonsignator
             // 
+            cmbKonsignator.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbKonsignator.FormattingEnabled = true;
             cmbKonsignator.Location = new Point(110, 34);
             cmbKonsignator.Name = "cmbKonsignator";
@@ -182,6 +185,7 @@
             // 
             // cmbDogadjaj
             // 
+            cmbDogadjaj.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDogadjaj.FormattingEnabled = true;
             cmbDogadjaj.Location = new Point(97, 35);
             cmbDogadjaj.Name = "cmbDogadjaj";
