@@ -6,4 +6,4 @@
 - Ne menjaj tekst postojećih poruka izuzetaka: testovi ih porede doslovno.
 - Tekstualni literal u SQL-u uvek ide kao N'{Sql.Tekst(x)}'. Parametrizacija dolazi tek u fazi 6.1 – ne uvodi je ranije.
 - Ne menjaj *.Designer.cs osim kad je to cilj zadatka; MaxLength i događaje polja podešavaj u konstruktoru user control-e.
-- Reference: docs/POZNATE-GRESKE.md, docs/INVENTAR-SQL-LITERALA.md, docs/SPECIFIKACIJA-TESTOVA.md.
+- Reference: docs/PRAVILA-VALIDACIJE.md (pravila validacije, Faza 2), docs/POZNATE-GRESKE.md, docs/INVENTAR-SQL-LITERALA.md, docs/SPECIFIKACIJA-TESTOVA.md.
