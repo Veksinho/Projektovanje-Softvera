@@ -14,12 +14,12 @@ namespace Klijent
             txtKorisnickoIme.BackColor = Color.White;
             txtSifra.BackColor = Color.White;
             bool isValid = true;
-            if (string.IsNullOrEmpty(txtKorisnickoIme.Text))
+            if (string.IsNullOrWhiteSpace(txtKorisnickoIme.Text))
             {
                 txtKorisnickoIme.BackColor = Color.Salmon;
                 isValid = false;
             }
-            if (string.IsNullOrEmpty(txtSifra.Text))
+            if (string.IsNullOrWhiteSpace(txtSifra.Text))
             {
                 txtSifra.BackColor = Color.Salmon;
                 isValid = false;
@@ -32,7 +32,7 @@ namespace Klijent
             Cursor = Cursors.WaitCursor;
 
             bool isLoggedIn = LoginGuiController.Instance.Login(
-                txtKorisnickoIme.Text.Trim(), txtSifra.Text);
+                txtKorisnickoIme.Text.Trim(), txtSifra.Text.Trim());
 
             Cursor = Cursors.Default;
 
