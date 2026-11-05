@@ -1,5 +1,6 @@
 using Common.Domen;
 using Common.Helpers;
+using Common.Validacija;
 using Microsoft.Data.SqlClient;
 using SistemskeOperacije.KonsignatorSO;
 
@@ -23,6 +24,106 @@ namespace SistemskeOperacije.Tests
             so = new KreirajKonsignatorSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        // Validate() odbija konsignatora sa datom porukom, a broj redova u tabeli Konsignator se ne menja.
+        private void ProveriOdbijanje(Konsignator konsignator, string poruka)
+        {
+            int brojPre = TestBaza.BrojRedova("Konsignator");
+            so = new KreirajKonsignatorSO(konsignator);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(poruka, ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Konsignator"));
+        }
+
+        [TestMethod]
+        [DataRow("12345678901a3")]
+        [DataRow("123456789012")]
+        [DataRow("12345678901234")]
+        public void TestPredusloviNeispravanJmbg(string jmbg)
+        {
+            fizickoLice.Jmbg = jmbg;
+
+            ProveriOdbijanje(fizickoLice, "JMBG fizičkog lica mora imati tačno 13 cifara.");
+        }
+
+        [TestMethod]
+        [DataRow("12345678")]
+        public void TestPredusloviNeispravanBrojLicneKarte(string brojLicneKarte)
+        {
+            fizickoLice.BrojLicneKarte = brojLicneKarte;
+
+            ProveriOdbijanje(fizickoLice, "Broj lične karte fizičkog lica mora imati tačno 9 cifara.");
+        }
+
+        [TestMethod]
+        [DataRow("12345678")]
+        public void TestPredusloviNeispravanPib(string pib)
+        {
+            PravnoLice pravnoLice = TestPodaci.NapraviPravnoLice();
+            pravnoLice.Pib = pib;
+
+            ProveriOdbijanje(pravnoLice, "PIB pravnog lica mora imati tačno 9 cifara.");
+        }
+
+        [TestMethod]
+        [DataRow("1234567")]
+        public void TestPredusloviNeispravanMaticniBroj(string maticniBroj)
+        {
+            PravnoLice pravnoLice = TestPodaci.NapraviPravnoLice();
+            pravnoLice.MaticniBroj = maticniBroj;
+
+            ProveriOdbijanje(pravnoLice, "Matični broj pravnog lica mora imati tačno 8 cifara.");
+        }
+
+        [TestMethod]
+        [DataRow("060 1234567")]
+        [DataRow("060123456a")]
+        [DataRow("060+1234567")]
+        public void TestPredusloviNeispravanTelefon(string telefon)
+        {
+            fizickoLice.Telefon = telefon;
+
+            ProveriOdbijanje(fizickoLice, "Telefon konsignatora nije u odgovarajućem formatu.");
+        }
+
+        [TestMethod]
+        [DataRow("test@")]
+        public void TestPredusloviEmailBezDomena(string email)
+        {
+            fizickoLice.Email = email;
+
+            ProveriOdbijanje(fizickoLice, "E-mail konsignatora nije u odgovarajućem formatu.");
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.KonsignatorAdresa + 1)]
+        public void TestPredusloviPredugackaAdresa(int duzina)
+        {
+            fizickoLice.Adresa = new string('a', duzina);
+
+            ProveriOdbijanje(fizickoLice, "Adresa konsignatora može imati najviše 200 znakova.");
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.FizickoLiceIme + 1)]
+        public void TestPredusloviPredugackoImeFizickogLica(int duzina)
+        {
+            fizickoLice.Ime = new string('a', duzina);
+
+            ProveriOdbijanje(fizickoLice, "Ime fizičkog lica može imati najviše 50 znakova.");
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.PravnoLiceNaziv + 1)]
+        public void TestPredusloviPredugackiNazivPravnogLica(int duzina)
+        {
+            PravnoLice pravnoLice = TestPodaci.NapraviPravnoLice();
+            pravnoLice.NazivFirme = new string('a', duzina);
+
+            ProveriOdbijanje(pravnoLice, "Naziv pravnog lica može imati najviše 150 znakova.");
         }
 
         [TestMethod]
@@ -79,7 +180,6 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
-        [Ignore("Poznata greška: SO ne proverava jedinstvenost e-maila, pada SqlException na UQ ograničenju")]
         public void TestPredusloviDuplikatEmail()
         {
             FizickoLice postojece = TestPodaci.KreirajFizickoLice();

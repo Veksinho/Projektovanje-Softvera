@@ -1,4 +1,5 @@
 using Common.Domen;
+using Common.Validacija;
 using SistemskeOperacije.DogadjajSO;
 
 namespace SistemskeOperacije.Tests
@@ -21,6 +22,20 @@ namespace SistemskeOperacije.Tests
             so = new UbaciDogadjajSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.DogadjajNaziv + 1)]
+        public void TestPredusloviPredugackiNaziv(int duzina)
+        {
+            int brojPre = TestBaza.BrojRedova("Dogadjaj");
+            dogadjaj.Naziv = new string('a', duzina);
+            so = new UbaciDogadjajSO(dogadjaj);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Naziv događaja može imati najviše 150 znakova.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Dogadjaj"));
         }
 
         [TestMethod]

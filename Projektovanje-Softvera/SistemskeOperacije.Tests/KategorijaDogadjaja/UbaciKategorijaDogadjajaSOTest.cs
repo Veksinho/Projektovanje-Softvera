@@ -1,4 +1,5 @@
 using Common.Domen;
+using Common.Validacija;
 using SistemskeOperacije.KategorijaDogadjajaSO;
 
 namespace SistemskeOperacije.Tests
@@ -35,6 +36,20 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        [DataRow(Ogranicenja.KategorijaDogadjajaNaziv + 1)]
+        public void TestPredusloviPredugackiNaziv(int duzina)
+        {
+            int brojPre = TestBaza.BrojRedova("KategorijaDogadjaja");
+            kategorija.Naziv = new string('a', duzina);
+            so = new UbaciKategorijaDogadjajaSO(kategorija);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Naziv kategorije događaja može imati najviše 100 znakova.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("KategorijaDogadjaja"));
+        }
+
+        [TestMethod]
         public void TestIzvrsiOperacijuUspesno()
         {
             so = new UbaciKategorijaDogadjajaSO(kategorija);
@@ -53,7 +68,6 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
-        [Ignore("Poznata greška: SO ne proverava jedinstvenost naziva kategorije, pada SqlException na UQ ograničenju")]
         public void TestIzvrsiOperacijuDuplikatNaziva()
         {
             int brojPre = TestBaza.BrojRedova("KategorijaDogadjaja");

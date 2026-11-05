@@ -1,5 +1,6 @@
 using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using SistemskeOperacije.KartaSO;
 using SistemskeOperacije.ListingSO;
 
@@ -39,6 +40,35 @@ namespace SistemskeOperacije.Tests
             so = new KreirajListingSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        [TestMethod]
+        [DataRow(0.0)]
+        [DataRow(-1.0)]
+        public void TestPredusloviCenaPoKartiNijePozitivna(double cena)
+        {
+            int brojPre = TestBaza.BrojRedova("Listing");
+            listing.CenaPoKarti = (decimal)cena;
+            so = new KreirajListingSO(listing);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Cena po karti listinga mora biti veća od nule.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Listing"));
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.ListingNapomena + 1)]
+        public void TestPredusloviPredugackaNapomena(int duzina)
+        {
+            int brojPre = TestBaza.BrojRedova("Listing");
+            listing.Napomena = new string('a', duzina);
+            so = new KreirajListingSO(listing);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Napomena listinga može imati najviše 1000 znakova.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Listing"));
         }
 
         [TestMethod]

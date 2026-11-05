@@ -1,5 +1,6 @@
 using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using SistemskeOperacije.KartaSO;
 
 namespace SistemskeOperacije.Tests
@@ -35,6 +36,34 @@ namespace SistemskeOperacije.Tests
             so = new KreirajKartaSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        [TestMethod]
+        [DataRow(12.345)]
+        public void TestPredusloviNominalnaCenaTriDecimale(double cena)
+        {
+            int brojPre = TestBaza.BrojRedova("Karta");
+            karta.NominalnaCena = (decimal)cena;
+            so = new KreirajKartaSO(karta);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Nominalna cena karte može imati najviše 2 decimale.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Karta"));
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.KartaSektor + 1)]
+        public void TestPredusloviPredugackiSektor(int duzina)
+        {
+            int brojPre = TestBaza.BrojRedova("Karta");
+            karta.Sektor = new string('a', duzina);
+            so = new KreirajKartaSO(karta);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Sektor karte može imati najviše 50 znakova.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Karta"));
         }
 
         [TestMethod]

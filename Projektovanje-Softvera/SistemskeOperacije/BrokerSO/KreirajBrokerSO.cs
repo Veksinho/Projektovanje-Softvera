@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Helpers;
+using Common.Validacija;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +19,8 @@ namespace SistemskeOperacije.BrokerSO
         {
             if (b == null)
                 throw new ArgumentException("Prosleđeni objekat nije instanca klase Broker.");
-            if (string.IsNullOrWhiteSpace(b.KorisnickoIme))
-                throw new Exception("Korisničko ime brokera je obavezno.");
-            if (string.IsNullOrWhiteSpace(b.Sifra))
-                throw new Exception("Šifra brokera je obavezna.");
-            if (string.IsNullOrWhiteSpace(b.Ime))
-                throw new Exception("Ime brokera je obavezno.");
-            if (string.IsNullOrWhiteSpace(b.Prezime))
-                throw new Exception("Prezime brokera je obavezno.");
-            if (string.IsNullOrWhiteSpace(b.Telefon))
-                throw new Exception("Telefon brokera je obavezan.");
+
+            ThrowIfInvalid(PravilaBroker.Proveri(b, sifraObavezna: true));
 
             List<IEntity> postojeci = dbBroker.GetByCondition(
                 new Broker(), $"b.korisnickoIme = N'{Sql.Tekst(b.KorisnickoIme)}'");

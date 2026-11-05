@@ -61,9 +61,13 @@ git grep -nE "\"'\" *\+|string\.Format" -- "*.cs"
 | `BrokerSO/PromeniBrokerSO.cs` | `Validate` (jedinstvenost, `idBroker <>`) | `b.korisnickoIme` | `=` |
 | `KartaSO/KreirajKartaSO.cs` | `ProveriZauzetostSedista` | `ka.sektor`, `ka.red`, `ka.sediste` | `=` |
 | `KartaSO/PromeniKartaSO.cs` | `ProveriZauzetostSedista` (`idKarta <>`) | `ka.sektor`, `ka.red`, `ka.sediste` | `=` |
-| `KonsignatorSO/KreirajKonsignatorSO.cs` | `ValidirajFizickoLice` | `fl.jmbg` | `=` |
+| `KategorijaDogadjajaSO/UbaciKategorijaDogadjajaSO.cs` | `Validate` (jedinstvenost, Faza 2) | `kd.naziv` | `=` |
+| `KategorijaDogadjajaSO/PromeniKategorijaDogadjajaSO.cs` | `Validate` (jedinstvenost, `idKategorijaDogadjaja <>`, Faza 2) | `kd.naziv` | `=` |
+| `KonsignatorSO/KreirajKonsignatorSO.cs` | `ProveriJedinstvenostEmaila` (Faza 2) | `k.email` | `=` |
+| | `ValidirajFizickoLice` | `fl.jmbg` | `=` |
 | | `ValidirajPravnoLice` | `pl.pib` | `=` |
-| `KonsignatorSO/PromeniKonsignatorSO.cs` | `ValidirajFizickoLice` (`idKonsignator <>`) | `fl.jmbg` | `=` |
+| `KonsignatorSO/PromeniKonsignatorSO.cs` | `ProveriJedinstvenostEmaila` (`idKonsignator <>`, Faza 2) | `k.email` | `=` |
+| | `ValidirajFizickoLice` (`idKonsignator <>`) | `fl.jmbg` | `=` |
 | | `ValidirajPravnoLice` (`idKonsignator <>`) | `pl.pib` | `=` |
 | `PrijaviBrokerSO.cs` | `ExecuteConcreteOperation` | koristi `Broker.SearchCondition` (sa šifrom) | `=` |
 

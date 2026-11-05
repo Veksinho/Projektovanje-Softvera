@@ -36,6 +36,23 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        [DataRow("lozink1")]
+        [DataRow("lozinkaa")]
+        [DataRow("12345678")]
+        public void TestPredusloviNeispravnaSifra(string sifra)
+        {
+            int brojPre = TestBaza.BrojRedova("Broker");
+            broker.Sifra = sifra;
+            so = new PromeniBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Šifra brokera nije u odgovarajućem formatu.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Broker"));
+            Assert.AreEqual(Sifra, Pretrazi(broker.IdBroker).Sifra);
+        }
+
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         public void TestPredusloviNeispravanId(int id)

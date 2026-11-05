@@ -1,4 +1,5 @@
 using Common.Domen;
+using Common.Helpers;
 using SistemskeOperacije.KategorijaDogadjajaSO;
 
 namespace SistemskeOperacije.Tests
@@ -21,6 +22,34 @@ namespace SistemskeOperacije.Tests
             so = new PromeniKategorijaDogadjajaSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        [TestMethod]
+        [DataRow("Koncert")]
+        [DataRow("koncert")]
+        public void TestPredusloviDuplikatNaziva(string naziv)
+        {
+            int brojPre = TestBaza.BrojRedova("KategorijaDogadjaja");
+            kategorija.Naziv = naziv;
+            so = new PromeniKategorijaDogadjajaSO(kategorija);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Kategorija događaja sa unetim nazivom već postoji.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("KategorijaDogadjaja"));
+            Assert.AreEqual(1, TestBaza.BrojRedova("KategorijaDogadjaja", $"naziv = N'{Sql.Tekst(naziv)}'"));
+        }
+
+        [TestMethod]
+        public void TestPredusloviIstiNazivSopstvenogZapisa()
+        {
+            kategorija.Opis = "Izmenjen opis";
+            so = new PromeniKategorijaDogadjajaSO(kategorija);
+
+            so.ExecuteTemplate();
+
+            Assert.IsTrue(TestBaza.Postoji("KategorijaDogadjaja",
+                $"idKategorijaDogadjaja = {kategorija.IdKategorijaDogadjaja} AND opis = N'Izmenjen opis'"));
         }
 
         [TestMethod]

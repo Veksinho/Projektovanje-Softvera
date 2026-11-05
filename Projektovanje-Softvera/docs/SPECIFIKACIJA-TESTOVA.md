@@ -595,6 +595,48 @@ Postavka (`SetUp`): broker, događaj, fizičko lice. Pretraga uvek pravi i kontr
 
 **Stanje posle Faze 1, korak 2** (prefiks `N` za sve tekstualne literale): 378 testova, 374 prolazi, 0 pada, 4 preskočeno (`TestIzvrsiOperacijuPretragaDzokerZnak` i tri ranije poznate greške). Isti rezultat u tri uzastopna pokretanja.
 
+### 4.9. Faza 2 – validacija
+
+Od Faze 2, koraka 5, `Validate()` svih SO koje upisuju podatke poziva `ThrowIfInvalid(Pravila*.Proveri(...))` (`SOBase`), posle provere `null` i id-a, a pre provera nad bazom. Prva greška iz liste postaje poruka izuzetka, pa testovi porede poruke iz `Common/Validacija/Pravila*.cs` (`docs/PRAVILA-VALIDACIJE.md`). Jedinični testovi samih pravila su u `Common.Tests`; ovde se proverava da ih SO zaista primenjuju.
+
+**Pravila**
+
+- Testovi su u postojećim klasama po SO, sa imenom `TestPreduslovi<Opis>` i `[DataRow]` za varijante istog pravila.
+- Svaki test proverava poruku (doslovno) i da se broj redova u tabeli entiteta nije promenio. Testovi izmene proveravaju i da je stara vrednost ostala u bazi.
+- Predugačak tekst je `new string('a', max + 1)`, gde je `max` konstanta iz `Ogranicenja`; poruka se piše kao literal.
+- Format i dužina se testiraju u `Kreiraj…` / `Ubaci…` klasi entiteta; izmena se testira tamo gde se pravilo razlikuje (šifra) ili gde postoji uslov `id <>` (jedinstvenost).
+
+| Klasa | Test | `DataRow` | Očekivano | Tabela |
+| --- | --- | --- | --- | --- |
+| KreirajKonsignatorSOTest | TestPredusloviNeispravanJmbg | `12345678901a3`, `123456789012`, `12345678901234` | "JMBG fizičkog lica mora imati tačno 13 cifara." | Konsignator |
+| | TestPredusloviNeispravanBrojLicneKarte | `12345678` | "Broj lične karte fizičkog lica mora imati tačno 9 cifara." | |
+| | TestPredusloviNeispravanPib | `12345678` (pravno lice) | "PIB pravnog lica mora imati tačno 9 cifara." | |
+| | TestPredusloviNeispravanMaticniBroj | `1234567` (pravno lice) | "Matični broj pravnog lica mora imati tačno 8 cifara." | |
+| | TestPredusloviNeispravanTelefon | `060 1234567`, `060123456a`, `060+1234567` | "Telefon konsignatora nije u odgovarajućem formatu." | |
+| | TestPredusloviEmailBezDomena | `test@` | "E-mail konsignatora nije u odgovarajućem formatu." | |
+| | TestPredusloviPredugackaAdresa | 201 znak | "Adresa konsignatora može imati najviše 200 znakova." | |
+| | TestPredusloviPredugackoImeFizickogLica | 51 znak | "Ime fizičkog lica može imati najviše 50 znakova." | |
+| | TestPredusloviPredugackiNazivPravnogLica | 151 znak | "Naziv pravnog lica može imati najviše 150 znakova." | |
+| | TestPredusloviDuplikatEmail (bio **PG**) | — | "Konsignator sa unetim e-mailom već postoji." | |
+| PromeniKonsignatorSOTest | TestPredusloviDuplikatEmail | e-mail drugog fizičkog lica | "Konsignator sa unetim e-mailom već postoji."; e-mail u bazi nepromenjen | Konsignator |
+| KreirajBrokerSOTest | TestPredusloviNeispravnaSifra | `lozink1` (7 znakova), `lozinkaa` (bez cifre), `12345678` (bez slova) | "Šifra brokera nije u odgovarajućem formatu." | Broker |
+| | TestPredusloviNeispravanTelefon | `060 1234567`, `060123456a`, `060+1234567` | "Telefon brokera nije u odgovarajućem formatu." | |
+| | TestPredusloviPredugackoIme | 51 znak | "Ime brokera može imati najviše 50 znakova." | |
+| PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | isto kao u `KreirajBrokerSOTest` | "Šifra brokera nije u odgovarajućem formatu."; šifra u bazi nepromenjena | Broker |
+| UbaciKategorijaDogadjajaSOTest | TestPredusloviPredugackiNaziv | 101 znak | "Naziv kategorije događaja može imati najviše 100 znakova." | KategorijaDogadjaja |
+| | TestIzvrsiOperacijuDuplikatNaziva (bio **PG**) | — | "Kategorija događaja sa unetim nazivom već postoji." | |
+| PromeniKategorijaDogadjajaSOTest | TestPredusloviDuplikatNaziva | `Koncert`, `koncert` (kolacija CI) | "Kategorija događaja sa unetim nazivom već postoji."; i dalje tačno jedan red sa tim nazivom | KategorijaDogadjaja |
+| | TestPredusloviIstiNazivSopstvenogZapisa | — | izmena opisa uz nepromenjen naziv prolazi (uslov `idKategorijaDogadjaja <>`) | |
+| UbaciDogadjajSOTest | TestPredusloviPredugackiNaziv | 151 znak | "Naziv događaja može imati najviše 150 znakova." | Dogadjaj |
+| KreirajKartaSOTest | TestPredusloviNominalnaCenaTriDecimale | `12.345` | "Nominalna cena karte može imati najviše 2 decimale." | Karta |
+| | TestPredusloviPredugackiSektor | 51 znak | "Sektor karte može imati najviše 50 znakova." | |
+| KreirajListingSOTest | TestPredusloviCenaPoKartiNijePozitivna | `0`, `-1` | "Cena po karti listinga mora biti veća od nule." (O16) | Listing |
+| | TestPredusloviPredugackaNapomena | 1001 znak | "Napomena listinga može imati najviše 1000 znakova." | |
+
+Poznate greške 1 i 2 iz odeljka 5 (jedinstvenost naziva kategorije i e-maila konsignatora) rešene su u ovom koraku: `[Ignore]` je uklonjen sa oba testa, a unosi su obrisani iz `POZNATE-GRESKE.md`. Provere su u `Ubaci/PromeniKategorijaDogadjajaSO` i `Kreiraj/PromeniKonsignatorSO` (`docs/INVENTAR-SQL-LITERALA.md`).
+
+**Stanje posle Faze 2, korak 5:** `SistemskeOperacije.Tests` 412 testova, 410 prolazi, 0 pada, 2 preskočeno (`TestIzvrsiOperacijuBezNoveSifre` i `TestIzvrsiOperacijuPretragaDzokerZnak`); `Common.Tests` 253 testa, svi prolaze. Isti rezultat u tri uzastopna pokretanja.
+
 ---
 
 ## 5. POZNATE-GRESKE.md

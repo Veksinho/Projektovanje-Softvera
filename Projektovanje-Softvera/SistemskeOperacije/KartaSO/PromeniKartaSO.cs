@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Helpers;
+using Common.Validacija;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,24 +22,8 @@ namespace SistemskeOperacije.KartaSO
                 throw new ArgumentException("Prosleđeni objekat nije instanca klase Karta.");
             if (ka.IdKarta <= 0)
                 throw new Exception("Nije prosleđen id karte.");
-            if (ka.Konsignator == null || ka.Konsignator.IdKonsignator <= 0)
-                throw new Exception("Konsignator karte je obavezan.");
-            if (ka.Dogadjaj == null || ka.Dogadjaj.IdDogadjaj <= 0)
-                throw new Exception("Događaj karte je obavezan.");
-            if (string.IsNullOrWhiteSpace(ka.Sektor))
-                throw new Exception("Sektor karte je obavezan.");
-            if (string.IsNullOrWhiteSpace(ka.Red))
-                throw new Exception("Red karte je obavezan.");
-            if (string.IsNullOrWhiteSpace(ka.Sediste))
-                throw new Exception("Sedište karte je obavezno.");
-            if (ka.NominalnaCena < 0)
-                throw new Exception("Nominalna cena karte ne može biti negativna.");
-            if (!ka.Tip.HasValue)
-                throw new Exception("Tip karte je obavezan.");
-            if (!ka.Format.HasValue)
-                throw new Exception("Format karte je obavezan.");
-            if (!ka.Status.HasValue)
-                throw new Exception("Status karte je obavezan.");
+
+            ThrowIfInvalid(PravilaKarta.Proveri(ka, novi: false));
 
             ProveriPoreklo();
             ProveriZauzetostSedista();

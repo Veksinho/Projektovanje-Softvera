@@ -2,22 +2,6 @@
 
 Spisak mesta gde se kod ponaša drugačije od specifikacije (`SPECIFIKACIJA-TESTOVA.md`). Testovi za ove slučajeve su napisani kako je specificirano i označeni sa `[Ignore("Poznata greška: …")]`.
 
-## Nema provere jedinstvenosti naziva kategorije
-
-- **SO / klasa:** UbaciKategorijaDogadjajaSO
-- **Test:** UbaciKategorijaDogadjajaSOTest.TestIzvrsiOperacijuDuplikatNaziva
-- **Očekivano:** `Validate()` odbija naziv koji već postoji, sa porukom "Kategorija događaja sa unetim nazivom već postoji."; broj redova u `KategorijaDogadjaja` se ne menja.
-- **Stvarno:** SO ne proverava jedinstvenost; upis pada na ograničenju `UQ_KategorijaDogadjaja` sa `SqlException` ("Violation of UNIQUE KEY constraint 'UQ_KategorijaDogadjaja'…"). Broj redova ostaje isti zbog rollback-a.
-- **Rešava se u:** nije planirano, odlučiti
-
-## Nema provere jedinstvenosti e-maila konsignatora
-
-- **SO / klasa:** KreirajKonsignatorSO
-- **Test:** KreirajKonsignatorSOTest.TestPredusloviDuplikatEmail
-- **Očekivano:** `Validate()` odbija e-mail koji već postoji, sa porukom "Konsignator sa unetim e-mailom već postoji."; broj redova u `Konsignator` se ne menja.
-- **Stvarno:** SO ne proverava jedinstvenost; upis pada na ograničenju `UQ_Konsignator_email` sa `SqlException` ("Violation of UNIQUE KEY constraint 'UQ_Konsignator_email'…").
-- **Rešava se u:** nije planirano, odlučiti
-
 ## Izmena brokera bez nove šifre briše postojeću šifru
 
 - **SO / klasa:** PromeniBrokerSO / Broker.UpdateValues

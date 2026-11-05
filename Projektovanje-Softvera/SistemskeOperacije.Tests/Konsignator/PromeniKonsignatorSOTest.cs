@@ -31,6 +31,22 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        public void TestPredusloviDuplikatEmail()
+        {
+            FizickoLice drugo = TestPodaci.KreirajFizickoLice();
+            string stariEmail = drugo.Email;
+            int brojPre = TestBaza.BrojRedova("Konsignator");
+            drugo.Email = fizickoLice.Email;
+            so = new PromeniKonsignatorSO(drugo);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Konsignator sa unetim e-mailom već postoji.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Konsignator"));
+            Assert.AreEqual(stariEmail, Pretrazi(drugo.IdKonsignator).Email);
+        }
+
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         public void TestPredusloviNeispravanId(int id)

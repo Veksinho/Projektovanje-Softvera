@@ -1,4 +1,5 @@
-﻿using DatabaseBroker;
+﻿using Common.Validacija;
+using DatabaseBroker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,5 +45,10 @@ namespace SistemskeOperacije
         protected abstract void ExecuteConcreteOperation();
 
         protected virtual void Validate() { }
+        protected void ThrowIfInvalid(List<GreskaValidacije> greske)
+        {
+            if (greske.Count > 0)
+                throw new Exception(greske[0].Poruka);
+        }
     }
 }

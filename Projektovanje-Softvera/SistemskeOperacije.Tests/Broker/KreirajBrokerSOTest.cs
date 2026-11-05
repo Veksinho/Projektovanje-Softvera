@@ -1,4 +1,5 @@
 using Common.Domen;
+using Common.Validacija;
 using SistemskeOperacije.BrokerSO;
 
 namespace SistemskeOperacije.Tests
@@ -21,6 +22,49 @@ namespace SistemskeOperacije.Tests
             so = new KreirajBrokerSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        // Validate() odbija brokera sa datom porukom, a broj redova u tabeli Broker se ne menja.
+        private void ProveriOdbijanje(string poruka)
+        {
+            int brojPre = TestBaza.BrojRedova("Broker");
+            so = new KreirajBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(poruka, ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Broker"));
+        }
+
+        [TestMethod]
+        [DataRow("lozink1")]
+        [DataRow("lozinkaa")]
+        [DataRow("12345678")]
+        public void TestPredusloviNeispravnaSifra(string sifra)
+        {
+            broker.Sifra = sifra;
+
+            ProveriOdbijanje("Šifra brokera nije u odgovarajućem formatu.");
+        }
+
+        [TestMethod]
+        [DataRow("060 1234567")]
+        [DataRow("060123456a")]
+        [DataRow("060+1234567")]
+        public void TestPredusloviNeispravanTelefon(string telefon)
+        {
+            broker.Telefon = telefon;
+
+            ProveriOdbijanje("Telefon brokera nije u odgovarajućem formatu.");
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.BrokerIme + 1)]
+        public void TestPredusloviPredugackoIme(int duzina)
+        {
+            broker.Ime = new string('a', duzina);
+
+            ProveriOdbijanje("Ime brokera može imati najviše 50 znakova.");
         }
 
         [TestMethod]
