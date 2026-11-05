@@ -1,5 +1,6 @@
 using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using SistemskeOperacije.BrokerSO;
 using SistemskeOperacije.DogadjajSO;
 using SistemskeOperacije.KartaSO;
@@ -24,6 +25,9 @@ namespace SistemskeOperacije.Tests
 
         // kolone red i sediste su nvarchar(10)
         public static string Skrati(string tekst, int duzina) => tekst.Length <= duzina ? tekst : tekst[..duzina];
+
+        // tekst ako zadovoljava pravila šifre, inače tekst sa dopunom (slovo, cifra, dužina)
+        public static string Sifra(string tekst) => Provera.JeIspravnaSifra(tekst) ? tekst : tekst + "#2026a";
 
         private static string UniqueSuffix() => Guid.NewGuid().ToString("N")[..8];
 

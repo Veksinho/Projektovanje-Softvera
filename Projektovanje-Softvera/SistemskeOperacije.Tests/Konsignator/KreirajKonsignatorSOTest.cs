@@ -1,4 +1,5 @@
 using Common.Domen;
+using Common.Helpers;
 using Microsoft.Data.SqlClient;
 using SistemskeOperacije.KonsignatorSO;
 
@@ -123,12 +124,25 @@ namespace SistemskeOperacije.Tests
         [TestMethod]
         public void TestIzvrsiOperacijuRollbackPriGresciPodtipa()
         {
-            fizickoLice.Jmbg = "12345678901234";
-            so = new KreirajKonsignatorSO(fizickoLice);
+            const string obrisiOgranicenje =
+                "IF OBJECT_ID(N'CK_Test_Rollback', N'C') IS NOT NULL " +
+                "ALTER TABLE FizickoLice DROP CONSTRAINT CK_Test_Rollback";
 
-            Assert.ThrowsExactly<SqlException>(() => so.ExecuteTemplate());
+            TestBaza.Execute(obrisiOgranicenje);
+            TestBaza.Execute("ALTER TABLE FizickoLice ADD CONSTRAINT CK_Test_Rollback CHECK (ime <> N'ROLLBACK_TEST')");
+            try
+            {
+                fizickoLice.Ime = "ROLLBACK_TEST";
+                so = new KreirajKonsignatorSO(fizickoLice);
 
-            Assert.AreEqual(0, TestBaza.BrojRedova("Konsignator", $"email = '{fizickoLice.Email}'"));
+                Assert.ThrowsExactly<SqlException>(() => so.ExecuteTemplate());
+
+                Assert.AreEqual(0, TestBaza.BrojRedova("Konsignator", $"email = N'{Sql.Tekst(fizickoLice.Email)}'"));
+            }
+            finally
+            {
+                TestBaza.Execute(obrisiOgranicenje);
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace SistemskeOperacije.Tests
 
         private static Broker NapraviBrokera(string tekst)
         {
-            Broker broker = TestPodaci.NapraviBrokera(tekst);
+            Broker broker = TestPodaci.NapraviBrokera(TestPodaci.Sifra(tekst));
             broker.KorisnickoIme = tekst;
             broker.Ime = tekst;
             broker.Prezime = tekst;
@@ -34,7 +34,7 @@ namespace SistemskeOperacije.Tests
         private static void ProveriPolja(string tekst, Broker sacuvan)
         {
             Assert.AreEqual(tekst, sacuvan.KorisnickoIme);
-            Assert.AreEqual(tekst, sacuvan.Sifra);
+            Assert.AreEqual(TestPodaci.Sifra(tekst), sacuvan.Sifra);
             Assert.AreEqual(tekst, sacuvan.Ime);
             Assert.AreEqual(tekst, sacuvan.Prezime);
         }
@@ -64,7 +64,7 @@ namespace SistemskeOperacije.Tests
         {
             Broker broker = TestPodaci.KreirajBrokera("lozinka123");
             broker.KorisnickoIme = tekst;
-            broker.Sifra = tekst;
+            broker.Sifra = TestPodaci.Sifra(tekst);
             broker.Ime = tekst;
             broker.Prezime = tekst;
 
@@ -121,22 +121,23 @@ namespace SistemskeOperacije.Tests
         [DataRow(TestPodaci.InjekcijaNaredba)]
         public void TestIzvrsiOperacijuPrijavaSifraSaPosebnimZnacima(string sifra)
         {
-            Broker sacuvan = TestPodaci.KreirajBrokera(sifra);
+            string sifraBrokera = TestPodaci.Sifra(sifra);
+            Broker sacuvan = TestPodaci.KreirajBrokera(sifraBrokera);
 
-            PrijaviBrokerSO so = new PrijaviBrokerSO(new Broker { KorisnickoIme = sacuvan.KorisnickoIme, Sifra = sifra });
+            PrijaviBrokerSO so = new PrijaviBrokerSO(new Broker { KorisnickoIme = sacuvan.KorisnickoIme, Sifra = sifraBrokera });
             so.ExecuteTemplate();
 
             Broker prijavljen = (Broker)so.Result!;
             Assert.AreEqual(sacuvan.IdBroker, prijavljen.IdBroker);
-            Assert.AreEqual(sifra, prijavljen.Sifra);
+            Assert.AreEqual(sifraBrokera, prijavljen.Sifra);
         }
 
         [TestMethod]
         public void TestIzvrsiOperacijuPrijavaSifraBezApostrofa()
         {
-            Broker sacuvan = TestPodaci.KreirajBrokera("lo'zinka");
+            Broker sacuvan = TestPodaci.KreirajBrokera(TestPodaci.Sifra("lo'zinka"));
 
-            PrijaviBrokerSO so = new PrijaviBrokerSO(new Broker { KorisnickoIme = sacuvan.KorisnickoIme, Sifra = "lozinka" });
+            PrijaviBrokerSO so = new PrijaviBrokerSO(new Broker { KorisnickoIme = sacuvan.KorisnickoIme, Sifra = TestPodaci.Sifra("lozinka") });
 
             Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
 
