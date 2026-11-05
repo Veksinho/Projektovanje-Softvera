@@ -16,7 +16,8 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 | Broker | telefon | nvarchar(30) | obavezan, opcioni + na prvom mestu, zatim samo cifre, 6–15 cifara (O8) |
 | KategorijaDogadjaja | naziv | nvarchar(100) | obavezan, ≤ 100, jedinstven (O6) |
 | KategorijaDogadjaja | opis | nvarchar(500) | obavezan, ≤ 500 |
-| Dogadjaj | naziv, mesto | nvarchar(150) | obavezno, ≤ 150; datum kao do sada |
+| Dogadjaj | naziv, mesto | nvarchar(150) | obavezno, ≤ 150 |
+| Dogadjaj | datum održavanja | datetime | obavezan; pri unosu novog događaja ne sme biti u prošlosti (pri izmeni se ne proverava) |
 | Konsignator | e-mail | nvarchar(100) | obavezan, ≤ 100, ispravan format (apostrof dozvoljen), jedinstven (O6) |
 | Konsignator | telefon | nvarchar(30) | obavezan, opcioni + na prvom mestu, zatim samo cifre, 6–15 cifara (O8) |
 | Konsignator | adresa | nvarchar(200) | obavezna, ≤ 200 |
@@ -28,6 +29,7 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 | PravnoLice | naziv | nvarchar(150) | obavezan, ≤ 150 |
 | Karta | sektor | nvarchar(50) | obavezan, ≤ 50; „-“ ostaje dozvoljen |
 | Karta | red, sedište | nvarchar(10) | obavezno, ≤ 10; „-“ ostaje dozvoljen |
+| Karta | status | nvarchar(20), enum | obavezan pri izmeni; pri kreiranju ga postavlja sistem |
 | Karta | nominalna cena | decimal(10,2) | ≥ 0, najviše 2 decimale, ≤ 99.999.999,99 (O3) |
 | Listing | cena po karti | decimal(10,2) | > 0, najviše 2 decimale, ≤ 99.999.999,99 (O3) |
 | Listing | procenat provizije | decimal(5,2) | 0–100, najviše 2 decimale |
@@ -68,3 +70,5 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 | O13 | Pravila za minimalnu količinu i datum isteka listinga beleže provere koje već postoje u `KreirajListingSO` / `PromeniListingSO` i `ListingGuiController`; cena od/do i objavljen od/do u pretrazi listinga dobijaju proveru opsega (4. 11. 2026.) |
 | O14 | Telefon u pretrazi prima isti filter kao u formi: opcioni `+` samo na prvom mestu, zatim cifre; dužina se ne proverava, `MaxLength` 16 (4. 11. 2026.) |
 | O15 | Sve liste (`ComboBox`) su `DropDownList`, postavljeno u Designer-u (Properties u Visual Studiju), kao u `UCListing` i `UCPretragaListing`: `UCKonsignator.cmbTipKonsignatora`; `UCKarta.cmbKonsignator`, `cmbDogadjaj`, `cmbTip`, `cmbFormat`, `cmbStatus`; `UCPretragaBroker.cmbKategorija`; `UCPretragaKonsignator.cmbTipKonsignatora`; `UCPretragaKarta.cmbTip`, `cmbStatus`, `cmbKonsignator`, `cmbDogadjaj` (4. 11. 2026.) |
+| O16 | Cena po karti mora biti veća od nule, sa jednom porukom za 0 i za negativan iznos: „Cena po karti listinga mora biti veća od nule.“ Zamenjuje poruku „ne može biti negativna“ u `KreirajListingSO` / `PromeniListingSO`; ovo je namerni izuzetak od pravila da se postojeće poruke ne menjaju (5. 11. 2026.) |
+| O17 | Poruke za format šifre i telefona ostaju kratke: „Šifra brokera nije u odgovarajućem formatu.“, „Telefon brokera / konsignatora nije u odgovarajućem formatu.“ (5. 11. 2026.) |
