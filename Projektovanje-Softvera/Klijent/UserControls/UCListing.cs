@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,9 @@ namespace Klijent.UserControls
             List<Konsignator> sviKonsignatori)
         {
             InitializeComponent();
+            UnosPolja.DecimalniBroj(txtCenaPoKarti);
+            UnosPolja.DecimalniBroj(txtProcenatProvizije);
+            txtNapomena.MaxLength = Ogranicenja.ListingNapomena;
 
             this.l = listing;
             this.sviBrokeri = sviBrokeri;
@@ -55,10 +59,10 @@ namespace Klijent.UserControls
                 ? DateTime.Today.AddDays(1)
                 : l.DatumIsteka;
 
-            txtCenaPoKarti.Text = mode == FormMode.Add ? "" : l.CenaPoKarti.ToString("N2");
+            txtCenaPoKarti.Text = mode == FormMode.Add ? "" : l.CenaPoKarti.ToString("F2");
             txtProcenatProvizije.Text = mode == FormMode.Add
                 ? ""
-                : l.ProcenatProvizije.ToString("N2");
+                : l.ProcenatProvizije.ToString("F2");
             numMinKolicina.Value = l.MinKolicina < numMinKolicina.Minimum
                 ? numMinKolicina.Minimum
                 : l.MinKolicina;

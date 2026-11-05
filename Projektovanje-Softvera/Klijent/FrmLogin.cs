@@ -1,3 +1,4 @@
+using Common.Validacija;
 using Klijent.GuiControllers;
 
 namespace Klijent
@@ -7,6 +8,7 @@ namespace Klijent
         public FrmLogin()
         {
             InitializeComponent();
+            txtKorisnickoIme.MaxLength = Ogranicenja.BrokerKorisnickoIme;
         }
 
         public bool Validacija()

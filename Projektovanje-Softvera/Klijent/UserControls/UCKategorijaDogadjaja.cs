@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Klijent.UserControls
         public UCKategorijaDogadjaja(FormMode mode, KategorijaDogadjaja kd)
         {
             InitializeComponent();
+            txtNaziv.MaxLength = Ogranicenja.KategorijaDogadjajaNaziv;
+            txtOpis.MaxLength = Ogranicenja.KategorijaDogadjajaOpis;
 
             this.kd = kd;
             

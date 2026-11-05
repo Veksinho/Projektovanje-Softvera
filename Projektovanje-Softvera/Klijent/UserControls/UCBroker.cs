@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ namespace Klijent.UserControls
         public UCBroker(FormMode mode, Broker broker, List<KategorijaDogadjaja> sveKategorije)
         {
             InitializeComponent();
+            txtKorisnickoIme.MaxLength = Ogranicenja.BrokerKorisnickoIme;
+            txtSifra.MaxLength = Ogranicenja.SifraMax;
+            txtIme.MaxLength = Ogranicenja.BrokerIme;
+            txtPrezime.MaxLength = Ogranicenja.BrokerPrezime;
+            UnosPolja.Telefon(txtTelefon);
 
             this.b = broker;
 

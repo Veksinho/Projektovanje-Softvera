@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace Klijent.UserControls
         public UCPravnoLice()
         {
             InitializeComponent();
+            txtNaziv.MaxLength = Ogranicenja.PravnoLiceNaziv;
+            UnosPolja.SamoCifre(txtPib, Ogranicenja.PibDuzina);
+            UnosPolja.SamoCifre(txtMaticniBroj, Ogranicenja.MaticniBrojDuzina);
         }
 
         public Konsignator NapraviPrazan() => new PravnoLice();

@@ -1,4 +1,6 @@
 ﻿using Common.Domen;
+using Common.Validacija;
+using Klijent.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,9 @@ namespace Klijent.UserControls
         public UCPretragaKonsignator()
         {
             InitializeComponent();
+            txtNaziv.MaxLength = Ogranicenja.NazivKonsignatoraPretragaMaxLength;
+            txtEmail.MaxLength = Ogranicenja.KonsignatorEmail;
+            UnosPolja.Telefon(txtTelefon);
             SrediTabelu();
         }
 

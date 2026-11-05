@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace Klijent.UserControls
         public UCDogadjaj(FormMode mode, Dogadjaj dogadjaj)
         {
             InitializeComponent();
+            txtNaziv.MaxLength = Ogranicenja.DogadjajNaziv;
+            txtMesto.MaxLength = Ogranicenja.DogadjajMesto;
             this.d = dogadjaj;
 
             txtId.Text = mode == FormMode.Add ? "" : d.IdDogadjaj.ToString();

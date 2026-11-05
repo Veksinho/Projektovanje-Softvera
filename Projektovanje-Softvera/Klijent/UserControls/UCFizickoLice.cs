@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace Klijent.UserControls
         public UCFizickoLice()
         {
             InitializeComponent();
+            UnosPolja.SamoCifre(txtJmbg, Ogranicenja.JmbgDuzina);
+            txtIme.MaxLength = Ogranicenja.FizickoLiceIme;
+            txtPrezime.MaxLength = Ogranicenja.FizickoLicePrezime;
+            UnosPolja.SamoCifre(txtBrojLicneKarte, Ogranicenja.BrojLicneKarteDuzina);
         }
 
         public Konsignator NapraviPrazan() => new FizickoLice();

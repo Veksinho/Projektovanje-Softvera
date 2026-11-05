@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,11 @@ namespace Klijent.UserControls
         public UCPretragaListing()
         {
             InitializeComponent();
+            UnosPolja.DecimalniBroj(txtCenaOd);
+            UnosPolja.DecimalniBroj(txtCenaDo);
+            txtNazivKonsignatora.MaxLength = Ogranicenja.NazivKonsignatoraPretragaMaxLength;
+            txtMesto.MaxLength = Ogranicenja.DogadjajMesto;
+            txtSektor.MaxLength = Ogranicenja.KartaSektor;
 
             cmbStatus.DataSource = StavkaEnuma<StatusListinga>.GetAll();
             cmbStatus.SelectedIndex = -1;

@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace Klijent.UserControls
         public UCKonsignator(FormMode mode, Konsignator konsignator)
         {
             InitializeComponent();
+            txtEmail.MaxLength = Ogranicenja.KonsignatorEmail;
+            UnosPolja.Telefon(txtTelefon);
+            txtAdresa.MaxLength = Ogranicenja.KonsignatorAdresa;
 
             this.k = konsignator;
             this.mode = mode;

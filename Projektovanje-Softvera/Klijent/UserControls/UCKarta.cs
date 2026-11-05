@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace Klijent.UserControls
         public UCKarta(FormMode mode, Karta karta, List<Konsignator> sviKonsignatori, List<Dogadjaj> sviDogadjaji)
         {
             InitializeComponent();
+            txtSektor.MaxLength = Ogranicenja.KartaSektor;
+            txtRed.MaxLength = Ogranicenja.KartaRed;
+            txtSediste.MaxLength = Ogranicenja.KartaSediste;
+            UnosPolja.DecimalniBroj(txtNominalnaCena);
             this.ka = karta;
 
             cmbKonsignator.DataSource = sviKonsignatori;
@@ -34,7 +39,7 @@ namespace Klijent.UserControls
             txtSektor.Text = ka.Sektor;
             txtRed.Text = ka.Red;
             txtSediste.Text = ka.Sediste;
-            txtNominalnaCena.Text = mode == FormMode.Add ? "" : ka.NominalnaCena.ToString("N2");
+            txtNominalnaCena.Text = mode == FormMode.Add ? "" : ka.NominalnaCena.ToString("F2");
             txtListing.Text = ka.ListingPrikaz;
 
             SrediFormu(mode);

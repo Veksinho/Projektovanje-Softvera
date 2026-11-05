@@ -2,7 +2,6 @@ namespace Common.Validacija
 {
     public static class Ogranicenja
     {
-        // Dužine tekstualnih kolona (docs/INVENTAR-SQL-LITERALA.md).
         public const int BrokerKorisnickoIme = 50;
         public const int BrokerSifra = 100;
         public const int BrokerIme = 50;

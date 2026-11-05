@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace Klijent.UserControls
         public UCPretragaKarta()
         {
             InitializeComponent();
+            txtSektor.MaxLength = Ogranicenja.KartaSektor;
+            txtNazivKonsignatora.MaxLength = Ogranicenja.NazivKonsignatoraPretragaMaxLength;
+            txtMesto.MaxLength = Ogranicenja.DogadjajMesto;
 
             cmbTip.DataSource = StavkaEnuma<TipKarte>.GetAll();
             cmbTip.SelectedIndex = -1;
