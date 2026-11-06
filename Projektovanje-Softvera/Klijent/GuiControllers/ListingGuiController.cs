@@ -1,11 +1,11 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -114,7 +114,7 @@ namespace Klijent.GuiControllers
         private void KreirajListing(object? sender, EventArgs e)
         {
             Listing l = ucListing!.VratiObjekat();
-            if (!Validiraj(l)) return;
+            if (!Validiraj(l, novi: true)) return;
 
             try
             {
@@ -130,7 +130,7 @@ namespace Klijent.GuiControllers
         private void PromeniListing(object? sender, EventArgs e)
         {
             Listing l = ucListing!.VratiObjekat();
-            if (!Validiraj(l)) return;
+            if (!Validiraj(l, novi: false)) return;
 
             try
             {
@@ -193,6 +193,12 @@ namespace Klijent.GuiControllers
         {
             try
             {
+                var klijentske = new List<GreskaValidacije>();
+                decimal cenaOd = UnosPolja.ProveriIznos(klijentske, ucPretragaListing!.TxtCenaOd.Text,
+                    nameof(Listing.CenaOd), null, "Cena od nije u odgovarajućem formatu.");
+                decimal cenaDo = UnosPolja.ProveriIznos(klijentske, ucPretragaListing.TxtCenaDo.Text,
+                    nameof(Listing.CenaDo), null, "Cena do nije u odgovarajućem formatu.");
+
                 Listing kriterijum = new Listing
                 {
                     Broker = Session.Instance.LoggedInBroker,
@@ -206,9 +212,14 @@ namespace Klijent.GuiControllers
                     DatumObjaveDo = ucPretragaListing.DtpObjavljenDo.Checked
                         ? ucPretragaListing.DtpObjavljenDo.Value.Date
                         : default,
-                    CenaOd = ParsirajIznos(ucPretragaListing.TxtCenaOd.Text),
-                    CenaDo = ParsirajIznos(ucPretragaListing.TxtCenaDo.Text)
+                    CenaOd = cenaOd,
+                    CenaDo = cenaDo
                 };
+
+                List<GreskaValidacije> greske = ProveraUnosa.Spoji(klijentske,
+                    PravilaListing.ProveriKriterijum(kriterijum));
+                if (!ucPretragaListing.ProveraUnosa.Prikazi(greske, ucPretragaListing.Polja))
+                    return;
 
                 Konsignator? konsignator = ucPretragaListing.CmbKonsignator.SelectedItem as Konsignator;
                 string nazivKonsignatora = ucPretragaListing.TxtNazivKonsignatora.Text.Trim();
@@ -243,62 +254,18 @@ namespace Klijent.GuiControllers
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-        private static decimal ParsirajIznos(string tekst) =>
-            decimal.TryParse(tekst.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture,
-                out decimal iznos) ? iznos : 0m;
-
-        private bool Validiraj(Listing l)
+        private bool Validiraj(Listing l, bool novi)
         {
-            if (l.Broker == null || l.Konsignator == null || !l.Status.HasValue || !l.Split.HasValue)
-            {
-                MessageBox.Show("Sva polja moraju biti popunjena!");
-                return false;
-            }
-            if (l.CenaPoKarti < 0)
-            {
-                MessageBox.Show("Cena po karti nije ispravno uneta!");
-                return false;
-            }
-            if (l.ProcenatProvizije < 0 || l.ProcenatProvizije > 100)
-            {
-                MessageBox.Show("Procenat provizije mora biti između 0 i 100!");
-                return false;
-            }
-            if (l.Karte.Count == 0)
-            {
-                MessageBox.Show("Listing mora imati bar jednu kartu!");
-                return false;
-            }
-            if (l.MinKolicina > l.Karte.Count)
-            {
-                MessageBox.Show("Minimalna količina ne može biti veća od broja karata na listingu!");
-                return false;
-            }
-            return ValidirajSplit(l);
-        }
+            var klijentske = new List<GreskaValidacije>();
+            UnosPolja.ProveriIznos(klijentske, ucListing!.TxtCenaPoKarti.Text, nameof(Listing.CenaPoKarti),
+                "Cena po karti listinga je obavezna.",
+                "Cena po karti listinga nije u odgovarajućem formatu.");
+            UnosPolja.ProveriIznos(klijentske, ucListing.TxtProcenatProvizije.Text, nameof(Listing.ProcenatProvizije),
+                "Procenat provizije listinga je obavezan.",
+                "Procenat provizije listinga nije u odgovarajućem formatu.");
 
-        private static bool ValidirajSplit(Listing l)
-        {
-            int brojKarata = l.Karte.Count;
-            string? poruka = l.Split switch
-            {
-                TipSplita.bez_splita when l.MinKolicina != brojKarata =>
-                    "Kod prodaje bez deljenja minimalna količina mora biti jednaka broju karata!",
-                TipSplita.bilo_koja_kolicina when l.MinKolicina != 1 =>
-                    "Kod prodaje u bilo kojoj količini minimalna količina mora biti 1!",
-                TipSplita.parne_kolicine when brojKarata % 2 != 0 || l.MinKolicina % 2 != 0 =>
-                    "Kod prodaje u parnim količinama broj karata i minimalna količina moraju biti parni!",
-                TipSplita.min_kolicina when l.MinKolicina <= 1 =>
-                    "Kod prodaje sa minimalnom količinom ta količina mora biti veća od 1!",
-                TipSplita.izbegni_usamljenu when l.MinKolicina != 1 || brojKarata < 2 =>
-                    "Kod izbegavanja usamljene karte listing mora imati bar dve karte, a minimalna količina mora biti 1!",
-                _ => null
-            };
-
-            if (poruka == null) return true;
-
-            MessageBox.Show(poruka);
-            return false;
+            List<GreskaValidacije> greske = ProveraUnosa.Spoji(klijentske, PravilaListing.Proveri(l, novi));
+            return ucListing.ProveraUnosa.Prikazi(greske, ucListing.Polja);
         }
     }
 }

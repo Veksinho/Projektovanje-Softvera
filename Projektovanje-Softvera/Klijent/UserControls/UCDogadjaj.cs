@@ -17,11 +17,22 @@ namespace Klijent.UserControls
     {
         private readonly Dogadjaj d;
 
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public UCDogadjaj(FormMode mode, Dogadjaj dogadjaj)
         {
             InitializeComponent();
             txtNaziv.MaxLength = Ogranicenja.DogadjajNaziv;
             txtMesto.MaxLength = Ogranicenja.DogadjajMesto;
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(Dogadjaj.Naziv)] = txtNaziv,
+                [nameof(Dogadjaj.Mesto)] = txtMesto,
+                [nameof(Dogadjaj.DatumOdrzavanja)] = dtpDatumOdrzavanja
+            };
             this.d = dogadjaj;
 
             txtId.Text = mode == FormMode.Add ? "" : d.IdDogadjaj.ToString();

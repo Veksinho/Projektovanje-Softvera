@@ -1,11 +1,11 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -102,8 +102,8 @@ namespace Klijent.GuiControllers
 
         private void KreirajKarta(object? sender, EventArgs e)
         {
-            if (!Validiraj()) return;
             Karta ka = ucKarta!.VratiObjekat();
+            if (!Validiraj(ka, novi: true)) return;
 
             try
             {
@@ -116,8 +116,8 @@ namespace Klijent.GuiControllers
 
         private void PromeniKarta(object? sender, EventArgs e)
         {
-            if (!Validiraj()) return;
             Karta ka = ucKarta!.VratiObjekat();
+            if (!Validiraj(ka, novi: false)) return;
 
             try
             {
@@ -212,35 +212,15 @@ namespace Klijent.GuiControllers
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-        private bool Validiraj()
+        private bool Validiraj(Karta ka, bool novi)
         {
-            if (ucKarta!.CmbKonsignator.SelectedItem == null || ucKarta.CmbDogadjaj.SelectedItem == null
-                || string.IsNullOrWhiteSpace(ucKarta.TxtSektor.Text)
-                || string.IsNullOrWhiteSpace(ucKarta.TxtRed.Text)
-                || string.IsNullOrWhiteSpace(ucKarta.TxtSediste.Text)
-                || string.IsNullOrWhiteSpace(ucKarta.TxtNominalnaCena.Text)
-                || ucKarta.CmbTip.SelectedItem == null
-                || ucKarta.CmbFormat.SelectedItem == null
-                || ucKarta.CmbStatus.SelectedItem == null)
-            {
-                MessageBox.Show("Sva polja moraju biti popunjena!");
-                return false;
-            }
+            var klijentske = new List<GreskaValidacije>();
+            UnosPolja.ProveriIznos(klijentske, ucKarta!.TxtNominalnaCena.Text, nameof(Karta.NominalnaCena),
+                "Nominalna cena karte je obavezna.",
+                "Nominalna cena karte nije u odgovarajućem formatu.");
 
-            if (!decimal.TryParse(ucKarta.TxtNominalnaCena.Text.Trim(), NumberStyles.Number,
-                    CultureInfo.CurrentCulture, out decimal cena))
-            {
-                MessageBox.Show("Nominalna cena karte nije u odgovarajućem formatu.");
-                return false;
-            }
-
-            if (cena < 0)
-            {
-                MessageBox.Show("Nominalna cena karte ne može biti negativna!");
-                return false;
-            }
-
-            return true;
+            List<GreskaValidacije> greske = ProveraUnosa.Spoji(klijentske, PravilaKarta.Proveri(ka, novi));
+            return ucKarta.ProveraUnosa.Prikazi(greske, ucKarta.Polja);
         }
     }
 }

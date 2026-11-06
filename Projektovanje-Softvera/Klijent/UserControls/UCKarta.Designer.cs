@@ -69,7 +69,7 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(12, 15);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(704, 80);
+            groupBox1.Size = new Size(745, 80);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Poreklo";
@@ -78,7 +78,7 @@
             // 
             cmbDogadjaj.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDogadjaj.FormattingEnabled = true;
-            cmbDogadjaj.Location = new Point(484, 32);
+            cmbDogadjaj.Location = new Point(505, 32);
             cmbDogadjaj.Name = "cmbDogadjaj";
             cmbDogadjaj.Size = new Size(200, 28);
             cmbDogadjaj.TabIndex = 3;
@@ -86,7 +86,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(369, 35);
+            label2.Location = new Point(423, 35);
             label2.Name = "label2";
             label2.Size = new Size(67, 20);
             label2.TabIndex = 2;
@@ -120,14 +120,14 @@
             groupBox2.Controls.Add(label4);
             groupBox2.Location = new Point(12, 104);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(704, 80);
+            groupBox2.Size = new Size(745, 80);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Mesto";
             // 
             // txtSediste
             // 
-            txtSediste.Location = new Point(561, 33);
+            txtSediste.Location = new Point(580, 33);
             txtSediste.Name = "txtSediste";
             txtSediste.Size = new Size(123, 27);
             txtSediste.TabIndex = 5;
@@ -135,7 +135,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(482, 36);
+            label5.Location = new Point(505, 36);
             label5.Name = "label5";
             label5.Size = new Size(57, 20);
             label5.TabIndex = 4;
@@ -143,7 +143,7 @@
             // 
             // txtRed
             // 
-            txtRed.Location = new Point(330, 33);
+            txtRed.Location = new Point(316, 33);
             txtRed.Name = "txtRed";
             txtRed.Size = new Size(123, 27);
             txtRed.TabIndex = 3;
@@ -151,7 +151,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(251, 36);
+            label3.Location = new Point(264, 36);
             label3.Name = "label3";
             label3.Size = new Size(35, 20);
             label3.TabIndex = 2;
@@ -159,7 +159,7 @@
             // 
             // txtSektor
             // 
-            txtSektor.Location = new Point(99, 33);
+            txtSektor.Location = new Point(89, 33);
             txtSektor.Name = "txtSektor";
             txtSektor.Size = new Size(123, 27);
             txtSektor.TabIndex = 1;
@@ -185,7 +185,7 @@
             groupBox3.Controls.Add(label7);
             groupBox3.Location = new Point(12, 193);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(704, 118);
+            groupBox3.Size = new Size(745, 118);
             groupBox3.TabIndex = 4;
             groupBox3.TabStop = false;
             groupBox3.Text = "Svojstva karte";
@@ -201,7 +201,7 @@
             // 
             cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbStatus.FormattingEnabled = true;
-            cmbStatus.Location = new Point(484, 70);
+            cmbStatus.Location = new Point(505, 73);
             cmbStatus.Name = "cmbStatus";
             cmbStatus.Size = new Size(200, 28);
             cmbStatus.TabIndex = 7;
@@ -209,7 +209,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(369, 73);
+            label8.Location = new Point(423, 76);
             label8.Name = "label8";
             label8.Size = new Size(49, 20);
             label8.TabIndex = 6;
@@ -237,7 +237,7 @@
             // 
             cmbTip.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTip.FormattingEnabled = true;
-            cmbTip.Location = new Point(484, 32);
+            cmbTip.Location = new Point(505, 35);
             cmbTip.Name = "cmbTip";
             cmbTip.Size = new Size(200, 28);
             cmbTip.TabIndex = 3;
@@ -245,7 +245,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(369, 35);
+            label6.Location = new Point(423, 38);
             label6.Name = "label6";
             label6.Size = new Size(30, 20);
             label6.TabIndex = 2;
@@ -266,7 +266,7 @@
             groupBox4.Controls.Add(label11);
             groupBox4.Location = new Point(12, 320);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(704, 116);
+            groupBox4.Size = new Size(745, 116);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Listing";
@@ -276,7 +276,7 @@
             txtListing.Enabled = false;
             txtListing.Location = new Point(159, 47);
             txtListing.Name = "txtListing";
-            txtListing.Size = new Size(525, 27);
+            txtListing.Size = new Size(544, 27);
             txtListing.TabIndex = 1;
             // 
             // label11
@@ -298,7 +298,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(566, 458);
+            btnIzmeni.Location = new Point(607, 458);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(150, 29);
             btnIzmeni.TabIndex = 23;
@@ -307,7 +307,7 @@
             // 
             // btnKreiraj
             // 
-            btnKreiraj.Location = new Point(509, 458);
+            btnKreiraj.Location = new Point(550, 458);
             btnKreiraj.Name = "btnKreiraj";
             btnKreiraj.Size = new Size(207, 29);
             btnKreiraj.TabIndex = 22;
@@ -326,7 +326,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "UCKarta";
-            Size = new Size(737, 512);
+            Size = new Size(769, 512);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

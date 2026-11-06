@@ -56,7 +56,7 @@
             groupBox1.Controls.Add(cmbTipKonsignatora);
             groupBox1.Location = new Point(13, 13);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(561, 73);
+            groupBox1.Size = new Size(602, 73);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Tip konsignatora";
@@ -93,7 +93,7 @@
             groupBox2.Controls.Add(label2);
             groupBox2.Location = new Point(13, 92);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(561, 207);
+            groupBox2.Size = new Size(602, 207);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Zajednički podaci";
@@ -190,7 +190,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(424, 508);
+            btnIzmeni.Location = new Point(465, 508);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(150, 29);
             btnIzmeni.TabIndex = 24;
@@ -199,7 +199,7 @@
             // 
             // btnKreiraj
             // 
-            btnKreiraj.Location = new Point(367, 508);
+            btnKreiraj.Location = new Point(408, 508);
             btnKreiraj.Name = "btnKreiraj";
             btnKreiraj.Size = new Size(207, 29);
             btnKreiraj.TabIndex = 23;
@@ -208,9 +208,9 @@
             // 
             // pnlPodtip
             // 
-            pnlPodtip.Location = new Point(3, 305);
+            pnlPodtip.Location = new Point(13, 305);
             pnlPodtip.Name = "pnlPodtip";
-            pnlPodtip.Size = new Size(582, 197);
+            pnlPodtip.Size = new Size(602, 197);
             pnlPodtip.TabIndex = 25;
             // 
             // UCKonsignator
@@ -224,7 +224,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "UCKonsignator";
-            Size = new Size(588, 557);
+            Size = new Size(632, 557);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

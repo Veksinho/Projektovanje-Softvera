@@ -16,5 +16,7 @@ namespace Klijent.Utils
         void Procitaj(Konsignator k);
 
         void SrediFormu(FormMode mode);
+
+        IReadOnlyDictionary<string, Control> Polja { get; }
     }
 }

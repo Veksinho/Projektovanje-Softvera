@@ -16,11 +16,23 @@ namespace Klijent.UserControls
 {
     public partial class UCPretragaListing : UserControl
     {
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public UCPretragaListing()
         {
             InitializeComponent();
             UnosPolja.DecimalniBroj(txtCenaOd);
             UnosPolja.DecimalniBroj(txtCenaDo);
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(Listing.CenaOd)] = txtCenaOd,
+                [nameof(Listing.CenaDo)] = txtCenaDo,
+                [nameof(Listing.DatumObjaveOd)] = dtpObjavljenOd,
+                [nameof(Listing.DatumObjaveDo)] = dtpObjavljenDo
+            };
             txtNazivKonsignatora.MaxLength = Ogranicenja.NazivKonsignatoraPretragaMaxLength;
             txtMesto.MaxLength = Ogranicenja.DogadjajMesto;
             txtSektor.MaxLength = Ogranicenja.KartaSektor;

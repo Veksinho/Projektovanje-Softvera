@@ -22,7 +22,17 @@ namespace Klijent.UserControls
             txtIme.MaxLength = Ogranicenja.FizickoLiceIme;
             txtPrezime.MaxLength = Ogranicenja.FizickoLicePrezime;
             UnosPolja.SamoCifre(txtBrojLicneKarte, Ogranicenja.BrojLicneKarteDuzina);
+
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(FizickoLice.Jmbg)] = txtJmbg,
+                [nameof(FizickoLice.Ime)] = txtIme,
+                [nameof(FizickoLice.Prezime)] = txtPrezime,
+                [nameof(FizickoLice.BrojLicneKarte)] = txtBrojLicneKarte
+            };
         }
+
+        public IReadOnlyDictionary<string, Control> Polja { get; }
 
         public Konsignator NapraviPrazan() => new FizickoLice();
 

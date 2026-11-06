@@ -1,5 +1,6 @@
 ﻿using Common.Validacija;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
@@ -90,6 +91,23 @@ namespace Klijent.Utils
             return decimal.TryParse(tekst,
                 NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite,
                 CultureInfo.CurrentCulture, out iznos);
+        }
+
+        public static decimal ProveriIznos(List<GreskaValidacije> greske, string tekst, string polje,
+            string? obavezno, string format)
+        {
+            if (string.IsNullOrWhiteSpace(tekst))
+            {
+                if (obavezno != null)
+                    greske.Add(new GreskaValidacije(polje, obavezno));
+                return 0m;
+            }
+
+            if (TryParseIznos(tekst, out decimal iznos))
+                return iznos;
+
+            greske.Add(new GreskaValidacije(polje, format));
+            return 0m;
         }
 
         private static string DecimalniSeparator =>

@@ -1,32 +1,34 @@
+using Common.Domen;
 using Common.Validacija;
 using Klijent.GuiControllers;
+using Klijent.Utils;
 
 namespace Klijent
 {
     public partial class FrmLogin : Form
     {
+        private bool unosIspravan;
+
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public FrmLogin()
         {
             InitializeComponent();
             txtKorisnickoIme.MaxLength = Ogranicenja.BrokerKorisnickoIme;
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(Broker.KorisnickoIme)] = txtKorisnickoIme,
+                [nameof(Broker.Sifra)] = txtSifra
+            };
         }
 
-        public bool Validacija()
+        public bool Validacija(Broker broker)
         {
-            txtKorisnickoIme.BackColor = Color.White;
-            txtSifra.BackColor = Color.White;
-            bool isValid = true;
-            if (string.IsNullOrWhiteSpace(txtKorisnickoIme.Text))
-            {
-                txtKorisnickoIme.BackColor = Color.Salmon;
-                isValid = false;
-            }
-            if (string.IsNullOrWhiteSpace(txtSifra.Text))
-            {
-                txtSifra.BackColor = Color.Salmon;
-                isValid = false;
-            }
-            return isValid;
+            unosIspravan = ProveraUnosa.Prikazi(PravilaBroker.ProveriPrijavu(broker), Polja);
+            return unosIspravan;
         }
 
         private void btnPrijavi_Click(object sender, EventArgs e)
@@ -45,7 +47,8 @@ namespace Klijent
                 return;
             }
 
-            txtSifra.Focus();
+            if (unosIspravan)
+                txtSifra.Focus();
         }
 
         private void btnOdustani_Click(object sender, EventArgs e)

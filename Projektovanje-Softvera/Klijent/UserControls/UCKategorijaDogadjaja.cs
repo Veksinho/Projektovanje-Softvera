@@ -16,11 +16,22 @@ namespace Klijent.UserControls
     public partial class UCKategorijaDogadjaja : UserControl
     {
         private readonly KategorijaDogadjaja kd;
+
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public UCKategorijaDogadjaja(FormMode mode, KategorijaDogadjaja kd)
         {
             InitializeComponent();
             txtNaziv.MaxLength = Ogranicenja.KategorijaDogadjajaNaziv;
             txtOpis.MaxLength = Ogranicenja.KategorijaDogadjajaOpis;
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(KategorijaDogadjaja.Naziv)] = txtNaziv,
+                [nameof(KategorijaDogadjaja.Opis)] = txtOpis
+            };
 
             this.kd = kd;
             

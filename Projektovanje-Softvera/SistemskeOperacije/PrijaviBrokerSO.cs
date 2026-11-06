@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,15 +18,7 @@ namespace SistemskeOperacije
             if (b == null)
                 throw new ArgumentException("Prosleđeni objekat nije instanca klase Broker.");
 
-            if (string.IsNullOrWhiteSpace(b.KorisnickoIme))
-            {
-                throw new Exception("Korisničko ime je obavezno.");
-            }
-
-            if (string.IsNullOrWhiteSpace(b.Sifra))
-            {
-                throw new Exception("Šifra je obavezna.");
-            }
+            ThrowIfInvalid(PravilaBroker.ProveriPrijavu(b));
         }
 
         protected override void ExecuteConcreteOperation()

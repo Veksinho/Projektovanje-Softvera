@@ -154,5 +154,53 @@ namespace Common.Tests
                         nameof(Broker.Prezime), nameof(Broker.Telefon) },
                 PravilaBroker.Proveri(b, true).Select(g => g.Polje).ToArray());
         }
+
+        [TestMethod]
+        [DataRow("lozinkaa")]
+        [DataRow("x")]
+        public void TestPrijavaIspravnaNemaGresaka(string sifra)
+        {
+            NemaGresaka(PravilaBroker.ProveriPrijavu(new Broker { KorisnickoIme = "pera", Sifra = sifra }));
+        }
+
+        [TestMethod]
+        public void TestPrijavaNullBrokerBacaIzuzetak()
+        {
+            Assert.ThrowsExactly<ArgumentNullException>(() => PravilaBroker.ProveriPrijavu(null!));
+        }
+
+        [TestMethod]
+        [DataRow("")]
+        [DataRow("   ")]
+        public void TestPrijavaKorisnickoImeObavezno(string vrednost)
+        {
+            JednaGreska(PravilaBroker.ProveriPrijavu(new Broker { KorisnickoIme = vrednost, Sifra = "lozinka1" }),
+                nameof(Broker.KorisnickoIme), "Korisničko ime je obavezno.");
+        }
+
+        [TestMethod]
+        [DataRow("")]
+        [DataRow("   ")]
+        public void TestPrijavaSifraObavezna(string vrednost)
+        {
+            JednaGreska(PravilaBroker.ProveriPrijavu(new Broker { KorisnickoIme = "pera", Sifra = vrednost }),
+                nameof(Broker.Sifra), "Šifra je obavezna.");
+        }
+
+        [TestMethod]
+        public void TestPrijavaNeProveravaDuzinuNiFormat()
+        {
+            NemaGresaka(PravilaBroker.ProveriPrijavu(
+                new Broker { KorisnickoIme = new string('a', 51), Sifra = "' OR 1=1 --" }));
+        }
+
+        [TestMethod]
+        public void TestPrijavaObeGreskeURedosleduPolja()
+        {
+            CollectionAssert.AreEqual(
+                new[] { nameof(Broker.KorisnickoIme), nameof(Broker.Sifra) },
+                PravilaBroker.ProveriPrijavu(new Broker { KorisnickoIme = "", Sifra = "" })
+                    .Select(g => g.Polje).ToArray());
+        }
     }
 }

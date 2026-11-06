@@ -17,6 +17,9 @@ namespace Klijent.UserControls
     {
         private readonly Broker b;
 
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public UCBroker(FormMode mode, Broker broker, List<KategorijaDogadjaja> sveKategorije)
         {
             InitializeComponent();
@@ -25,6 +28,16 @@ namespace Klijent.UserControls
             txtIme.MaxLength = Ogranicenja.BrokerIme;
             txtPrezime.MaxLength = Ogranicenja.BrokerPrezime;
             UnosPolja.Telefon(txtTelefon);
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(Broker.KorisnickoIme)] = txtKorisnickoIme,
+                [nameof(Broker.Sifra)] = txtSifra,
+                [nameof(Broker.Ime)] = txtIme,
+                [nameof(Broker.Prezime)] = txtPrezime,
+                [nameof(Broker.Telefon)] = txtTelefon
+            };
 
             this.b = broker;
 

@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
@@ -149,7 +150,7 @@ namespace Klijent.GuiControllers
         {
             Broker b = ucBroker!.VratiObjekat();
 
-            if (!Validiraj(b)) return;
+            if (!Validiraj(b, sifraObavezna: true)) return;
 
             try
             {
@@ -173,7 +174,7 @@ namespace Klijent.GuiControllers
                 return;
             }
 
-            if (!Validiraj(b)) return;
+            if (!Validiraj(b, sifraObavezna: false)) return;
 
             try
             {
@@ -285,19 +286,10 @@ namespace Klijent.GuiControllers
             }
         }
 
-        private bool Validiraj(Broker b)
+        private bool Validiraj(Broker b, bool sifraObavezna)
         {
-            if (string.IsNullOrWhiteSpace(b.KorisnickoIme)
-                || string.IsNullOrWhiteSpace(b.Ime)
-                || string.IsNullOrWhiteSpace(b.Prezime)
-                || string.IsNullOrWhiteSpace(b.Telefon)
-                || string.IsNullOrWhiteSpace(b.Sifra))
-            {
-                MessageBox.Show("Sva polja moraju biti popunjena!");
-                return false;
-            }
-
-            return true;
+            List<GreskaValidacije> greske = PravilaBroker.Proveri(b, sifraObavezna);
+            return ucBroker!.ProveraUnosa.Prikazi(greske, ucBroker.Polja);
         }
     }
 }

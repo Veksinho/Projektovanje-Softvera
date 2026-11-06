@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +18,9 @@ namespace Klijent.UserControls
     {
         private readonly Karta ka;
 
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public UCKarta(FormMode mode, Karta karta, List<Konsignator> sviKonsignatori, List<Dogadjaj> sviDogadjaji)
         {
             InitializeComponent();
@@ -26,6 +28,21 @@ namespace Klijent.UserControls
             txtRed.MaxLength = Ogranicenja.KartaRed;
             txtSediste.MaxLength = Ogranicenja.KartaSediste;
             UnosPolja.DecimalniBroj(txtNominalnaCena);
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(Karta.Konsignator)] = cmbKonsignator,
+                [nameof(Karta.Dogadjaj)] = cmbDogadjaj,
+                [nameof(Karta.Sektor)] = txtSektor,
+                [nameof(Karta.Red)] = txtRed,
+                [nameof(Karta.Sediste)] = txtSediste,
+                [nameof(Karta.NominalnaCena)] = txtNominalnaCena,
+                [nameof(Karta.Tip)] = cmbTip,
+                [nameof(Karta.Format)] = cmbFormat,
+                [nameof(Karta.Status)] = cmbStatus
+            };
+
             this.ka = karta;
 
             cmbKonsignator.DataSource = sviKonsignatori;
@@ -52,8 +69,8 @@ namespace Klijent.UserControls
             ka.Sektor = txtSektor.Text.Trim();
             ka.Red = txtRed.Text.Trim();
             ka.Sediste = txtSediste.Text.Trim();
-            ka.NominalnaCena = decimal.TryParse(txtNominalnaCena.Text.Trim(), NumberStyles.Number,
-                CultureInfo.CurrentCulture, out decimal cena) ? cena : -1;
+            UnosPolja.TryParseIznos(txtNominalnaCena.Text, out decimal cena);
+            ka.NominalnaCena = cena;
             ka.Tip = (cmbTip.SelectedItem as StavkaEnuma<TipKarte>)?.Vrednost;
             ka.Format = (cmbFormat.SelectedItem as StavkaEnuma<FormatKarte>)?.Vrednost;
             ka.Status = (cmbStatus.SelectedItem as StavkaEnuma<StatusKarte>)?.Vrednost;

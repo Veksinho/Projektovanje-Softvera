@@ -38,5 +38,19 @@ namespace Common.Validacija
 
             return greske;
         }
+
+        public static List<GreskaValidacije> ProveriPrijavu(Broker b)
+        {
+            ArgumentNullException.ThrowIfNull(b);
+            var greske = new List<GreskaValidacije>();
+
+            if (string.IsNullOrWhiteSpace(b.KorisnickoIme))
+                greske.Add(new GreskaValidacije(nameof(Broker.KorisnickoIme), "Korisničko ime je obavezno."));
+
+            if (string.IsNullOrWhiteSpace(b.Sifra))
+                greske.Add(new GreskaValidacije(nameof(Broker.Sifra), "Šifra je obavezna."));
+
+            return greske;
+        }
     }
 }

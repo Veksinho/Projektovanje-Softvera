@@ -125,7 +125,7 @@
             groupBox1.Controls.Add(txtPrezime);
             groupBox1.Location = new Point(17, 20);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(357, 176);
+            groupBox1.Size = new Size(389, 176);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             groupBox1.Text = "Osnovni podaci";
@@ -169,7 +169,7 @@
             groupBox2.Controls.Add(txtKorisnickoIme);
             groupBox2.Location = new Point(17, 202);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(357, 101);
+            groupBox2.Size = new Size(389, 101);
             groupBox2.TabIndex = 17;
             groupBox2.TabStop = false;
             groupBox2.Text = "Kredencijali";
@@ -177,9 +177,9 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(clbKategorije);
-            groupBox3.Location = new Point(392, 20);
+            groupBox3.Location = new Point(412, 20);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(248, 283);
+            groupBox3.Size = new Size(281, 283);
             groupBox3.TabIndex = 18;
             groupBox3.TabStop = false;
             groupBox3.Text = "Specijalizacije";
@@ -187,7 +187,7 @@
             // clbKategorije
             // 
             clbKategorije.FormattingEnabled = true;
-            clbKategorije.Location = new Point(18, 30);
+            clbKategorije.Location = new Point(22, 32);
             clbKategorije.Name = "clbKategorije";
             clbKategorije.Size = new Size(210, 224);
             clbKategorije.TabIndex = 0;
@@ -203,7 +203,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(490, 319);
+            btnIzmeni.Location = new Point(543, 319);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(150, 29);
             btnIzmeni.TabIndex = 20;
@@ -212,7 +212,7 @@
             // 
             // btnKreiraj
             // 
-            btnKreiraj.Location = new Point(433, 319);
+            btnKreiraj.Location = new Point(486, 319);
             btnKreiraj.Name = "btnKreiraj";
             btnKreiraj.Size = new Size(207, 29);
             btnKreiraj.TabIndex = 19;
@@ -236,7 +236,7 @@
             Controls.Add(groupBox1);
             Controls.Add(groupBox2);
             Name = "UCBroker";
-            Size = new Size(660, 367);
+            Size = new Size(709, 367);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
