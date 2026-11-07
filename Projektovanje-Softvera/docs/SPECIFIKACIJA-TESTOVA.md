@@ -639,6 +639,8 @@ Poznate greške 1 i 2 iz odeljka 5 (jedinstvenost naziva kategorije i e-maila ko
 
 **Stanje posle Faze 2, korak 5:** `SistemskeOperacije.Tests` 412 testova, 410 prolazi, 0 pada, 2 preskočeno (`TestIzvrsiOperacijuBezNoveSifre` i `TestIzvrsiOperacijuPretragaDzokerZnak`); `Common.Tests` 253 testa, svi prolaze. Isti rezultat u tri uzastopna pokretanja.
 
+**Stanje na kraju Faze 2** (posle dopune koraka 7, prijava preko `PravilaBroker.ProveriPrijavu`): `SistemskeOperacije.Tests` bez promene (412 testova, 410 prolazi, 2 preskočeno); `Common.Tests` 262 testa, svi prolaze.
+
 ---
 
 ## 5. POZNATE-GRESKE.md
