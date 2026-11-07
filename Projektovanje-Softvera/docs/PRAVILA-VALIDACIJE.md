@@ -51,6 +51,18 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 - **Iznosi:** forma prihvata i `.` i `,` kao decimalni separator i pretvara ih u separator tekuće kulture (`sr-Latn-RS`); znak minus nije dozvoljen.
 - **Jedinstvenost** (O6) proverava server, upitom nad bazom: e-mail konsignatora („Konsignator sa unetim e-mailom već postoji.“) i naziv kategorije („Kategorija događaja sa unetim nazivom već postoji.“). Kolacija je CI, pa su „Koncert“ i „koncert“ isti naziv.
 
+## Implementacija
+
+| Gde | Klasa | Uloga |
+| --- | --- | --- |
+| `Common/Validacija` | `Ogranicenja` | dužine kolona, tačan broj cifara, granice iznosa i `MaxLength` za polja koja prate pravilo (O12) |
+| | `Provera` | čisti predikati: `SamoCifre`, `JeIspravanTelefon`, `JeIspravanEmail`, `JeIspravnaSifra`, `UDuzini`, `ImaNajviseDecimala`, `JeUOpsegu` |
+| | `Pravila*` (`PravilaBroker`, `PravilaKategorijaDogadjaja`, `PravilaDogadjaj`, `PravilaKonsignator`, `PravilaKarta`, `PravilaListing`) | `Proveri(...)` vraća listu `GreskaValidacije(Polje, Poruka)` za ceo objekat; `PravilaBroker.ProveriPrijavu` za prijavu; `PravilaListing.ProveriKriterijum` za pretragu listinga |
+| `SistemskeOperacije` | `SOBase.ThrowIfInvalid` | `Validate()` baca prvu grešku iz `Pravila*`; provere nad bazom (jedinstvenost, postojanje, stanje) ostaju u SO |
+| `Klijent/Utils` | `UnosPolja` | `MaxLength` i filteri pri kucanju i lepljenju (`SamoCifre`, `Telefon`, `DecimalniBroj`), parsiranje iznosa |
+| | `ProveraUnosa` | prikaz grešaka uz polje (`ErrorProvider`), fokus na prvom neispravnom polju |
+| `Common.Tests` | — | jedinični testovi za `Provera` i sve `Pravila*`, bez baze (O7) |
+
 ## Odluke
 
 | # | Odluka |
@@ -72,3 +84,4 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 | O15 | Sve liste (`ComboBox`) su `DropDownList`, postavljeno u Designer-u (Properties u Visual Studiju), kao u `UCListing` i `UCPretragaListing`: `UCKonsignator.cmbTipKonsignatora`; `UCKarta.cmbKonsignator`, `cmbDogadjaj`, `cmbTip`, `cmbFormat`, `cmbStatus`; `UCPretragaBroker.cmbKategorija`; `UCPretragaKonsignator.cmbTipKonsignatora`; `UCPretragaKarta.cmbTip`, `cmbStatus`, `cmbKonsignator`, `cmbDogadjaj` (4. 11. 2026.) |
 | O16 | Cena po karti mora biti veća od nule, sa jednom porukom za 0 i za negativan iznos: „Cena po karti listinga mora biti veća od nule.“ Zamenjuje poruku „ne može biti negativna“ u `KreirajListingSO` / `PromeniListingSO`; ovo je namerni izuzetak od pravila da se postojeće poruke ne menjaju (5. 11. 2026.) |
 | O17 | Poruke za format šifre i telefona ostaju kratke: „Šifra brokera nije u odgovarajućem formatu.“, „Telefon brokera / konsignatora nije u odgovarajućem formatu.“ (5. 11. 2026.) |
+| O18 | Prijava (`FrmLogin`) prikazuje greške uz polje kao ostale forme, preko `PravilaBroker.ProveriPrijavu`; poruka servera „Korisničko ime ili šifra nisu ispravni.“ ostaje u `MessageBox`-u, jer se odnosi na oba polja (6. 11. 2026.) |

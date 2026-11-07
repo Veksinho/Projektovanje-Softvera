@@ -2,6 +2,8 @@
 
 Faza 2, korak 2.1. Spisak svih polja za unos (`TextBox`, `RichTextBox`, `ComboBox`, `NumericUpDown`, `DateTimePicker`) u `Klijent/UserControls` i `Klijent/FrmLogin`. Napravljen na grani `improvements` posle commit-a `2ea953e`. Kod nije menjan.
 
+**Stanje posle Faze 2 (commit `9b00748`):** kolona „Danas“ i odeljak „Razlike“ opisuju stanje pre koraka 2.6. Posle Faze 2 sva tekstualna polja imaju `MaxLength` po `docs/PRAVILA-VALIDACIJE.md` (O12), polja za brojeve i iznose imaju filtere iz `Klijent/Utils/UnosPolja.cs`, sve liste su `DropDownList` (O15), a greške unosa se na svim formama za unos, u pretrazi listinga i na `FrmLogin` prikazuju uz polje preko `Klijent/Utils/ProveraUnosa.cs` (`ErrorProvider`).
+
 Izvori:
 
 - svojstvo: `VratiObjekat()` u user control-i, `Procitaj()` u `UCFizickoLice` / `UCPravnoLice`, a za pretrage `OsveziListu()` u odgovarajućem `*GuiController`-u (`UCPretraga*` nemaju `VratiObjekat`);

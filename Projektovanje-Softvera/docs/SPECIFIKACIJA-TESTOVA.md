@@ -599,6 +599,8 @@ Postavka (`SetUp`): broker, događaj, fizičko lice. Pretraga uvek pravi i kontr
 
 Od Faze 2, koraka 5, `Validate()` svih SO koje upisuju podatke poziva `ThrowIfInvalid(Pravila*.Proveri(...))` (`SOBase`), posle provere `null` i id-a, a pre provera nad bazom. Prva greška iz liste postaje poruka izuzetka, pa testovi porede poruke iz `Common/Validacija/Pravila*.cs` (`docs/PRAVILA-VALIDACIJE.md`). Jedinični testovi samih pravila su u `Common.Tests`; ovde se proverava da ih SO zaista primenjuju.
 
+`PravilaDogadjaj.Proveri` i `PravilaKarta.Proveri` primaju parametar `novi`: datum održavanja u prošlosti se odbija samo pri unosu događaja (`UbaciDogadjajSOTest`, "Datum održavanja ne može biti u prošlosti."), a status karte je obavezan samo pri izmeni (`PromeniKartaSOTest`, "Status karte je obavezan."). Oba testa su postojala pre Faze 2 i prolaze bez izmene. Od dopune koraka 7 i `PrijaviBrokerSO` koristi `PravilaBroker.ProveriPrijavu` (samo obaveznost, poruke "Korisničko ime je obavezno." i "Šifra je obavezna." nepromenjene), pa postojeći testovi prijave pokrivaju i tu putanju.
+
 **Pravila**
 
 - Testovi su u postojećim klasama po SO, sa imenom `TestPreduslovi<Opis>` i `[DataRow]` za varijante istog pravila.
