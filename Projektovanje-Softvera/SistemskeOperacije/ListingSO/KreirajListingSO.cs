@@ -53,6 +53,9 @@ namespace SistemskeOperacije.ListingSO
                     || karteIzBaze.Select(k => k.Dogadjaj!.IdDogadjaj).Distinct().Count() > 1)
                 throw new Exception("Sve karte listinga moraju biti za isti događaj.");
 
+            if (karteIzBaze[0].Dogadjaj!.DatumOdrzavanja.Date <= DateTime.Today)
+                throw new Exception("Listing se može kreirati samo za događaj koji se održava posle današnjeg dana.");
+
             if (karteIzBaze.Any(k => k.Listing != null))
                 throw new Exception("Karta se već nalazi na drugom listingu.");
 

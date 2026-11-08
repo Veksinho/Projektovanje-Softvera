@@ -153,18 +153,21 @@ namespace Klijent.GuiControllers
                 ucListing.IsprazniListing();
             }
 
-            UcitajSlobodneKarte();
+            UcitajSlobodneKarte(prijaviAkoNema: true);
         }
 
-        private void UcitajSlobodneKarte()
+        private void UcitajSlobodneKarte(bool prijaviAkoNema = false)
         {
             if (ucListing!.CmbKonsignator.SelectedItem is not Konsignator konsignator) return;
 
             try
             {
                 List<Karta> slobodne = Komunikacija.Instance.VratiListuKarta(
-                    new Karta { Konsignator = konsignator, SamoSlobodne = true });
+                    new Karta { Konsignator = konsignator, SamoSlobodne = true, SamoBuduciDogadjaji = true });
                 ucListing.PrikaziSlobodneKarte(slobodne);
+
+                if (prijaviAkoNema && slobodne.Count == 0)
+                    MessageBox.Show("Konsignator nema slobodnih karata.");
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }

@@ -166,6 +166,25 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        [DataRow(0)]
+        [DataRow(-7)]
+        public void TestPredusloviDogadjajNijeUBuducnosti(int pomakDana)
+        {
+            int brojPre = TestBaza.BrojRedova("Listing");
+            Dogadjaj neBuduci = pomakDana == 0
+                ? TestPodaci.KreirajDogadjaj(DateTime.Today)
+                : TestPodaci.KreirajProsliDogadjaj(-pomakDana);
+            List<Karta> karteDogadjaja = TestPodaci.KreirajKarte(neBuduci, konsignator, 1);
+            listing = TestPodaci.NapraviListing(broker, konsignator, karteDogadjaja);
+            so = new KreirajListingSO(listing);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Listing se može kreirati samo za događaj koji se održava posle današnjeg dana.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Listing"));
+        }
+
+        [TestMethod]
         public void TestPredusloviKartaNaDrugomListingu()
         {
             TestPodaci.KreirajListing(broker, konsignator, new List<Karta> { karte[0] });

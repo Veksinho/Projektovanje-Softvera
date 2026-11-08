@@ -634,12 +634,14 @@ Od Faze 2, koraka 5, `Validate()` svih SO koje upisuju podatke poziva `ThrowIfIn
 | | TestPredusloviPredugackiSektor | 51 znak | "Sektor karte može imati najviše 50 znakova." | |
 | KreirajListingSOTest | TestPredusloviCenaPoKartiNijePozitivna | `0`, `-1` | "Cena po karti listinga mora biti veća od nule." (O16) | Listing |
 | | TestPredusloviPredugackaNapomena | 1001 znak | "Napomena listinga može imati najviše 1000 znakova." | |
+| | TestPredusloviDogadjajNijeUBuducnosti | `0` (danas), `-7` (prošli, datum postavljen `UPDATE`-om jer `UbaciDogadjajSO` ne prima prošli datum) | "Listing se može kreirati samo za događaj koji se održava posle današnjeg dana." (O19) | Listing |
+| VratiListuKartaSOTest | TestIzvrsiOperacijuSamoBuduciDogadjaji | — (tri događaja istog konsignatora: sutra, danas, pre 7 dana) | uz `SamoSlobodne = true` i `SamoBuduciDogadjaji = true` vraća se samo karta za sutrašnji događaj (O19) | — |
 
 Poznate greške 1 i 2 iz odeljka 5 (jedinstvenost naziva kategorije i e-maila konsignatora) rešene su u ovom koraku: `[Ignore]` je uklonjen sa oba testa, a unosi su obrisani iz `POZNATE-GRESKE.md`. Provere su u `Ubaci/PromeniKategorijaDogadjajaSO` i `Kreiraj/PromeniKonsignatorSO` (`docs/INVENTAR-SQL-LITERALA.md`).
 
 **Stanje posle Faze 2, korak 5:** `SistemskeOperacije.Tests` 412 testova, 410 prolazi, 0 pada, 2 preskočeno (`TestIzvrsiOperacijuBezNoveSifre` i `TestIzvrsiOperacijuPretragaDzokerZnak`); `Common.Tests` 253 testa, svi prolaze. Isti rezultat u tri uzastopna pokretanja.
 
-**Stanje na kraju Faze 2** (posle dopune koraka 7, prijava preko `PravilaBroker.ProveriPrijavu`): `SistemskeOperacije.Tests` bez promene (412 testova, 410 prolazi, 2 preskočeno); `Common.Tests` 262 testa, svi prolaze.
+**Stanje na kraju Faze 2** (posle koraka 2.8a, O19 – listing samo za događaje posle današnjeg dana): `SistemskeOperacije.Tests` 415 testova, 413 prolazi, 0 pada, 2 preskočeno; `Common.Tests` 262 testa, svi prolaze.
 
 ---
 

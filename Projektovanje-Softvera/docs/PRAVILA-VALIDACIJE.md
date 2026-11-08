@@ -33,6 +33,7 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 | Karta | nominalna cena | decimal(10,2) | ≥ 0, najviše 2 decimale, ≤ 99.999.999,99 (O3) |
 | Listing | cena po karti | decimal(10,2) | > 0, najviše 2 decimale, ≤ 99.999.999,99 (O3) |
 | Listing | procenat provizije | decimal(5,2) | 0–100, najviše 2 decimale |
+| Listing | karte | — | Kreiraj: događaj karata mora biti posle današnjeg dana; forma za listing prikazuje samo slobodne karte za takve događaje (O19) |
 | Listing | napomena | nvarchar(1000) | opciona, ≤ 1000 |
 | Listing | minimalna količina | int | ceo broj, od 1 do broja karata na listingu, uz postojeća pravila po tipu splita; opseg `NumericUpDown` 1–100000 ostaje (O13) |
 | Listing | datum isteka | datetime | obavezan; posle datuma objave (Kreiraj: posle današnjeg dana); ne posle datuma održavanja događaja (O13) |
@@ -85,3 +86,4 @@ Svako tekstualno polje dobija i proveru dužine, sa porukom oblika „<Polje> <e
 | O16 | Cena po karti mora biti veća od nule, sa jednom porukom za 0 i za negativan iznos: „Cena po karti listinga mora biti veća od nule.“ Zamenjuje poruku „ne može biti negativna“ u `KreirajListingSO` / `PromeniListingSO`; ovo je namerni izuzetak od pravila da se postojeće poruke ne menjaju (5. 11. 2026.) |
 | O17 | Poruke za format šifre i telefona ostaju kratke: „Šifra brokera nije u odgovarajućem formatu.“, „Telefon brokera / konsignatora nije u odgovarajućem formatu.“ (5. 11. 2026.) |
 | O18 | Prijava (`FrmLogin`) prikazuje greške uz polje kao ostale forme, preko `PravilaBroker.ProveriPrijavu`; poruka servera „Korisničko ime ili šifra nisu ispravni.“ ostaje u `MessageBox`-u, jer se odnosi na oba polja (6. 11. 2026.) |
+| O19 | Listing se kreira samo za događaj koji se održava posle današnjeg dana. Forma za listing (kreiranje i izmena) prikazuje samo slobodne karte za događaje od sutra nadalje, a `KreirajListingSO` to proverava izričito, porukom „Listing se može kreirati samo za događaj koji se održava posle današnjeg dana.“. Događaji koji su danas su isključeni, jer datum isteka mora biti posle današnjeg dana, a ne sme biti posle datuma događaja. `PromeniListingSO` ovo ne proverava, da bi stari listinzi mogli da se menjaju (npr. povlače) (7. 11. 2026.) |

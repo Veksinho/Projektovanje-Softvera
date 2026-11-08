@@ -118,5 +118,23 @@ namespace SistemskeOperacije.Tests
 
             CollectionAssert.AreEquivalent(new[] { k2.IdKarta, k3.IdKarta }, result);
         }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuSamoBuduciDogadjaji()
+        {
+            FizickoLice konsignator = TestPodaci.KreirajFizickoLice();
+            Karta sutra = TestPodaci.KreirajKartu(TestPodaci.KreirajDogadjaj(DateTime.Today.AddDays(1)), konsignator);
+            TestPodaci.KreirajKartu(TestPodaci.KreirajDogadjaj(DateTime.Today), konsignator);
+            TestPodaci.KreirajKartu(TestPodaci.KreirajProsliDogadjaj(7), konsignator);
+
+            List<int> result = Izvrsi(new Karta
+            {
+                Konsignator = new Konsignator { IdKonsignator = konsignator.IdKonsignator },
+                SamoSlobodne = true,
+                SamoBuduciDogadjaji = true
+            });
+
+            CollectionAssert.AreEquivalent(new[] { sutra.IdKarta }, result);
+        }
     }
 }

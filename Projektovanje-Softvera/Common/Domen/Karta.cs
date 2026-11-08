@@ -26,6 +26,7 @@ namespace Common.Domen
         public Dogadjaj? Dogadjaj { get; set; }
 
         public bool SamoSlobodne { get; set; }
+        public bool SamoBuduciDogadjaji { get; set; }
 
         [JsonIgnore] public string TipPrikaz => EnumHelper.Naziv(Tip);
         [JsonIgnore] public string FormatPrikaz => EnumHelper.Naziv(Format);
@@ -119,6 +120,8 @@ namespace Common.Domen
 
                 if (SamoSlobodne)
                     uslovi.Add("ka.idListing IS NULL");
+                if (SamoBuduciDogadjaji)
+                    uslovi.Add($"CAST(d.datumOdrzavanja AS DATE) > '{DateTime.Today:yyyy-MM-dd}'");
 
                 return string.Join(" AND ", uslovi);
             }

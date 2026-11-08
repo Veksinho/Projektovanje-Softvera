@@ -75,6 +75,16 @@ namespace SistemskeOperacije.Tests
             return dogadjaj;
         }
 
+        // UbaciDogadjajSO ne dozvoljava datum u prošlosti, pa se datum menja direktno u bazi.
+        public static Dogadjaj KreirajProsliDogadjaj(int danaUnazad)
+        {
+            Dogadjaj dogadjaj = KreirajDogadjaj(DateTime.Today.AddDays(1));
+            dogadjaj.DatumOdrzavanja = DateTime.Today.AddDays(-danaUnazad);
+            TestBaza.Execute($"UPDATE Dogadjaj SET datumOdrzavanja = '{dogadjaj.DatumOdrzavanja:yyyy-MM-dd}' " +
+                $"WHERE idDogadjaj = {dogadjaj.IdDogadjaj}");
+            return dogadjaj;
+        }
+
         public static FizickoLice NapraviFizickoLice()
         {
             string s = UniqueSuffix();
