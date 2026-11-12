@@ -8,7 +8,7 @@ Spisak mesta gde se kod ponaša drugačije od specifikacije (`SPECIFIKACIJA-TEST
 - **Test:** PromeniBrokerSOTest.TestIzvrsiOperacijuBezNoveSifre
 - **Očekivano:** kada je `Sifra = null`, postojeća šifra ostaje nepromenjena i prijava sa starom šifrom uspeva.
 - **Stvarno:** `UpdateValues` uvek upisuje `sifra = '…'`; `Sql.Tekst(null)` vraća prazan string, pa se šifra briše i `PrijaviBrokerSO` baca "Korisničko ime ili šifra nisu ispravni.".
-- **Rešava se u:** Faza 3
+- **Rešava se u:** Faza 3, korak 5 (`PromeniBrokerSO` bez nove šifre ne upisuje kolonu `sifraHash`; `HESIRANJE-SIFARA.md`, H8)
 
 ## Izmena brokera proverava i staru šifru
 
@@ -16,7 +16,7 @@ Spisak mesta gde se kod ponaša drugačije od specifikacije (`SPECIFIKACIJA-TEST
 - **Test:** bez testa (zapažanje)
 - **Očekivano:** izmena podataka brokera bez unosa nove šifre ne proverava pravila za šifru.
 - **Stvarno:** forma za izmenu popunjava polje šifre sačuvanom šifrom iz baze (`Broker` čita kolonu `sifra`), pa se pravila iz Faze 2 (8–64 znaka, slovo i cifra) primenjuju i na staru šifru. Broker čija stara šifra ne zadovoljava pravila ne može da izmeni podatke dok ne unese novu šifru.
-- **Rešava se u:** Faza 3 (polje „nova šifra“ je opciono, a heš se ne šalje klijentu)
+- **Rešava se u:** Faza 3, korak 7 (polje „Nova šifra“ je opciono i nikad se ne popunjava iz baze, a heš se ne šalje klijentu; `HESIRANJE-SIFARA.md`, H1 i H4)
 
 ## Provera listinga u brisanju konsignatora je nedostižna
 

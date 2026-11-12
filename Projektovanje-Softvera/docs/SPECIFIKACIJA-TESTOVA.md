@@ -16,13 +16,13 @@ Ovaj dokument opisuje sve integracione testove iz koraka 0.5 Faze 0. Testovi su 
 | --- | --- |
 | `PodesavanjeTestova.cs` | `[assembly: DoNotParallelize]`; `[AssemblyInitialize]` odbija bazu bez sufiksa `_Test` |
 | `IntegracioniTest.cs` | bazna klasa; `[TestInitialize]` poziva `dbo.ResetujBazu` i postavlja kulturu `sr-Latn-RS` |
-| `TestBaza.cs` | `Execute(sql)`, `BrojRedova(tabela, uslov)`, `Postoji(tabela, uslov)` – direktno nad bazom, mimo SO |
+| `TestBaza.cs` | `Execute(sql)`, `BrojRedova(tabela, uslov)`, `Postoji(tabela, uslov)` – direktno nad bazom, mimo SO; od Faze 3 i `SifraHash(idBroker)` – vrednost kolone `sifraHash` za datog brokera (odeljak 4.10) |
 | `TestPodaci.cs` | fabrike test podataka (dopunjuje se, odeljak 3) |
-| `appsettings.json` | ključ `SeminarskiSoftveri` → `Seminarski-Softveri_Test` |
+| `appsettings.json` | ključ `SeminarskiSoftveri` → `Seminarski-Softveri_Test`; od Faze 3 i `Sifre:BCryptWorkFactor` = 4 (`HESIRANJE-SIFARA.md`, H2) |
 
 Stanje baze posle `ResetujBazu` (pre svakog testa):
 
-- `Broker`: id 1, korisničko ime `vtonic`, šifra `Sifra#2026`.
+- `Broker`: id 1, korisničko ime `vtonic`; u koloni `sifraHash` je BCrypt heš šifre `Sifra#2026` (od Faze 3; do tada kolona `sifra` sa šifrom u čitljivom obliku).
 - `KategorijaDogadjaja`: id 1 `Koncert`, id 2 `Sportski događaj`, id 3 `Pozorišna predstava`.
 - Sve ostale tabele su prazne.
 
@@ -208,7 +208,7 @@ Postavka za sve testove osim prvog: tri događaja: `Exit festival` / `Novi Sad` 
 | TestPredusloviNull | `null` | AE |
 | TestPredusloviBezSifre | `Sifra = ""` | "Šifra brokera je obavezna." |
 | TestPredusloviDuplikatKorisnickogImena | `KorisnickoIme = "vtonic"` | "Broker sa unetim korisničkim imenom već postoji."; broj redova u `Broker` nepromenjen |
-| TestIzvrsiOperacijuUspesno | broker bez specijalizacija | `Id > 0`; `Pretrazi` vraća iste podatke, prazne specijalizacije |
+| TestIzvrsiOperacijuUspesno | broker bez specijalizacija | `Id > 0`; `Pretrazi` vraća iste podatke, prazne specijalizacije (od Faze 3 bez šifre: `Pretrazi` vraća `Sifra = null`) |
 | TestIzvrsiOperacijuSaSpecijalizacijama | specijalizacije za kategorije 1 i 2, datum `default` | 2 reda u `BrKd`; oba sa `datumSpecijalizacije = Today` |
 
 **PromeniBrokerSOTest**
@@ -221,8 +221,8 @@ Postavka za sve testove osim prvog: tri događaja: `Exit festival` / `Novi Sad` 
 | TestPredusloviIstoKorisnickoImeSopstvenogZapisa | izmena imena, korisničko ime nepromenjeno | prolazi |
 | TestIzvrsiOperacijuZamenaSpecijalizacija | broker sa kategorijama 1 i 2; šalje se samo 2 i 3 | u `BrKd` tačno kategorije 2 i 3 |
 | TestIzvrsiOperacijuZadrzavaDatumSpecijalizacije | broker sa kategorijom 1; `TestBaza.Execute` postavi datum na `Today.AddDays(-30)`; objekat iz `Pretrazi` se pošalje u `Promeni` | datum specijalizacije i dalje `Today.AddDays(-30)` |
-| TestIzvrsiOperacijuSifraIzPretrage | `Pretrazi`, izmeni ime, `Promeni` | prijava sa starom šifrom (`PrijaviBrokerSO`) uspeva |
-| TestIzvrsiOperacijuBezNoveSifre **(PG)** | `Pretrazi`, `Sifra = null`, izmeni ime, `Promeni` | prijava sa starom šifrom uspeva. `UpdateValues` uvek upisuje `sifra`, pa se šifra sada briše; rešava se u Fazi 3 |
+| TestIzvrsiOperacijuSifraIzPretrage | `Pretrazi`, izmeni ime, `Promeni` | prijava sa starom šifrom (`PrijaviBrokerSO`) uspeva. Od Faze 3: `Pretrazi` vraća `Sifra = null`, izmena tog objekta ne menja heš u bazi (odeljak 4.10) |
+| TestIzvrsiOperacijuBezNoveSifre **(PG do Faze 3)** | `Pretrazi`, `Sifra = null`, izmeni ime, `Promeni` | prijava sa starom šifrom uspeva. Do Faze 3 `UpdateValues` uvek upisuje `sifra`, pa se šifra briše; rešava se u Fazi 3, korak 5 (`[Ignore]` se uklanja, heš u bazi nepromenjen, odeljak 4.10) |
 
 **PretraziBrokerSOTest**
 
@@ -249,7 +249,7 @@ Postavka za sve testove osim prvog: tri događaja: `Exit festival` / `Novi Sad` 
 | TestIzvrsiOperacijuPoKategoriji | broker sa kategorijama 1 i 2; kriterijum: jedna specijalizacija sa kategorijom 2 | broker se vraća sa **obe** specijalizacije |
 | TestIzvrsiOperacijuBezDuplikata | isti broker kao gore; kriterijum `KorisnickoIme` = njegovo | tačno 1 element, iako JOIN daje 2 reda |
 
-Napomena: kriterijum ne sme da ima popunjenu `Sifra`, jer tada `SearchCondition` prelazi u granu za prijavu.
+Od Faze 3 `SearchCondition` nema granu za prijavu, pa se popunjena `Sifra` u kriterijumu ignoriše (test `TestIzvrsiOperacijuSifraUKriterijumuSeIgnorise`, odeljak 4.10).
 
 **VratiListuSviBrokerSOTest**
 
@@ -257,7 +257,7 @@ Napomena: kriterijum ne sme da ima popunjenu `Sifra`, jer tada `SearchCondition`
 | --- | --- | --- |
 | TestIzvrsiOperacijuUspesno | dva nova brokera (jedan sa 2 specijalizacije) | 3 elementa (sa osnovnim brokerom) |
 
-**PrijaviBrokerSOTest** – postoji. U Fazi 1 dodata su dva testa za SQL injekciju (odeljak 4.8); testovi sa apostrofom i srpskim slovima u šifri su u `BrokerPosebniZnaciTest`.
+**PrijaviBrokerSOTest** – postoji. U Fazi 1 dodata su dva testa za SQL injekciju (odeljak 4.8); testovi sa apostrofom i srpskim slovima u šifri su u `BrokerPosebniZnaciTest`. Testovi heširanja iz Faze 3 su u odeljku 4.10.
 
 ### 4.4. Nivo B – Konsignator (`Konsignator/`)
 
@@ -473,6 +473,7 @@ Klasa `JsonNetworkSerializerTest` u folderu `Komunikacija/`. Ne nasleđuje `Inte
 | PravnoLice poslato kao `Konsignator` | tipa `PravnoLice` |
 | `List<Karta>` sa ugnježdenim `Dogadjaj` i `Konsignator` | isti broj elemenata i vrednosti; konsignator zadržava podtip |
 | `Broker` sa specijalizacijama | specijalizacije sa kategorijama i datumima |
+| `Broker` sa popunjenim `SifraHash` (Faza 3) | JSON ne sadrži ni naziv `SifraHash` ni vrednost heša; primljeni objekat ima `SifraHash == null` (odeljak 4.10) |
 
 ### 4.8. Faza 1 – apostrof, srpska slova i SQL injekcija (`PosebniZnaci/`)
 
@@ -524,11 +525,11 @@ Pomoćne metode: `DeoTeksta(tekst)` vraća tekst bez prvog i poslednjeg znaka (k
 
 | Test | Postavka | Očekivano |
 | --- | --- | --- |
-| TestIzvrsiOperacijuUpis | `Kreiraj` sa `KorisnickoIme = Sifra = Ime = Prezime = tekst` | `Pretrazi` vraća ista četiri polja |
-| TestIzvrsiOperacijuIzmena | `KreirajBrokera`, sva četiri polja `= tekst` (i nova šifra, zbog PG iz 4.3), `Promeni` | `Pretrazi` vraća ista četiri polja |
+| TestIzvrsiOperacijuUpis | `Kreiraj` sa `KorisnickoIme = Sifra = Ime = Prezime = tekst` | `Pretrazi` vraća ista četiri polja; od Faze 3 šifra se proverava preko heša (`ProveriPolja`, odeljak 4.10) |
+| TestIzvrsiOperacijuIzmena | `KreirajBrokera`, sva četiri polja `= tekst` (i nova šifra, zbog PG iz 4.3), `Promeni` | `Pretrazi` vraća ista četiri polja; od Faze 3 šifra se proverava preko heša (`ProveriPolja`) |
 | TestIzvrsiOperacijuPretragaPoKorisnickomImenu | kontrolni broker + broker sa tekstom; kriterijum `KorisnickoIme = DeoTeksta(tekst)` (bez šifre, pa `LIKE`) | 1 rezultat (ni `vtonic` iz `ResetujBazu`), isti Id i `KorisnickoIme` |
 | TestIzvrsiOperacijuPretragaPoImenuIPrezimenu | isto; kriterijum `Ime = Prezime = DeoTeksta(tekst)` | 1 rezultat, isti `Ime` i `Prezime` |
-| TestIzvrsiOperacijuPrijavaSifraSaPosebnimZnacima | `KreirajBrokera(tekst)` (šifra = tekst), `PrijaviBrokerSO` | prijava uspeva; vraćen isti Id i `Sifra == tekst` |
+| TestIzvrsiOperacijuPrijavaSifraSaPosebnimZnacima | `KreirajBrokera(tekst)` (šifra = tekst), `PrijaviBrokerSO` | prijava uspeva; vraćen isti Id i `Sifra == tekst` (od Faze 3 bez provere `prijavljen.Sifra`, odeljak 4.10) |
 | TestIzvrsiOperacijuPrijavaSifraBezApostrofa | šifra `lo'zinka`, prijava sa `lozinka` | "Korisničko ime ili šifra nisu ispravni." |
 | TestPredusloviKreirajPostojeceKorisnickoImeSaApostrofom | broker `o'brien`, pa drugi `o'brien` | "Broker sa unetim korisničkim imenom već postoji."; broj redova nepromenjen |
 | TestPredusloviKreirajKorisnickoImeBezApostrofa | broker `o'brien`, pa `obrien` | drugi se upisuje |
@@ -624,7 +625,7 @@ Od Faze 2, koraka 5, `Validate()` svih SO koje upisuju podatke poziva `ThrowIfIn
 | KreirajBrokerSOTest | TestPredusloviNeispravnaSifra | `lozink1` (7 znakova), `lozinkaa` (bez cifre), `12345678` (bez slova) | "Šifra brokera nije u odgovarajućem formatu." | Broker |
 | | TestPredusloviNeispravanTelefon | `060 1234567`, `060123456a`, `060+1234567` | "Telefon brokera nije u odgovarajućem formatu." | |
 | | TestPredusloviPredugackoIme | 51 znak | "Ime brokera može imati najviše 50 znakova." | |
-| PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | isto kao u `KreirajBrokerSOTest` | "Šifra brokera nije u odgovarajućem formatu."; šifra u bazi nepromenjena | Broker |
+| PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | isto kao u `KreirajBrokerSOTest` | "Šifra brokera nije u odgovarajućem formatu."; šifra u bazi nepromenjena (od Faze 3: heš iz baze pre i posle je isti, odeljak 4.10) | Broker |
 | UbaciKategorijaDogadjajaSOTest | TestPredusloviPredugackiNaziv | 101 znak | "Naziv kategorije događaja može imati najviše 100 znakova." | KategorijaDogadjaja |
 | | TestIzvrsiOperacijuDuplikatNaziva (bio **PG**) | — | "Kategorija događaja sa unetim nazivom već postoji." | |
 | PromeniKategorijaDogadjajaSOTest | TestPredusloviDuplikatNaziva | `Koncert`, `koncert` (kolacija CI) | "Kategorija događaja sa unetim nazivom već postoji."; i dalje tačno jedan red sa tim nazivom | KategorijaDogadjaja |
@@ -642,6 +643,64 @@ Poznate greške 1 i 2 iz odeljka 5 (jedinstvenost naziva kategorije i e-maila ko
 **Stanje posle Faze 2, korak 5:** `SistemskeOperacije.Tests` 412 testova, 410 prolazi, 0 pada, 2 preskočeno (`TestIzvrsiOperacijuBezNoveSifre` i `TestIzvrsiOperacijuPretragaDzokerZnak`); `Common.Tests` 253 testa, svi prolaze. Isti rezultat u tri uzastopna pokretanja.
 
 **Stanje na kraju Faze 2** (posle koraka 2.8a, O19 – listing samo za događaje posle današnjeg dana): `SistemskeOperacije.Tests` 415 testova, 413 prolazi, 0 pada, 2 preskočeno; `Common.Tests` 262 testa, svi prolaze.
+
+### 4.10. Faza 3 – heširanje šifara
+
+Od Faze 3 šifra brokera se u bazi čuva kao BCrypt heš u koloni `sifraHash`, a nijedna SO ne vraća ni šifru ni heš (`docs/HESIRANJE-SIFARA.md`). Testovi zato proveravaju heš direktno u bazi i prijavu kroz `PrijaviBrokerSO`, a ne vrednost `Sifra` u vraćenom objektu.
+
+**Pravila**
+
+- Integracioni testovi čitaju heš iz baze preko novog pomoćnog metoda `TestBaza.SifraHash(idBroker)` (vrednost kolone `sifraHash` za dati `idBroker`), a ne preko svojstva `Broker.SifraHash`.
+- Da je sačuvana prava šifra proverava se sa `Sifre.Proveri(šifra, heš)` ili uspešnom prijavom (`PrijaviBrokerSO`); heš se ne poredi sa očekivanim tekstom, jer ima nasumičnu so.
+- Work factor u testovima je 4 (`appsettings.json` projekta `SistemskeOperacije.Tests`, H2), da testovi ostanu brzi.
+
+**SifreTest** (`SistemskeOperacije.Tests/Bezbednost/`, bez baze, ne nasleđuje `IntegracioniTest`)
+
+| Test | Postavka | Očekivano |
+| --- | --- | --- |
+| Format heša | heš šifre `lozinka123` | heš nije jednak šifri; ima 60 znakova; počinje sa `$2` i nosi work factor iz test konfiguracije (`$04$`) |
+| So | dva heša iste šifre | heševi se razlikuju |
+| Ispravna i pogrešna šifra | heš šifre; `Proveri` sa istom i sa drugom šifrom | `true`, odnosno `false` |
+| Posebni znaci | šifra sa č, ć, ž, š, đ i apostrofom | `Proveri(šifra, heš)` vraća `true` |
+| Prazan heš | `Proveri` sa `null` i sa praznim hešom | `false`, bez izuzetka |
+| Vrednost koja nije heš | `Proveri("Sifra#2026", "Sifra#2026")` (npr. nemigrirana šifra) | `false`, bez izuzetka |
+
+**Novi integracioni testovi**
+
+| Klasa | Test | Postavka | Očekivano |
+| --- | --- | --- | --- |
+| KreirajBrokerSOTest | TestIzvrsiOperacijuCuvaHes | `NapraviBrokera(šifra)`, `Kreiraj` | `TestBaza.SifraHash(id)` nije jednak šifri; `Sifre.Proveri(šifra, heš)` vraća `true` |
+| | TestIzvrsiOperacijuIstaSifraRazliciteHeseve | dva brokera sa istom šifrom | heševi u bazi se razlikuju |
+| | TestIzvrsiOperacijuNeVracaSifru | `Kreiraj` | `Result.Sifra == null` |
+| PromeniBrokerSOTest | TestIzvrsiOperacijuNovaSifra | `Pretrazi`, nova šifra, `Promeni` | prijava novom šifrom uspeva, starom ne ("Korisničko ime ili šifra nisu ispravni."); heš u bazi je promenjen |
+| | TestIzvrsiOperacijuNeVracaSifru | `Promeni` sa novom šifrom | `Result.Sifra == null` |
+| PrijaviBrokerSOTest | TestIzvrsiOperacijuOsnovniBroker | `vtonic` / `Sifra#2026` iz `ResetujBazu` | prijava uspeva, `IdBroker == 1` |
+| | TestIzvrsiOperacijuNeVracaSifru | uspešna prijava | `Result.Sifra == null` |
+| PretraziBrokerSOTest | TestIzvrsiOperacijuNeVracaSifru | `KreirajBrokera`, `Pretrazi` | `Result.Sifra == null` |
+| VratiListuBrokerSOTest | TestIzvrsiOperacijuSifraUKriterijumuSeIgnorise | kontrolni broker + broker sa korisničkim imenom koje se traži; kriterijum: deo korisničkog imena i popunjena `Sifra` | isti rezultat kao isti kriterijum bez šifre (`LIKE` pretraga po delu korisničkog imena) |
+| JsonNetworkSerializerTest | `Broker` sa popunjenim `SifraHash` | serijalizacija i prijem kao u 4.7 | serijalizovani JSON ne sadrži ni naziv `SifraHash` ni vrednost heša; primljeni objekat ima `SifraHash == null` |
+
+**Izmene postojećih testova**
+
+| Klasa | Test | Izmena |
+| --- | --- | --- |
+| PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | umesto `Pretrazi(...).Sifra` porediti `TestBaza.SifraHash(id)` pre i posle; heš je nepromenjen |
+| | TestIzvrsiOperacijuSifraIzPretrage | `Pretrazi` vraća `Sifra = null`; izmena tog objekta ne menja heš u bazi i prijava starom šifrom uspeva |
+| | TestIzvrsiOperacijuBezNoveSifre | bez `[Ignore]` (Faza 3, korak 5); heš u bazi je nepromenjen i prijava starom šifrom uspeva |
+| BrokerPosebniZnaciTest | `ProveriPolja` (pomoćna metoda) | umesto poređenja `Sifra` proverava `Sifre.Proveri(TestPodaci.Sifra(tekst), TestBaza.SifraHash(id))` |
+| | TestIzvrsiOperacijuPrijavaSifraSaPosebnimZnacima | bez provere `prijavljen.Sifra`; i dalje se proverava uspešna prijava i isti Id |
+
+Napomena iz 4.3 da kriterijum pretrage brokera ne sme imati popunjenu `Sifra` više ne važi: grana za prijavu u `Broker.SearchCondition` se uklanja, jer `PrijaviBrokerSO` čita brokera po korisničkom imenu i proverava heš.
+
+**Common.Tests – PravilaBrokerTest, `ProveriPotvrduSifre(sifra, potvrda)`** (pišu se u koraku 7, zajedno sa metodom)
+
+| Slučaj | Očekivano |
+| --- | --- |
+| iste vrednosti | bez greške |
+| obe prazne | bez greške |
+| različite vrednosti | greška na polju `"PotvrdaSifre"`, poruka "Šifra i potvrda šifre se ne poklapaju." |
+| šifra uneta, potvrda prazna | ista greška |
+| potvrda uneta, šifra prazna | ista greška |
 
 ---
 
@@ -663,7 +722,7 @@ Unosi poznati unapred:
 
 1. `UbaciKategorijaDogadjajaSO` ne proverava jedinstvenost naziva (rešava se: nije planirano, odlučiti).
 2. `KreirajKonsignatorSO` ne proverava jedinstvenost email-a (rešava se: nije planirano, odlučiti).
-3. `PromeniBrokerSO` / `Broker.UpdateValues` briše šifru kada nova nije uneta (rešava se: Faza 3).
+3. `PromeniBrokerSO` / `Broker.UpdateValues` briše šifru kada nova nije uneta (rešava se: Faza 3, korak 5).
 4. Provera listinga u `ObrisiKonsignatorSO` je nedostižna (bez testa; samo zapažanje).
 5. Džoker znaci `%`, `_` i `[` u `LIKE` pretrazi nisu izbegnuti (test `DogadjajPosebniZnaciTest.TestIzvrsiOperacijuPretragaDzokerZnak`; rešava se: Faza 6.1).
 
@@ -686,3 +745,17 @@ Posao je završen kada:
 - svi testovi prolaze, osim onih sa `[Ignore]`;
 - testovi prolaze i kada se pokrenu tri puta zaredom;
 - svaki `[Ignore]` ima unos u `POZNATE-GRESKE.md`.
+
+**Faza 3 – heširanje šifara** (odeljak 4.10, `HESIRANJE-SIFARA.md`):
+
+1. `SifreTest` i nova klasa `Sifre` (bez baze).
+2. `TestBaza.SifraHash(idBroker)`, a zatim izmene postojećih i novi integracioni testovi za Broker, posle promene kolone u `sifraHash` u test bazi i u `dbo.ResetujBazu`.
+3. `JsonNetworkSerializerTest` za `SifraHash`.
+4. `PravilaBrokerTest.ProveriPotvrduSifre` u `Common.Tests` (korak 7).
+
+Faza 3 je završena kada, pored uslova iznad:
+
+- nijedna SO brokera ne vraća popunjenu `Sifra`, a `SifraHash` se ne serijalizuje;
+- `TestIzvrsiOperacijuBezNoveSifre` prolazi bez `[Ignore]`, a oba unosa za brokera se brišu iz `POZNATE-GRESKE.md`, kao u Fazi 2;
+- u test i razvojnoj bazi nema vrednosti u `sifraHash` koja ne počinje sa `$2`;
+- jedini preskočeni test u `SistemskeOperacije.Tests` je `TestIzvrsiOperacijuPretragaDzokerZnak`.
