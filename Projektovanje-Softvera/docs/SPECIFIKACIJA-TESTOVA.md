@@ -18,7 +18,7 @@ Ovaj dokument opisuje sve integracione testove iz koraka 0.5 Faze 0. Testovi su 
 | `IntegracioniTest.cs` | bazna klasa; `[TestInitialize]` poziva `dbo.ResetujBazu` i postavlja kulturu `sr-Latn-RS` |
 | `TestBaza.cs` | `Execute(sql)`, `BrojRedova(tabela, uslov)`, `Postoji(tabela, uslov)` – direktno nad bazom, mimo SO; od Faze 3 i `SifraHash(idBroker)` – vrednost kolone `sifraHash` za datog brokera (odeljak 4.10) |
 | `TestPodaci.cs` | fabrike test podataka (dopunjuje se, odeljak 3) |
-| `appsettings.json` | ključ `SeminarskiSoftveri` → `Seminarski-Softveri_Test`; od Faze 3 i `Sifre:BCryptWorkFactor` = 4 (`HESIRANJE-SIFARA.md`, H2) |
+| `appsettings.json` | ključ `SeminarskiSoftveri` → `Seminarski-Softveri_Test`; od Faze 3 i `PasswordHashing:WorkFactor` = 4 (`HESIRANJE-SIFARA.md`, H2) |
 
 Stanje baze posle `ResetujBazu` (pre svakog testa):
 
@@ -651,25 +651,25 @@ Od Faze 3 šifra brokera se u bazi čuva kao BCrypt heš u koloni `sifraHash`, a
 **Pravila**
 
 - Integracioni testovi čitaju heš iz baze preko novog pomoćnog metoda `TestBaza.SifraHash(idBroker)` (vrednost kolone `sifraHash` za dati `idBroker`), a ne preko svojstva `Broker.SifraHash`.
-- Da je sačuvana prava šifra proverava se sa `Sifre.Proveri(šifra, heš)` ili uspešnom prijavom (`PrijaviBrokerSO`); heš se ne poredi sa očekivanim tekstom, jer ima nasumičnu so.
+- Da je sačuvana prava šifra proverava se sa `PasswordHasher.Verify(šifra, heš)` ili uspešnom prijavom (`PrijaviBrokerSO`); heš se ne poredi sa očekivanim tekstom, jer ima nasumičnu so.
 - Work factor u testovima je 4 (`appsettings.json` projekta `SistemskeOperacije.Tests`, H2), da testovi ostanu brzi.
 
-**SifreTest** (`SistemskeOperacije.Tests/Bezbednost/`, bez baze, ne nasleđuje `IntegracioniTest`)
+**PasswordHasherTest** (`SistemskeOperacije.Tests/Bezbednost/`, bez baze, ne nasleđuje `IntegracioniTest`)
 
 | Test | Postavka | Očekivano |
 | --- | --- | --- |
 | Format heša | heš šifre `lozinka123` | heš nije jednak šifri; ima 60 znakova; počinje sa `$2` i nosi work factor iz test konfiguracije (`$04$`) |
 | So | dva heša iste šifre | heševi se razlikuju |
-| Ispravna i pogrešna šifra | heš šifre; `Proveri` sa istom i sa drugom šifrom | `true`, odnosno `false` |
-| Posebni znaci | šifra sa č, ć, ž, š, đ i apostrofom | `Proveri(šifra, heš)` vraća `true` |
-| Prazan heš | `Proveri` sa `null` i sa praznim hešom | `false`, bez izuzetka |
-| Vrednost koja nije heš | `Proveri("Sifra#2026", "Sifra#2026")` (npr. nemigrirana šifra) | `false`, bez izuzetka |
+| Ispravna i pogrešna šifra | heš šifre; `Verify` sa istom i sa drugom šifrom | `true`, odnosno `false` |
+| Posebni znaci | šifra sa č, ć, ž, š, đ i apostrofom | `Verify(šifra, heš)` vraća `true` |
+| Prazan heš | `Verify` sa `null` i sa praznim hešom | `false`, bez izuzetka |
+| Vrednost koja nije heš | `Verify("Sifra#2026", "Sifra#2026")` (npr. nemigrirana šifra) | `false`, bez izuzetka |
 
 **Novi integracioni testovi**
 
 | Klasa | Test | Postavka | Očekivano |
 | --- | --- | --- | --- |
-| KreirajBrokerSOTest | TestIzvrsiOperacijuCuvaHes | `NapraviBrokera(šifra)`, `Kreiraj` | `TestBaza.SifraHash(id)` nije jednak šifri; `Sifre.Proveri(šifra, heš)` vraća `true` |
+| KreirajBrokerSOTest | TestIzvrsiOperacijuCuvaHes | `NapraviBrokera(šifra)`, `Kreiraj` | `TestBaza.SifraHash(id)` nije jednak šifri; `PasswordHasher.Verify(šifra, heš)` vraća `true` |
 | | TestIzvrsiOperacijuIstaSifraRazliciteHeseve | dva brokera sa istom šifrom | heševi u bazi se razlikuju |
 | | TestIzvrsiOperacijuNeVracaSifru | `Kreiraj` | `Result.Sifra == null` |
 | PromeniBrokerSOTest | TestIzvrsiOperacijuNovaSifra | `Pretrazi`, nova šifra, `Promeni` | prijava novom šifrom uspeva, starom ne ("Korisničko ime ili šifra nisu ispravni."); heš u bazi je promenjen |
@@ -687,7 +687,7 @@ Od Faze 3 šifra brokera se u bazi čuva kao BCrypt heš u koloni `sifraHash`, a
 | PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | umesto `Pretrazi(...).Sifra` porediti `TestBaza.SifraHash(id)` pre i posle; heš je nepromenjen |
 | | TestIzvrsiOperacijuSifraIzPretrage | `Pretrazi` vraća `Sifra = null`; izmena tog objekta ne menja heš u bazi i prijava starom šifrom uspeva |
 | | TestIzvrsiOperacijuBezNoveSifre | bez `[Ignore]` (Faza 3, korak 5); heš u bazi je nepromenjen i prijava starom šifrom uspeva |
-| BrokerPosebniZnaciTest | `ProveriPolja` (pomoćna metoda) | umesto poređenja `Sifra` proverava `Sifre.Proveri(TestPodaci.Sifra(tekst), TestBaza.SifraHash(id))` |
+| BrokerPosebniZnaciTest | `ProveriPolja` (pomoćna metoda) | umesto poređenja `Sifra` proverava `PasswordHasher.Verify(TestPodaci.Sifra(tekst), TestBaza.SifraHash(id))` |
 | | TestIzvrsiOperacijuPrijavaSifraSaPosebnimZnacima | bez provere `prijavljen.Sifra`; i dalje se proverava uspešna prijava i isti Id |
 
 Napomena iz 4.3 da kriterijum pretrage brokera ne sme imati popunjenu `Sifra` više ne važi: grana za prijavu u `Broker.SearchCondition` se uklanja, jer `PrijaviBrokerSO` čita brokera po korisničkom imenu i proverava heš.
@@ -748,7 +748,7 @@ Posao je završen kada:
 
 **Faza 3 – heširanje šifara** (odeljak 4.10, `HESIRANJE-SIFARA.md`):
 
-1. `SifreTest` i nova klasa `Sifre` (bez baze).
+1. `PasswordHasherTest` i nove klase `PasswordHasher` i `PasswordHashingConfig` u `SistemskeOperacije/Bezbednost` (bez baze).
 2. `TestBaza.SifraHash(idBroker)`, a zatim izmene postojećih i novi integracioni testovi za Broker, posle promene kolone u `sifraHash` u test bazi i u `dbo.ResetujBazu`.
 3. `JsonNetworkSerializerTest` za `SifraHash`.
 4. `PravilaBrokerTest.ProveriPotvrduSifre` u `Common.Tests` (korak 7).
