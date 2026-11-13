@@ -18,21 +18,57 @@ Prijava se više ne radi upitom sa šifrom u uslovu. `PrijaviBrokerSO` čita bro
 
 ## Implementacija
 
-Tabela se dopunjuje na kraju faze.
+Stanje na kraju Faze 3 (13. 11. 2026.). Putanje fajlova su relativne u odnosu na folder `Projektovanje-Softvera`, a skripte baze na koren repozitorijuma (`db/`).
 
-| Gde | Klasa | Uloga |
+| Gde | Klasa / fajl | Uloga |
 | --- | --- | --- |
-| `Common/Domen` | `Broker` | novo svojstvo `SifraHash` sa `[JsonIgnore]`; čita se iz kolone `sifraHash`; `Sifra` se nikad ne čita iz baze (H1) |
-| `Common/Validacija` | `PravilaBroker.ProveriPotvrduSifre` | poređenje šifre i potvrde, greška na polju `PotvrdaSifre`; koristi ga samo klijent (H4) |
-| `SistemskeOperacije` | `Bezbednost/PasswordHasher` | `Hash(password)` i `Verify(password, hash)` omotavaju `HashPassword` i `Verify` iz `BCrypt.Net-Next` (H10); work factor iz `PasswordHashing:WorkFactor` (H2); `Verify` vraća `false` bez izuzetka za `null`, prazan ili neispravan heš |
-| | `Bezbednost/PasswordHashingConfig` | podešavanje sa svojstvom `WorkFactor`, čita se iz ključa `PasswordHashing:WorkFactor` (H2, H10) |
-| | `KreirajBrokerSO`, `PromeniBrokerSO` | heširaju šifru pre upisa i postavljaju `Sifra = null` na rezultatu; `PromeniBrokerSO` bez nove šifre ne upisuje `sifraHash` (H8) |
-| | `PrijaviBrokerSO` | čitanje po korisničkom imenu, provera heša, lažni heš za nepostojeće korisničko ime (H6) |
-| `Server` / `SistemskeOperacije.Tests` | `appsettings.json` | ključ `PasswordHashing:WorkFactor`: server 11, testovi 4 (H2) |
-| `db` | `MigrationPasswordHash.sql` | preimenovanje kolone `Broker.sifra` u `sifraHash` (H3) |
-| `MigracijaSifara` | konzolni alat | hešira postojeće vrednosti koje još nisu heš (H3) |
-| `Klijent` | `UCBroker`, `FrmLogin` | potvrda šifre, polje „Nova šifra“ u izmeni, `MaxLength` 64 na prijavi (H4, H8) |
-| `SistemskeOperacije.Tests` | `TestBaza`, `Bezbednost/PasswordHasherTest` | pomoćni metod za čitanje `sifraHash` iz baze; jedinični testovi klase `PasswordHasher` (`SPECIFIKACIJA-TESTOVA.md`, 4.10) |
+| `Common/Domen` | `Broker` | `Sifra` je `string?` i samo ulaz od klijenta. Novo svojstvo `SifraHash` (`string?`, `[JsonIgnore]`) puni `GetReaderList` iz kolone `sifraHash`; `Sifra` se nikad ne čita iz baze (H1). `InsertColumns` / `InsertValues` upisuju `sifraHash`. `UpdateValues` dodaje `sifraHash = N'…'` samo kad `SifraHash` nije prazan (H8). Iz `SearchCondition` je uklonjena grana za prijavu (`b.korisnickoIme = … AND b.sifra = …`); popunjena `Sifra` u kriterijumu se ignoriše. `SelectColumns` nije menjan (H1) |
+| `Common/Validacija` | `Ogranicenja.BrokerSifraHash` | konstanta 100 (dužina kolone `sifraHash`), ranije `BrokerSifra`; `SifraMax` (64) ostaje pravilo za unos |
+| | `PravilaBroker.ProveriPotvrduSifre(sifra, potvrda)` | poređenje razlikuje velika i mala slova, `null` i prazno su isto; greška na polju `PotvrdaSifre`, poruka „Šifra i potvrda šifre se ne poklapaju.“; koristi je samo klijent (H4) |
+| `SistemskeOperacije` | `SistemskeOperacije.csproj` | jedini projekat sa paketom `BCrypt.Net-Next` 4.2.0 (H8) |
+| | `Bezbednost/PasswordHasher` | `Hash(password)`: `BCrypt.HashPassword` sa work factor-om iz `PasswordHashingConfig`; za `null` ili praznu šifru `ArgumentException` („Šifra za heširanje nije prosleđena.“). `Verify(password, hash)`: `BCrypt.Verify`; vraća `false` bez izuzetka za prazan ili neispravan heš (`SaltParseException`, `ArgumentException`) i za praznu šifru. Za prazan heš proverava unetu šifru nad lažnim hešom (`dummyHash`, `Lazy`, nasumična vrednost, isti work factor), da vreme odziva bude isto (H6, H10, H11) |
+| | `Bezbednost/PasswordHashingConfig` | `WorkFactor` se čita jednom (`Lazy`) iz `appsettings.json` u `AppContext.BaseDirectory`, ključ `PasswordHashing:WorkFactor`. Ključ je obavezan: bez njega „Nedostaje podešavanje 'PasswordHashing:WorkFactor'.“, van opsega 4–31 „Podešavanje 'PasswordHashing:WorkFactor' mora biti ceo broj od 4 do 31.“ (`InvalidOperationException`, H2) |
+| | `BrokerSO/KreirajBrokerSO` | posle validacije `SifraHash = PasswordHasher.Hash(Sifra)`, upis, pa `Sifra = null` na rezultatu (H8) |
+| | `BrokerSO/PromeniBrokerSO` | `SifraHash` je heš nove šifre ili `null` kad nova šifra nije uneta (tada se kolona ne upisuje); `Sifra = null` na rezultatu (H8) |
+| | `PrijaviBrokerSO` | čita brokera po korisničkom imenu (`b.korisnickoIme = N'…'`, tačno poređenje) i poziva `PasswordHasher.Verify(Sifra, SifraHash)`; nepostojeće korisničko ime ide u `Verify` sa `null` hešom (lažni heš, H6). Poruka greške je nepromenjena |
+| `Server`, `MigracijaSifara`, `SistemskeOperacije.Tests` | `appsettings.json` | `PasswordHashing:WorkFactor`: server 11, alat 11, testovi 4 (H2) |
+| `db` (koren repozitorijuma) | `MigrationPasswordHash.sql` | `sp_rename` kolone `Broker.sifra` u `sifraHash` u bazi `Seminarski-Softveri`; sme više puta (H3) |
+| | `CreateDatabase.sql`, `CreateTestDatabase.sql` | kolona `sifraHash nvarchar(100) NOT NULL`; početni broker `vtonic` (id 1) dobija BCrypt heš (work factor 11) šifre iz `SPECIFIKACIJA-TESTOVA.md`, odeljak 1; isto i u `dbo.ResetujBazu` test baze |
+| | `Dummy.sql` | isti heš za brokera `vtonic` |
+| `MigracijaSifara` | `Program.cs`, `README.md`, `appsettings.json`, `MigracijaSifara.csproj` (u `Projektovanje-Softvera.sln`) | bez argumenata hešira vrednosti koje ne počinju sa `$2`, u jednoj transakciji, uz potvrdu `d/n`; odbija bazu čiji naziv završava na `_Test` i bazu bez kolone `sifraHash`. `--hesiraj "<šifra>"` ispisuje samo heš zadate šifre, bez baze. Koristi `SqlParameter` i nikad ne ispisuje šifre ni heševe iz baze (H3) |
+| `Klijent` | `UserControls/UCBroker` (+ `Designer`) | polje i labela „Potvrda šifre“ (`txtPotvrdaSifre`, `MaxLength` 64); u izmeni labele „Nova šifra“ / „Potvrda nove šifre“ i tooltip „Ostavite prazno ako ne menjate šifru.“; šifra se ne popunjava iz objekta; prazno polje daje `Sifra = null`; u detaljima su oba polja sakrivena (H4) |
+| | `GuiControllers/BrokerGuiController.Validiraj` | greške iz `PravilaBroker.Proveri` i `ProveriPotvrduSifre` prikazuju se zajedno pored polja (H4) |
+| | `FrmLogin` | `txtSifra.MaxLength = Ogranicenja.SifraMax` (64) (H8) |
+| `SistemskeOperacije.Tests` | `TestBaza.SifraHash(idBroker)` | čita `sifraHash` direktno iz baze |
+| | `Bezbednost/PasswordHasherTest` i izmene testova brokera | `SPECIFIKACIJA-TESTOVA.md`, 4.10 |
+| `Common.Tests` | `PravilaBrokerTest` (potvrda šifre), `OgranicenjaTest` | `SPECIFIKACIJA-TESTOVA.md`, 4.10 |
+
+## Rezultat
+
+**Testovi** (`dotnet test`, tri uzastopna pokretanja 13. 11. 2026., isti rezultat u sva tri; LocalDB, Debug, `--no-build`)
+
+| Projekat | Pre Faze 3 (kraj Faze 2) | Posle Faze 3 |
+| --- | --- | --- |
+| `SistemskeOperacije.Tests` – integracioni (nasleđuju `IntegracioniTest`) | 411 (409 prošlo, 2 preskočeno) | 420 (419 prošlo, 1 preskočeno: `TestIzvrsiOperacijuPretragaDzokerZnak`) |
+| `SistemskeOperacije.Tests` – bez baze (`PasswordHasherTest`, `JsonNetworkSerializerTest`) | 4 | 16 |
+| `SistemskeOperacije.Tests` ukupno | 415 (413 prošlo, 2 preskočeno) | 436 (435 prošlo, 1 preskočeno, 0 palo) |
+| `Common.Tests` (jedinični) | 262, svi prolaze | 273, svi prolaze |
+| Trajanje `SistemskeOperacije.Tests` (izveštaj `dotnet test`) | nije zabeleženo | 8 s, 7 s, 7 s |
+| Trajanje `Common.Tests` | nije zabeleženo | 170 ms, 189 ms, 220 ms |
+| Ceo `dotnet test` (zidno vreme) | nije zabeleženo | 10,9 s, 10,6 s, 10,6 s |
+
+Trajanje pre Faze 3 nije zapisano na kraju Faze 2, a ne može naknadno da se izmeri na istoj bazi, jer kod iz Faze 2 čita kolonu `sifra`, koje u test bazi više nema. Novih testova je 21 + 11: 11 slučajeva u `PasswordHasherTest`, 1 u `JsonNetworkSerializerTest`, 9 integracionih i 11 slučajeva za potvrdu šifre u `PravilaBrokerTest`; `TestIzvrsiOperacijuBezNoveSifre` više nije preskočen. Work factor u testovima je 4, pa heširanje praktično ne utiče na trajanje.
+
+**Provere u kodu** (13. 11. 2026.)
+
+- `SifraHash` / `sifraHash` se pojavljuje samo u `Broker`, `KreirajBrokerSO`, `PromeniBrokerSO`, `PrijaviBrokerSO`, alatu `MigracijaSifara`, testovima i SQL skriptama. Jedini dodatak je konstanta `Ogranicenja.BrokerSifraHash` (dužina kolone) i njen red u `OgranicenjaTest`. `PasswordHasher` radi sa parametrom `hash` i ne koristi svojstvo.
+- Heš ne ide u odgovor (`[JsonIgnore]`, test `TestBrokerSifraHashSeNeSerijalizuje`), ni u `Debug.WriteLine` servera (ispisuju se samo poruke izuzetaka; heš ima 60 znakova, pa upis u `nvarchar(100)` ne može da izazove grešku skraćivanja sa vrednošću), ni u `MessageBox` (klijent nikad nema heš; tabela brokera ima `AutoGenerateColumns = false`). `Broker.ToString()` ne sadrži ni šifru ni heš. `MigracijaSifara --hesiraj` ispisuje heš šifre zadate u komandnoj liniji, nikad iz baze.
+- `Klijent` i `Common` ne referenciraju BCrypt, ni direktno ni preko zavisnosti; paket je samo u `SistemskeOperacije` (`MigracijaSifara`, `Server` i `SistemskeOperacije.Tests` ga dobijaju preko reference na taj projekat).
+- Šifra početnog brokera u čitljivom obliku postoji samo u testovima (`PasswordHasherTest`, `PrijaviBrokerSOTest`) i dokumentaciji (`SPECIFIKACIJA-TESTOVA.md`, `MigracijaSifara/README.md`); u SQL skriptama je samo njen heš.
+
+**Baze** (13. 11. 2026., samo čitanje): `Seminarski-Softveri` 5 brokera, svih 5 vrednosti u `sifraHash` počinju sa `$2`; `Seminarski-Softveri_Test` 1 broker posle `ResetujBazu`, heš. Kolona `sifra` ne postoji ni u jednoj bazi.
+
+**Ručne provere** (klijent i server: kreiranje sa potvrdom šifre, izmena bez i sa novom šifrom, prijava, detalji brokera; alat `MigracijaSifara`): 13. 11. 2026.
 
 ## Ograničenja
 

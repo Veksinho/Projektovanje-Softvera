@@ -650,57 +650,65 @@ Od Faze 3 šifra brokera se u bazi čuva kao BCrypt heš u koloni `sifraHash`, a
 
 **Pravila**
 
-- Integracioni testovi čitaju heš iz baze preko novog pomoćnog metoda `TestBaza.SifraHash(idBroker)` (vrednost kolone `sifraHash` za dati `idBroker`), a ne preko svojstva `Broker.SifraHash`.
+- Integracioni testovi čitaju heš iz baze preko pomoćnog metoda `TestBaza.SifraHash(idBroker)` (vrednost kolone `sifraHash` za dati `idBroker`, `null` ako red ne postoji), a ne preko svojstva `Broker.SifraHash`.
 - Da je sačuvana prava šifra proverava se sa `PasswordHasher.Verify(šifra, heš)` ili uspešnom prijavom (`PrijaviBrokerSO`); heš se ne poredi sa očekivanim tekstom, jer ima nasumičnu so.
 - Work factor u testovima je 4 (`appsettings.json` projekta `SistemskeOperacije.Tests`, H2), da testovi ostanu brzi.
 
 **PasswordHasherTest** (`SistemskeOperacije.Tests/Bezbednost/`, bez baze, ne nasleđuje `IntegracioniTest`)
 
-| Test | Postavka | Očekivano |
-| --- | --- | --- |
-| Format heša | heš šifre `lozinka123` | heš nije jednak šifri; ima 60 znakova; počinje sa `$2` i nosi work factor iz test konfiguracije (`$04$`) |
-| So | dva heša iste šifre | heševi se razlikuju |
-| Ispravna i pogrešna šifra | heš šifre; `Verify` sa istom i sa drugom šifrom | `true`, odnosno `false` |
-| Posebni znaci | šifra sa č, ć, ž, š, đ i apostrofom | `Verify(šifra, heš)` vraća `true` |
-| Prazan heš | `Verify` sa `null` i sa praznim hešom | `false`, bez izuzetka |
-| Vrednost koja nije heš | `Verify("Sifra#2026", "Sifra#2026")` (npr. nemigrirana šifra) | `false`, bez izuzetka |
+| Test | `DataRow` | Postavka | Očekivano |
+| --- | --- | --- | --- |
+| TestHashFormat | — | heš šifre `lozinka123` | heš nije jednak šifri; ima 60 znakova; počinje sa `$2`; znakovi 3–6 su `$04$` (work factor iz test konfiguracije) |
+| TestHashRazliciteSoli | — | dva heša šifre `lozinka123` | heševi se razlikuju |
+| TestHashPraznaSifra | `null`, `""` | `Hash(šifra)` | `ArgumentException` (tačno taj tip) |
+| TestVerifyIspravnaIPogresnaSifra | — | heš šifre `lozinka123`; `Verify` sa `lozinka123` i sa `lozinka124` | `true`, odnosno `false` |
+| TestVerifyPosebniZnaci | — | šifra `čćžšđ'ČĆŽŠĐ1` (mala i velika slova č, ć, ž, š, đ i apostrof) | `Verify(šifra, heš)` vraća `true` |
+| TestVerifyPrazanHes | `null`, `""` | `Verify("lozinka123", heš)` | `false`, bez izuzetka |
+| TestVerifyPraznaSifra | `null`, `""` | `Verify(šifra, heš šifre lozinka123)` | `false`, bez izuzetka |
+| TestVerifyVrednostKojaNijeHes | — | `Verify("Sifra#2026", "Sifra#2026")` (npr. nemigrirana šifra) | `false`, bez izuzetka |
+
+Ukupno 8 test metoda, odnosno 11 slučajeva sa `DataRow` redovima.
 
 **Novi integracioni testovi**
 
 | Klasa | Test | Postavka | Očekivano |
 | --- | --- | --- | --- |
-| KreirajBrokerSOTest | TestIzvrsiOperacijuCuvaHes | `NapraviBrokera(šifra)`, `Kreiraj` | `TestBaza.SifraHash(id)` nije jednak šifri; `PasswordHasher.Verify(šifra, heš)` vraća `true` |
-| | TestIzvrsiOperacijuIstaSifraRazliciteHeseve | dva brokera sa istom šifrom | heševi u bazi se razlikuju |
+| KreirajBrokerSOTest | TestIzvrsiOperacijuCuvaHes | broker iz `SetUp` (`NapraviBrokera("lozinka123")`), `Kreiraj` | `TestBaza.SifraHash(id)` nije jednak šifri; `PasswordHasher.Verify(šifra, heš)` vraća `true` |
+| | TestIzvrsiOperacijuIstaSifraRazliciteHeseve | drugi broker `NapraviBrokera` sa istom šifrom; oba se kreiraju | heševi u bazi se razlikuju |
 | | TestIzvrsiOperacijuNeVracaSifru | `Kreiraj` | `Result.Sifra == null` |
-| PromeniBrokerSOTest | TestIzvrsiOperacijuNovaSifra | `Pretrazi`, nova šifra, `Promeni` | prijava novom šifrom uspeva, starom ne ("Korisničko ime ili šifra nisu ispravni."); heš u bazi je promenjen |
+| PromeniBrokerSOTest | TestIzvrsiOperacijuNovaSifra | `Pretrazi`, `Sifra = "novaLozinka456"`, `Promeni` | prijava novom šifrom uspeva, starom ne ("Korisničko ime ili šifra nisu ispravni."); heš u bazi je promenjen |
 | | TestIzvrsiOperacijuNeVracaSifru | `Promeni` sa novom šifrom | `Result.Sifra == null` |
 | PrijaviBrokerSOTest | TestIzvrsiOperacijuOsnovniBroker | `vtonic` / `Sifra#2026` iz `ResetujBazu` | prijava uspeva, `IdBroker == 1` |
-| | TestIzvrsiOperacijuNeVracaSifru | uspešna prijava | `Result.Sifra == null` |
-| PretraziBrokerSOTest | TestIzvrsiOperacijuNeVracaSifru | `KreirajBrokera`, `Pretrazi` | `Result.Sifra == null` |
-| VratiListuBrokerSOTest | TestIzvrsiOperacijuSifraUKriterijumuSeIgnorise | kontrolni broker + broker sa korisničkim imenom koje se traži; kriterijum: deo korisničkog imena i popunjena `Sifra` | isti rezultat kao isti kriterijum bez šifre (`LIKE` pretraga po delu korisničkog imena) |
-| JsonNetworkSerializerTest | `Broker` sa popunjenim `SifraHash` | serijalizacija i prijem kao u 4.7 | serijalizovani JSON ne sadrži ni naziv `SifraHash` ni vrednost heša; primljeni objekat ima `SifraHash == null` |
+| | TestIzvrsiOperacijuNeVracaSifru | uspešna prijava brokera iz `SetUp` | `Result.Sifra == null` |
+| PretraziBrokerSOTest | TestIzvrsiOperacijuNeVracaSifru | broker iz `SetUp` (`KreirajBrokera`), `Pretrazi` po `IdBroker` | `Result.Sifra == null` |
+| VratiListuBrokerSOTest | TestIzvrsiOperacijuSifraUKriterijumuSeIgnorise | kontrolni broker + traženi broker, oba sa šifrom `lozinka123`; kriterijum: deo korisničkog imena traženog (`DeoTeksta`), jednom bez i jednom sa popunjenom `Sifra` | bez šifre: tačno 1 rezultat, traženi broker; sa šifrom: isti spisak `IdBroker` |
+| JsonNetworkSerializerTest | TestBrokerSifraHashSeNeSerijalizuje | `Broker` sa popunjenim `SifraHash` (pravi heš); `Zahtev` se serijalizuje sa `JsonNetworkSerializer.Options` i šalje kao u 4.7 | serijalizovani JSON ne sadrži ni naziv `SifraHash` ni vrednost heša; `IdBroker` je prenet; primljeni objekat ima `SifraHash == null` |
 
 **Izmene postojećih testova**
 
 | Klasa | Test | Izmena |
 | --- | --- | --- |
-| PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | umesto `Pretrazi(...).Sifra` porediti `TestBaza.SifraHash(id)` pre i posle; heš je nepromenjen |
-| | TestIzvrsiOperacijuSifraIzPretrage | `Pretrazi` vraća `Sifra = null`; izmena tog objekta ne menja heš u bazi i prijava starom šifrom uspeva |
+| PromeniBrokerSOTest | TestPredusloviNeispravnaSifra | umesto `Pretrazi(...).Sifra` poredi `TestBaza.SifraHash(id)` pre i posle; heš je nepromenjen |
+| | TestIzvrsiOperacijuSifraIzPretrage | proverava da `Pretrazi` vraća `Sifra = null`; izmena tog objekta ne menja heš u bazi i prijava starom šifrom uspeva |
 | | TestIzvrsiOperacijuBezNoveSifre | bez `[Ignore]` (Faza 3, korak 5); heš u bazi je nepromenjen i prijava starom šifrom uspeva |
+| | pomoćna metoda `Prijavi(korisničkoIme, šifra)` | nova; koriste je tri testa iznad i `TestIzvrsiOperacijuNovaSifra` |
 | BrokerPosebniZnaciTest | `ProveriPolja` (pomoćna metoda) | umesto poređenja `Sifra` proverava `PasswordHasher.Verify(TestPodaci.Sifra(tekst), TestBaza.SifraHash(id))` |
 | | TestIzvrsiOperacijuPrijavaSifraSaPosebnimZnacima | bez provere `prijavljen.Sifra`; i dalje se proverava uspešna prijava i isti Id |
+| OgranicenjaTest (`Common.Tests`) | TestPraviloStajeUKolonu | red `Broker.sifra` / `Ogranicenja.BrokerSifra` postaje `Broker.sifraHash` / `Ogranicenja.BrokerSifraHash` (kolona i dalje `nvarchar(100)`) |
 
-Napomena iz 4.3 da kriterijum pretrage brokera ne sme imati popunjenu `Sifra` više ne važi: grana za prijavu u `Broker.SearchCondition` se uklanja, jer `PrijaviBrokerSO` čita brokera po korisničkom imenu i proverava heš.
+Napomena iz 4.3 da kriterijum pretrage brokera ne sme imati popunjenu `Sifra` više ne važi: grana za prijavu u `Broker.SearchCondition` je uklonjena, jer `PrijaviBrokerSO` čita brokera po korisničkom imenu i proverava heš.
 
-**Common.Tests – PravilaBrokerTest, `ProveriPotvrduSifre(sifra, potvrda)`** (pišu se u koraku 7, zajedno sa metodom)
+**Common.Tests – PravilaBrokerTest, `ProveriPotvrduSifre(sifra, potvrda)`** (napisani u koraku 7, zajedno sa metodom)
 
-| Slučaj | Očekivano |
-| --- | --- |
-| iste vrednosti | bez greške |
-| obe prazne | bez greške |
-| različite vrednosti | greška na polju `"PotvrdaSifre"`, poruka "Šifra i potvrda šifre se ne poklapaju." |
-| šifra uneta, potvrda prazna | ista greška |
-| potvrda uneta, šifra prazna | ista greška |
+| Test | `DataRow` (šifra, potvrda) | Očekivano |
+| --- | --- | --- |
+| TestPotvrdaIsteVrednostiNemaGresaka | `lozinka1`, `lozinka1` | bez greške |
+| TestPotvrdaObePrazneNemaGresaka | `""`/`""`, `null`/`null`, `null`/`""`, `""`/`null` | bez greške |
+| TestPotvrdaRazliciteVrednosti | `lozinka1`/`lozinka2`, `Lozinka1`/`lozinka1` (poređenje razlikuje velika i mala slova) | jedna greška na polju `"PotvrdaSifre"`, poruka "Šifra i potvrda šifre se ne poklapaju." |
+| TestPotvrdaPraznaSifraUneta | šifra `lozinka1`, potvrda `""` ili `null` | ista greška |
+| TestPotvrdaUnetaSifraPrazna | šifra `""` ili `null`, potvrda `lozinka1` | ista greška |
+
+**Stanje na kraju Faze 3** (13. 11. 2026.): `SistemskeOperacije.Tests` 436 testova, 435 prolazi, 0 pada, 1 preskočeno (`TestIzvrsiOperacijuPretragaDzokerZnak`); od toga 420 integracionih i 16 bez baze (`PasswordHasherTest`, `JsonNetworkSerializerTest`). `Common.Tests` 273 testa, svi prolaze. Isti rezultat u tri uzastopna pokretanja (trajanje u `HESIRANJE-SIFARA.md`, odeljak Rezultat).
 
 ---
 
