@@ -39,8 +39,10 @@
             groupBox1 = new GroupBox();
             txtSifra = new TextBox();
             txtKorisnickoIme = new TextBox();
-            label7 = new Label();
+            lblSifra = new Label();
             label8 = new Label();
+            txtPotvrdaSifre = new TextBox();
+            lblPotvrdaSifre = new Label();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
             clbKategorije = new CheckedListBox();
@@ -91,30 +93,30 @@
             // txtId
             // 
             txtId.Enabled = false;
-            txtId.Location = new Point(149, 32);
+            txtId.Location = new Point(164, 32);
             txtId.Name = "txtId";
-            txtId.Size = new Size(100, 27);
+            txtId.Size = new Size(110, 27);
             txtId.TabIndex = 4;
             // 
             // txtIme
             // 
-            txtIme.Location = new Point(149, 65);
+            txtIme.Location = new Point(164, 65);
             txtIme.Name = "txtIme";
-            txtIme.Size = new Size(194, 27);
+            txtIme.Size = new Size(204, 27);
             txtIme.TabIndex = 5;
             // 
             // txtPrezime
             // 
-            txtPrezime.Location = new Point(149, 103);
+            txtPrezime.Location = new Point(164, 103);
             txtPrezime.Name = "txtPrezime";
-            txtPrezime.Size = new Size(194, 27);
+            txtPrezime.Size = new Size(204, 27);
             txtPrezime.TabIndex = 6;
             // 
             // txtTelefon
             // 
-            txtTelefon.Location = new Point(149, 138);
+            txtTelefon.Location = new Point(164, 138);
             txtTelefon.Name = "txtTelefon";
-            txtTelefon.Size = new Size(194, 27);
+            txtTelefon.Size = new Size(204, 27);
             txtTelefon.TabIndex = 7;
             // 
             // groupBox1
@@ -125,34 +127,34 @@
             groupBox1.Controls.Add(txtPrezime);
             groupBox1.Location = new Point(17, 20);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(389, 176);
+            groupBox1.Size = new Size(413, 176);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             groupBox1.Text = "Osnovni podaci";
             // 
             // txtSifra
             // 
-            txtSifra.Location = new Point(149, 62);
+            txtSifra.Location = new Point(164, 62);
             txtSifra.Name = "txtSifra";
-            txtSifra.Size = new Size(194, 27);
+            txtSifra.Size = new Size(204, 27);
             txtSifra.TabIndex = 14;
             txtSifra.UseSystemPasswordChar = true;
             // 
             // txtKorisnickoIme
             // 
-            txtKorisnickoIme.Location = new Point(149, 26);
+            txtKorisnickoIme.Location = new Point(164, 26);
             txtKorisnickoIme.Name = "txtKorisnickoIme";
-            txtKorisnickoIme.Size = new Size(194, 27);
+            txtKorisnickoIme.Size = new Size(204, 27);
             txtKorisnickoIme.TabIndex = 13;
             // 
-            // label7
+            // lblSifra
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(45, 267);
-            label7.Name = "label7";
-            label7.Size = new Size(39, 20);
-            label7.TabIndex = 10;
-            label7.Text = "Šifra";
+            lblSifra.AutoSize = true;
+            lblSifra.Location = new Point(45, 267);
+            lblSifra.Name = "lblSifra";
+            lblSifra.Size = new Size(39, 20);
+            lblSifra.TabIndex = 10;
+            lblSifra.Text = "Šifra";
             // 
             // label8
             // 
@@ -163,13 +165,31 @@
             label8.TabIndex = 9;
             label8.Text = "Korisničko ime";
             // 
+            // txtPotvrdaSifre
+            // 
+            txtPotvrdaSifre.Location = new Point(164, 98);
+            txtPotvrdaSifre.Name = "txtPotvrdaSifre";
+            txtPotvrdaSifre.Size = new Size(204, 27);
+            txtPotvrdaSifre.TabIndex = 15;
+            txtPotvrdaSifre.UseSystemPasswordChar = true;
+            // 
+            // lblPotvrdaSifre
+            // 
+            lblPotvrdaSifre.AutoSize = true;
+            lblPotvrdaSifre.Location = new Point(45, 303);
+            lblPotvrdaSifre.Name = "lblPotvrdaSifre";
+            lblPotvrdaSifre.Size = new Size(91, 20);
+            lblPotvrdaSifre.TabIndex = 11;
+            lblPotvrdaSifre.Text = "Potvrda šifre";
+            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(txtPotvrdaSifre);
             groupBox2.Controls.Add(txtSifra);
             groupBox2.Controls.Add(txtKorisnickoIme);
             groupBox2.Location = new Point(17, 202);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(389, 101);
+            groupBox2.Size = new Size(413, 137);
             groupBox2.TabIndex = 17;
             groupBox2.TabStop = false;
             groupBox2.Text = "Kredencijali";
@@ -177,9 +197,9 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(clbKategorije);
-            groupBox3.Location = new Point(412, 20);
+            groupBox3.Location = new Point(436, 20);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(281, 283);
+            groupBox3.Size = new Size(281, 319);
             groupBox3.TabIndex = 18;
             groupBox3.TabStop = false;
             groupBox3.Text = "Specijalizacije";
@@ -194,7 +214,7 @@
             // 
             // btnNazad
             // 
-            btnNazad.Location = new Point(16, 319);
+            btnNazad.Location = new Point(16, 355);
             btnNazad.Name = "btnNazad";
             btnNazad.Size = new Size(194, 29);
             btnNazad.TabIndex = 21;
@@ -203,7 +223,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(543, 319);
+            btnIzmeni.Location = new Point(567, 355);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(150, 29);
             btnIzmeni.TabIndex = 20;
@@ -212,7 +232,7 @@
             // 
             // btnKreiraj
             // 
-            btnKreiraj.Location = new Point(486, 319);
+            btnKreiraj.Location = new Point(510, 355);
             btnKreiraj.Name = "btnKreiraj";
             btnKreiraj.Size = new Size(207, 29);
             btnKreiraj.TabIndex = 19;
@@ -227,7 +247,8 @@
             Controls.Add(btnIzmeni);
             Controls.Add(btnKreiraj);
             Controls.Add(groupBox3);
-            Controls.Add(label7);
+            Controls.Add(lblPotvrdaSifre);
+            Controls.Add(lblSifra);
             Controls.Add(label8);
             Controls.Add(label3);
             Controls.Add(label4);
@@ -236,7 +257,7 @@
             Controls.Add(groupBox1);
             Controls.Add(groupBox2);
             Name = "UCBroker";
-            Size = new Size(709, 367);
+            Size = new Size(730, 403);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -259,8 +280,10 @@
         private GroupBox groupBox1;
         private TextBox txtSifra;
         private TextBox txtKorisnickoIme;
-        private Label label7;
+        private Label lblSifra;
         private Label label8;
+        private TextBox txtPotvrdaSifre;
+        private Label lblPotvrdaSifre;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
         private CheckedListBox clbKategorije;
@@ -279,8 +302,10 @@
         public GroupBox GroupBox1 { get => groupBox1; set => groupBox1 = value; }
         public TextBox TxtSifra { get => txtSifra; set => txtSifra = value; }
         public TextBox TxtKorisnickoIme { get => txtKorisnickoIme; set => txtKorisnickoIme = value; }
-        public Label Label7 { get => label7; set => label7 = value; }
+        public Label LblSifra { get => lblSifra; set => lblSifra = value; }
         public Label Label8 { get => label8; set => label8 = value; }
+        public TextBox TxtPotvrdaSifre { get => txtPotvrdaSifre; set => txtPotvrdaSifre = value; }
+        public Label LblPotvrdaSifre { get => lblPotvrdaSifre; set => lblPotvrdaSifre = value; }
         public GroupBox GroupBox2 { get => groupBox2; set => groupBox2 = value; }
         public GroupBox GroupBox3 { get => groupBox3; set => groupBox3 = value; }
         public CheckedListBox ClbKategorije { get => clbKategorije; set => clbKategorije = value; }

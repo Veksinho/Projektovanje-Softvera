@@ -20,11 +20,14 @@ namespace Klijent.UserControls
         internal ProveraUnosa ProveraUnosa { get; }
         internal IReadOnlyDictionary<string, Control> Polja { get; }
 
+        internal string PotvrdaSifre => txtPotvrdaSifre.Text.Trim();
+
         public UCBroker(FormMode mode, Broker broker, List<KategorijaDogadjaja> sveKategorije)
         {
             InitializeComponent();
             txtKorisnickoIme.MaxLength = Ogranicenja.BrokerKorisnickoIme;
             txtSifra.MaxLength = Ogranicenja.SifraMax;
+            txtPotvrdaSifre.MaxLength = Ogranicenja.SifraMax;
             txtIme.MaxLength = Ogranicenja.BrokerIme;
             txtPrezime.MaxLength = Ogranicenja.BrokerPrezime;
             UnosPolja.Telefon(txtTelefon);
@@ -34,6 +37,7 @@ namespace Klijent.UserControls
             {
                 [nameof(Broker.KorisnickoIme)] = txtKorisnickoIme,
                 [nameof(Broker.Sifra)] = txtSifra,
+                ["PotvrdaSifre"] = txtPotvrdaSifre,
                 [nameof(Broker.Ime)] = txtIme,
                 [nameof(Broker.Prezime)] = txtPrezime,
                 [nameof(Broker.Telefon)] = txtTelefon
@@ -43,7 +47,6 @@ namespace Klijent.UserControls
 
             txtId.Text = mode == FormMode.Add ? "" : b.IdBroker.ToString();
             txtKorisnickoIme.Text = b.KorisnickoIme;
-            txtSifra.Text = b.Sifra;
             txtIme.Text = b.Ime;
             txtPrezime.Text = b.Prezime;
             txtTelefon.Text = b.Telefon;
@@ -71,7 +74,8 @@ namespace Klijent.UserControls
         public Broker VratiObjekat()
         {
             b.KorisnickoIme = txtKorisnickoIme.Text.Trim();
-            b.Sifra = txtSifra.Text.Trim();
+            string sifra = txtSifra.Text.Trim();
+            b.Sifra = sifra.Length == 0 ? null : sifra;
             b.Ime = txtIme.Text.Trim();
             b.Prezime = txtPrezime.Text.Trim();
             b.Telefon = txtTelefon.Text.Trim();
@@ -106,17 +110,28 @@ namespace Klijent.UserControls
                 case FormMode.Add:
                     btnIzmeni.Visible = false;
                     btnNazad.Visible = false;
+                    lblSifra.Text = "Šifra";
+                    lblPotvrdaSifre.Text = "Potvrda šifre";
                     break;
 
                 case FormMode.Edit:
                     btnKreiraj.Visible = false;
+                    lblSifra.Text = "Nova šifra";
+                    lblPotvrdaSifre.Text = "Potvrda nove šifre";
+                    var toolTip = new ToolTip();
+                    toolTip.SetToolTip(txtSifra, "Ostavite prazno ako ne menjate šifru.");
+                    toolTip.SetToolTip(txtPotvrdaSifre, "Ostavite prazno ako ne menjate šifru.");
+                    Disposed += (s, e) => toolTip.Dispose();
                     break;
 
                 case FormMode.Details:
                     btnKreiraj.Visible = false;
                     btnIzmeni.Visible = false;
                     txtKorisnickoIme.Enabled = false;
+                    lblSifra.Visible = false;
                     txtSifra.Visible = false;
+                    lblPotvrdaSifre.Visible = false;
+                    txtPotvrdaSifre.Visible = false;
                     txtIme.Enabled = false;
                     txtPrezime.Enabled = false;
                     txtTelefon.Enabled = false;

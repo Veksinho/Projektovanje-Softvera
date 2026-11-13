@@ -202,5 +202,48 @@ namespace Common.Tests
                 PravilaBroker.ProveriPrijavu(new Broker { KorisnickoIme = "", Sifra = "" })
                     .Select(g => g.Polje).ToArray());
         }
+
+        private const string PotvrdaPolje = "PotvrdaSifre";
+        private const string PotvrdaPoruka = "Šifra i potvrda šifre se ne poklapaju.";
+
+        [TestMethod]
+        public void TestPotvrdaIsteVrednostiNemaGresaka()
+        {
+            NemaGresaka(PravilaBroker.ProveriPotvrduSifre("lozinka1", "lozinka1"));
+        }
+
+        [TestMethod]
+        [DataRow("", "")]
+        [DataRow(null, null)]
+        [DataRow(null, "")]
+        [DataRow("", null)]
+        public void TestPotvrdaObePrazneNemaGresaka(string? sifra, string? potvrda)
+        {
+            NemaGresaka(PravilaBroker.ProveriPotvrduSifre(sifra, potvrda));
+        }
+
+        [TestMethod]
+        [DataRow("lozinka1", "lozinka2")]
+        [DataRow("Lozinka1", "lozinka1")]
+        public void TestPotvrdaRazliciteVrednosti(string sifra, string potvrda)
+        {
+            JednaGreska(PravilaBroker.ProveriPotvrduSifre(sifra, potvrda), PotvrdaPolje, PotvrdaPoruka);
+        }
+
+        [TestMethod]
+        [DataRow("")]
+        [DataRow(null)]
+        public void TestPotvrdaPraznaSifraUneta(string? potvrda)
+        {
+            JednaGreska(PravilaBroker.ProveriPotvrduSifre("lozinka1", potvrda), PotvrdaPolje, PotvrdaPoruka);
+        }
+
+        [TestMethod]
+        [DataRow("")]
+        [DataRow(null)]
+        public void TestPotvrdaUnetaSifraPrazna(string? sifra)
+        {
+            JednaGreska(PravilaBroker.ProveriPotvrduSifre(sifra, "lozinka1"), PotvrdaPolje, PotvrdaPoruka);
+        }
     }
 }

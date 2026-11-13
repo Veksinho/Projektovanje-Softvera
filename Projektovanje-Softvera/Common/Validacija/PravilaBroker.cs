@@ -39,6 +39,16 @@ namespace Common.Validacija
             return greske;
         }
 
+        public static List<GreskaValidacije> ProveriPotvrduSifre(string? sifra, string? potvrda)
+        {
+            var greske = new List<GreskaValidacije>();
+
+            if (!string.Equals(sifra ?? "", potvrda ?? "", StringComparison.Ordinal))
+                greske.Add(new GreskaValidacije("PotvrdaSifre", "Šifra i potvrda šifre se ne poklapaju."));
+
+            return greske;
+        }
+
         public static List<GreskaValidacije> ProveriPrijavu(Broker b)
         {
             ArgumentNullException.ThrowIfNull(b);

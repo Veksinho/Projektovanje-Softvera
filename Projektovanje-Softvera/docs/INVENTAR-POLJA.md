@@ -25,7 +25,7 @@ Oznake u koloni „Danas“: **—** = nema `MaxLength` ni filtera.
 | Kontrola | Tip | Svojstvo | Kolona (dužina) | Danas | Napomena |
 | --- | --- | --- | --- | --- | --- |
 | `txtKorisnickoIme` | TextBox | `Broker.KorisnickoIme` (`Trim`) | `Broker.korisnickoIme` (50) | — | `Validacija()`: samo obavezno |
-| `txtSifra` | TextBox | `Broker.Sifra` (`Trim`, od 4. 11. 2026.) | `Broker.sifra` (100) | — | `UseSystemPasswordChar`; `Validacija()`: samo obavezna (`IsNullOrWhiteSpace`) |
+| `txtSifra` | TextBox | `Broker.Sifra` (`Trim`, od 4. 11. 2026.) | `Broker.sifraHash` (100; server poredi heš, H1) | `MaxLength` 64 (O22, faza 3) | `UseSystemPasswordChar`; `Validacija()`: samo obavezna (`IsNullOrWhiteSpace`) |
 
 ## UCBroker
 
@@ -33,7 +33,8 @@ Oznake u koloni „Danas“: **—** = nema `MaxLength` ni filtera.
 | --- | --- | --- | --- | --- | --- |
 | `txtId` | TextBox | — (samo prikaz) | — | — | `Enabled = false` |
 | `txtKorisnickoIme` | TextBox | `Broker.KorisnickoIme` | `Broker.korisnickoIme` (50) | — | |
-| `txtSifra` | TextBox | `Broker.Sifra` (`Trim`) | `Broker.sifra` (100) | — | `UseSystemPasswordChar`; u Edit modu popunjen postojećom šifrom (`b.Sifra`); u Details sakriven |
+| `txtSifra` | TextBox | `Broker.Sifra` (`Trim`, prazno → `null`) | `Broker.sifraHash` (100; server čuva BCrypt heš, H1) | `MaxLength` 64 (O12) | `UseSystemPasswordChar`; nikad se ne popunjava iz objekta (faza 3, O21); labela `lblSifra`: „Šifra“ u Add, „Nova šifra“ u Edit (opciono, ToolTip „Ostavite prazno ako ne menjate šifru.“); u Details sakriven zajedno sa labelom |
+| `txtPotvrdaSifre` | TextBox | — (`UCBroker.PotvrdaSifre`, `Trim`; ne šalje se serveru) | — | `MaxLength` 64 (O21, faza 3) | `UseSystemPasswordChar`; proverava `PravilaBroker.ProveriPotvrduSifre` (polje `PotvrdaSifre`); labela `lblPotvrdaSifre`: „Potvrda šifre“ u Add, „Potvrda nove šifre“ u Edit (ToolTip kao za šifru); u Details sakriven zajedno sa labelom |
 | `txtIme` | TextBox | `Broker.Ime` | `Broker.ime` (50) | — | |
 | `txtPrezime` | TextBox | `Broker.Prezime` | `Broker.prezime` (50) | — | |
 | `txtTelefon` | TextBox | `Broker.Telefon` | `Broker.telefon` (30) | — | |
@@ -202,8 +203,8 @@ Oznake u koloni „Danas“: **—** = nema `MaxLength` ni filtera.
 | 2 | Rešeno (O11): polja se ne dodaju, pravilo za pretrage je skraćeno na telefon |
 | 4 | Rešeno (O11): `MaxLength` 150 |
 | 5, 6, 7 | Rešeno (O13): pravila za cenu od/do, minimalnu količinu, datum isteka i objavljen od/do |
-| 8 | Rešeno (O12): `MaxLength` prati pravilo; `MaxLength` šifre na `FrmLogin` ostaje za fazu 3 |
-| 9 | Odloženo za fazu 3 (šifre); danas ne pravi grešku |
+| 8 | Rešeno (O12, O22): `MaxLength` prati pravilo; `MaxLength` šifre na `FrmLogin` je 64 (faza 3, korak 7) |
+| 9 | Rešeno u fazi 3, korak 7 (O21, H4): polje šifre se nikad ne popunjava iz objekta; prazna „Nova šifra“ i potvrda u izmeni znače da šifra ostaje ista |
 | 10 | Rešeno (O10): `FrmLogin` trimuje šifru, a `Validacija()` koristi `IsNullOrWhiteSpace` |
 | 3 | Rešeno (O14): `+` dozvoljen na prvom mestu |
 | 11 | Rešeno (O15): svih 12 lista postaje `DropDownList` |

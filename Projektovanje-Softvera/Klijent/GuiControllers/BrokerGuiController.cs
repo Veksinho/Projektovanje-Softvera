@@ -288,8 +288,10 @@ namespace Klijent.GuiControllers
 
         private bool Validiraj(Broker b, bool sifraObavezna)
         {
-            List<GreskaValidacije> greske = PravilaBroker.Proveri(b, sifraObavezna);
-            return ucBroker!.ProveraUnosa.Prikazi(greske, ucBroker.Polja);
+            List<GreskaValidacije> greske = PravilaBroker.Proveri(b, sifraObavezna)
+                .Concat(PravilaBroker.ProveriPotvrduSifre(b.Sifra, ucBroker!.PotvrdaSifre))
+                .ToList();
+            return ucBroker.ProveraUnosa.Prikazi(greske, ucBroker.Polja);
         }
     }
 }

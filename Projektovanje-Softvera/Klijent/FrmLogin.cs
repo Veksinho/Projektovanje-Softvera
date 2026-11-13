@@ -16,6 +16,7 @@ namespace Klijent
         {
             InitializeComponent();
             txtKorisnickoIme.MaxLength = Ogranicenja.BrokerKorisnickoIme;
+            txtSifra.MaxLength = Ogranicenja.SifraMax;
 
             ProveraUnosa = new ProveraUnosa(this);
             Polja = new Dictionary<string, Control>
