@@ -1,5 +1,6 @@
 using Common.Domen;
 using Common.Validacija;
+using SistemskeOperacije.Bezbednost;
 using SistemskeOperacije.BrokerSO;
 
 namespace SistemskeOperacije.Tests
@@ -108,6 +109,39 @@ namespace SistemskeOperacije.Tests
             Assert.AreEqual(broker.Prezime, saved.Prezime);
             Assert.AreEqual(broker.Telefon, saved.Telefon);
             Assert.AreEqual(0, saved.Specijalizacije.Count);
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuCuvaHes()
+        {
+            string sifra = broker.Sifra;
+            so = new KreirajBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            string? hes = TestBaza.SifraHash(broker.IdBroker);
+            Assert.AreNotEqual(sifra, hes);
+            Assert.IsTrue(PasswordHasher.Verify(sifra, hes));
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuIstaSifraRazliciteHeseve()
+        {
+            Broker drugi = TestPodaci.NapraviBrokera(broker.Sifra);
+            new KreirajBrokerSO(broker).ExecuteTemplate();
+            new KreirajBrokerSO(drugi).ExecuteTemplate();
+
+            Assert.AreNotEqual(TestBaza.SifraHash(broker.IdBroker), TestBaza.SifraHash(drugi.IdBroker));
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuNeVracaSifru()
+        {
+            so = new KreirajBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            Assert.IsNull(((Broker)so.Result!).Sifra);
         }
 
         [TestMethod]

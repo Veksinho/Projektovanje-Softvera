@@ -22,5 +22,14 @@ namespace SistemskeOperacije.Tests
         }
 
         public static bool Postoji(string tabela, string uslov) => BrojRedova(tabela, uslov) > 0;
+
+        public static string? SifraHash(int idBroker)
+        {
+            using SqlConnection connection = new SqlConnection(DBConfig.ConnectionString);
+            connection.Open();
+            using SqlCommand command = new SqlCommand($"SELECT sifraHash FROM Broker WHERE idBroker = {idBroker}", connection);
+            object? vrednost = command.ExecuteScalar();
+            return vrednost == null || vrednost == DBNull.Value ? null : (string)vrednost;
+        }
     }
 }

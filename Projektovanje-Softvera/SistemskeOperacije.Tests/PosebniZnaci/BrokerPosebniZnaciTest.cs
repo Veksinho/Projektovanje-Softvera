@@ -1,4 +1,5 @@
 using Common.Domen;
+using SistemskeOperacije.Bezbednost;
 using SistemskeOperacije.BrokerSO;
 
 namespace SistemskeOperacije.Tests
@@ -34,7 +35,7 @@ namespace SistemskeOperacije.Tests
         private static void ProveriPolja(string tekst, Broker sacuvan)
         {
             Assert.AreEqual(tekst, sacuvan.KorisnickoIme);
-            Assert.AreEqual(TestPodaci.Sifra(tekst), sacuvan.Sifra);
+            Assert.IsTrue(PasswordHasher.Verify(TestPodaci.Sifra(tekst), TestBaza.SifraHash(sacuvan.IdBroker)));
             Assert.AreEqual(tekst, sacuvan.Ime);
             Assert.AreEqual(tekst, sacuvan.Prezime);
         }
@@ -129,7 +130,6 @@ namespace SistemskeOperacije.Tests
 
             Broker prijavljen = (Broker)so.Result!;
             Assert.AreEqual(sacuvan.IdBroker, prijavljen.IdBroker);
-            Assert.AreEqual(sifraBrokera, prijavljen.Sifra);
         }
 
         [TestMethod]

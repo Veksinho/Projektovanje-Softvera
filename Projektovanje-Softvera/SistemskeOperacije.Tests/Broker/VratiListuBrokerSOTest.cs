@@ -70,5 +70,22 @@ namespace SistemskeOperacije.Tests
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(broker.IdBroker, result[0].IdBroker);
         }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuSifraUKriterijumuSeIgnorise()
+        {
+            TestPodaci.KreirajBrokera("lozinka123");
+            Broker trazeni = TestPodaci.KreirajBrokera("lozinka123");
+            string deo = TestPodaci.DeoTeksta(trazeni.KorisnickoIme);
+
+            List<Broker> bezSifre = Izvrsi(new Broker { KorisnickoIme = deo });
+            List<Broker> saSifrom = Izvrsi(new Broker { KorisnickoIme = deo, Sifra = "lozinka123" });
+
+            Assert.AreEqual(1, bezSifre.Count);
+            Assert.AreEqual(trazeni.IdBroker, bezSifre[0].IdBroker);
+            CollectionAssert.AreEqual(
+                bezSifre.Select(b => b.IdBroker).ToList(),
+                saSifrom.Select(b => b.IdBroker).ToList());
+        }
     }
 }

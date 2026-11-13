@@ -38,6 +38,16 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        public void TestIzvrsiOperacijuNeVracaSifru()
+        {
+            so = new PretraziBrokerSO(new Broker { IdBroker = broker.IdBroker });
+
+            so.ExecuteTemplate();
+
+            Assert.IsNull(((Broker)so.Result!).Sifra);
+        }
+
+        [TestMethod]
         public void TestIzvrsiOperacijuNepostojeciBroker()
         {
             so = new PretraziBrokerSO(new Broker { IdBroker = 999999 });

@@ -78,6 +78,32 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        public void TestIzvrsiOperacijuOsnovniBroker()
+        {
+            broker.KorisnickoIme = "vtonic";
+            broker.Sifra = "Sifra#2026";
+            so = new PrijaviBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            Assert.IsNotNull(so.Result);
+            Assert.AreEqual(1, ((Broker)so.Result).IdBroker);
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuNeVracaSifru()
+        {
+            broker.KorisnickoIme = savedBroker.KorisnickoIme;
+            broker.Sifra = CorrectPassword;
+            so = new PrijaviBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            Assert.IsNotNull(so.Result);
+            Assert.IsNull(((Broker)so.Result).Sifra);
+        }
+
+        [TestMethod]
         public void TestIzvrsiOperacijuPogresnaSifra()
         {
             broker.KorisnickoIme = savedBroker.KorisnickoIme;

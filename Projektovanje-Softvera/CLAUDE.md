@@ -4,7 +4,8 @@
 - Radi se na grani improvements. Ne commit-uj i ne pravi tagove bez izričitog zahteva.
 - Testovi: dotnet test u ovom folderu. Integracioni testovi rade samo nad bazom Seminarski-Softveri_Test. Razvojnu bazu Seminarski-Softveri ne menjaj bez pitanja.
 - Ne menjaj tekst postojećih poruka izuzetaka: testovi ih porede doslovno.
-- Tekstualni literal u SQL-u uvek ide kao N'{Sql.Tekst(x)}'. Parametrizacija dolazi tek u fazi 6.1 – ne uvodi je ranije.
+- Tekstualni literal u SQL-u uvek ide kao N'{Sql.Tekst(x)}'. Parametrizacija dolazi tek u fazi 6.1 – ne uvodi je ranije. Izuzetak je alat MigracijaSifara: nije deo sistema koji se meri, pa koristi SqlParameter; nikad ne ispisuje šifre ni heševe iz baze.
 - Šifra se hešira i proverava samo preko SistemskeOperacije.Bezbednost.PasswordHasher. Heš (Broker.SifraHash) nikad ne ide klijentu, ne loguje se i ne prikazuje. Klijent i Common ne referenciraju BCrypt. Work factor je u appsettings.json (PasswordHashing:WorkFactor).
+- U kodu nema komentara (ni //, ni /* */, ni ///). Ne dodaj ih; objašnjenja idu u docs/ ili u ovaj fajl. Izuzetak su komentari koje generiše dizajner u *.Designer.cs.
 - Ne menjaj *.Designer.cs osim kad je to cilj zadatka; MaxLength i događaje polja podešavaj u konstruktoru user control-e.
 - Reference: docs/PRAVILA-VALIDACIJE.md (pravila validacije, Faza 2), docs/POZNATE-GRESKE.md, docs/INVENTAR-SQL-LITERALA.md, docs/SPECIFIKACIJA-TESTOVA.md.

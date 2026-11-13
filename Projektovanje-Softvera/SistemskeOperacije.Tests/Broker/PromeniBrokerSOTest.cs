@@ -7,6 +7,7 @@ namespace SistemskeOperacije.Tests
     public class PromeniBrokerSOTest : IntegracioniTest
     {
         private const string Sifra = "lozinka123";
+        private const string NovaSifra = "novaLozinka456";
 
         private PromeniBrokerSO so = null!;
         private Broker broker = null!;
@@ -22,6 +23,13 @@ namespace SistemskeOperacije.Tests
             PretraziBrokerSO searchSo = new PretraziBrokerSO(new Broker { IdBroker = id });
             searchSo.ExecuteTemplate();
             return (Broker)searchSo.Result!;
+        }
+
+        private static Broker Prijavi(string korisnickoIme, string sifra)
+        {
+            PrijaviBrokerSO loginSo = new PrijaviBrokerSO(new Broker { KorisnickoIme = korisnickoIme, Sifra = sifra });
+            loginSo.ExecuteTemplate();
+            return (Broker)loginSo.Result!;
         }
 
         private static List<int> KategorijeIzBaze(int idBroker) =>
@@ -42,6 +50,7 @@ namespace SistemskeOperacije.Tests
         public void TestPredusloviNeispravnaSifra(string sifra)
         {
             int brojPre = TestBaza.BrojRedova("Broker");
+            string? hesPre = TestBaza.SifraHash(broker.IdBroker);
             broker.Sifra = sifra;
             so = new PromeniBrokerSO(broker);
 
@@ -49,7 +58,7 @@ namespace SistemskeOperacije.Tests
 
             Assert.AreEqual("Šifra brokera nije u odgovarajućem formatu.", ex.Message);
             Assert.AreEqual(brojPre, TestBaza.BrojRedova("Broker"));
-            Assert.AreEqual(Sifra, Pretrazi(broker.IdBroker).Sifra);
+            Assert.AreEqual(hesPre, TestBaza.SifraHash(broker.IdBroker));
         }
 
         [TestMethod]
@@ -123,21 +132,22 @@ namespace SistemskeOperacije.Tests
         [TestMethod]
         public void TestIzvrsiOperacijuSifraIzPretrage()
         {
+            string? hesPre = TestBaza.SifraHash(broker.IdBroker);
             Broker izmena = Pretrazi(broker.IdBroker);
+            Assert.IsNull(izmena.Sifra);
             izmena.Ime = "Izmenjeno";
             so = new PromeniBrokerSO(izmena);
 
             so.ExecuteTemplate();
 
-            PrijaviBrokerSO loginSo = new PrijaviBrokerSO(new Broker { KorisnickoIme = broker.KorisnickoIme, Sifra = Sifra });
-            loginSo.ExecuteTemplate();
-            Assert.AreEqual(broker.IdBroker, ((Broker)loginSo.Result!).IdBroker);
+            Assert.AreEqual(hesPre, TestBaza.SifraHash(broker.IdBroker));
+            Assert.AreEqual(broker.IdBroker, Prijavi(broker.KorisnickoIme, Sifra).IdBroker);
         }
 
         [TestMethod]
-        [Ignore("Poznata greška: Broker.UpdateValues uvek upisuje šifru, pa Promeni bez nove šifre briše postojeću")]
         public void TestIzvrsiOperacijuBezNoveSifre()
         {
+            string? hesPre = TestBaza.SifraHash(broker.IdBroker);
             Broker izmena = Pretrazi(broker.IdBroker);
             izmena.Sifra = null!;
             izmena.Ime = "Izmenjeno";
@@ -145,9 +155,35 @@ namespace SistemskeOperacije.Tests
 
             so.ExecuteTemplate();
 
-            PrijaviBrokerSO loginSo = new PrijaviBrokerSO(new Broker { KorisnickoIme = broker.KorisnickoIme, Sifra = Sifra });
-            loginSo.ExecuteTemplate();
-            Assert.AreEqual(broker.IdBroker, ((Broker)loginSo.Result!).IdBroker);
+            Assert.AreEqual(hesPre, TestBaza.SifraHash(broker.IdBroker));
+            Assert.AreEqual(broker.IdBroker, Prijavi(broker.KorisnickoIme, Sifra).IdBroker);
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuNovaSifra()
+        {
+            string? hesPre = TestBaza.SifraHash(broker.IdBroker);
+            Broker izmena = Pretrazi(broker.IdBroker);
+            izmena.Sifra = NovaSifra;
+            so = new PromeniBrokerSO(izmena);
+
+            so.ExecuteTemplate();
+
+            Assert.AreEqual(broker.IdBroker, Prijavi(broker.KorisnickoIme, NovaSifra).IdBroker);
+            Exception ex = Assert.Throws<Exception>(() => Prijavi(broker.KorisnickoIme, Sifra));
+            Assert.AreEqual("Korisničko ime ili šifra nisu ispravni.", ex.Message);
+            Assert.AreNotEqual(hesPre, TestBaza.SifraHash(broker.IdBroker));
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuNeVracaSifru()
+        {
+            broker.Sifra = NovaSifra;
+            so = new PromeniBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            Assert.IsNull(((Broker)so.Result!).Sifra);
         }
     }
 }

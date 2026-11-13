@@ -1,8 +1,10 @@
 using System.Net;
 using System.Net.Sockets;
+using System.Text.Json;
 using Common.Domen;
 using Common.Domen.Enumeracije;
 using Common.Komunikacija;
+using SistemskeOperacije.Bezbednost;
 
 namespace SistemskeOperacije.Tests
 {
@@ -178,6 +180,30 @@ namespace SistemskeOperacije.Tests
                     primljeno.Specijalizacije[i].DatumSpecijalizacije);
                 Assert.AreSame(primljeno, primljeno.Specijalizacije[i].Broker);
             }
+        }
+
+        [TestMethod]
+        public void TestBrokerSifraHashSeNeSerijalizuje()
+        {
+            string hes = PasswordHasher.Hash("lozinka123");
+            Broker poslato = new Broker
+            {
+                IdBroker = 5,
+                KorisnickoIme = "mmarkovic",
+                Ime = "Marko",
+                Prezime = "Marković",
+                Telefon = "0601234567",
+                SifraHash = hes
+            };
+            Zahtev zahtev = new Zahtev(Operacija.KreirajBroker, poslato);
+
+            string json = JsonSerializer.Serialize(zahtev, zahtev.GetType(), JsonNetworkSerializer.Options);
+            Broker primljeno = Posalji<Broker>(Operacija.KreirajBroker, poslato);
+
+            Assert.DoesNotContain("SifraHash", json);
+            Assert.DoesNotContain(hes, json);
+            Assert.AreEqual(poslato.IdBroker, primljeno.IdBroker);
+            Assert.IsNull(primljeno.SifraHash);
         }
     }
 }

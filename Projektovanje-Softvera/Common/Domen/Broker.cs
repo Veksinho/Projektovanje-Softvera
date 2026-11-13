@@ -14,6 +14,10 @@ namespace Common.Domen
         public int IdBroker { get; set; }
         public string KorisnickoIme { get; set; }
         public string Sifra { get; set; }
+
+        [JsonIgnore]
+        public string? SifraHash { get; set; }
+
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string Telefon { get; set; }
