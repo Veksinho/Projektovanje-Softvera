@@ -5,5 +5,6 @@
 - Testovi: dotnet test u ovom folderu. Integracioni testovi rade samo nad bazom Seminarski-Softveri_Test. Razvojnu bazu Seminarski-Softveri ne menjaj bez pitanja.
 - Ne menjaj tekst postojećih poruka izuzetaka: testovi ih porede doslovno.
 - Tekstualni literal u SQL-u uvek ide kao N'{Sql.Tekst(x)}'. Parametrizacija dolazi tek u fazi 6.1 – ne uvodi je ranije.
+- Šifra se hešira i proverava samo preko SistemskeOperacije.Bezbednost.PasswordHasher. Heš (Broker.SifraHash) nikad ne ide klijentu, ne loguje se i ne prikazuje. Klijent i Common ne referenciraju BCrypt. Work factor je u appsettings.json (PasswordHashing:WorkFactor).
 - Ne menjaj *.Designer.cs osim kad je to cilj zadatka; MaxLength i događaje polja podešavaj u konstruktoru user control-e.
 - Reference: docs/PRAVILA-VALIDACIJE.md (pravila validacije, Faza 2), docs/POZNATE-GRESKE.md, docs/INVENTAR-SQL-LITERALA.md, docs/SPECIFIKACIJA-TESTOVA.md.
