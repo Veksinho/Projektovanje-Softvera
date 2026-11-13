@@ -1,6 +1,7 @@
 ﻿using Common.Domen;
 using Common.Helpers;
 using Common.Validacija;
+using SistemskeOperacije.Bezbednost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace SistemskeOperacije.BrokerSO
 
         protected override void ExecuteConcreteOperation()
         {
+            b.SifraHash = PasswordHasher.Hash(b.Sifra!);
             dbBroker.Add(b);
 
             foreach (BrokerKategorijaDogadjaja s in b.Specijalizacije)
@@ -41,6 +43,7 @@ namespace SistemskeOperacije.BrokerSO
                 dbBroker.Add(s);
             }
 
+            b.Sifra = null;
             Result = b;
         }
     }

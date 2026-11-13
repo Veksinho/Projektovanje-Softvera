@@ -114,7 +114,7 @@ namespace SistemskeOperacije.Tests
         [TestMethod]
         public void TestIzvrsiOperacijuCuvaHes()
         {
-            string sifra = broker.Sifra;
+            string sifra = broker.Sifra!;
             so = new KreirajBrokerSO(broker);
 
             so.ExecuteTemplate();
@@ -127,7 +127,7 @@ namespace SistemskeOperacije.Tests
         [TestMethod]
         public void TestIzvrsiOperacijuIstaSifraRazliciteHeseve()
         {
-            Broker drugi = TestPodaci.NapraviBrokera(broker.Sifra);
+            Broker drugi = TestPodaci.NapraviBrokera(broker.Sifra!);
             new KreirajBrokerSO(broker).ExecuteTemplate();
             new KreirajBrokerSO(drugi).ExecuteTemplate();
 

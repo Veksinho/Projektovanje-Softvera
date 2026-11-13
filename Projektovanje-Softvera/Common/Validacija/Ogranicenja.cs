@@ -3,7 +3,7 @@ namespace Common.Validacija
     public static class Ogranicenja
     {
         public const int BrokerKorisnickoIme = 50;
-        public const int BrokerSifra = 100;
+        public const int BrokerSifraHash = 100;
         public const int BrokerIme = 50;
         public const int BrokerPrezime = 50;
         public const int BrokerTelefon = 30;

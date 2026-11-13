@@ -1,6 +1,7 @@
 ﻿using Common.Domen;
 using Common.Helpers;
 using Common.Validacija;
+using SistemskeOperacije.Bezbednost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace SistemskeOperacije.BrokerSO
 
         protected override void ExecuteConcreteOperation()
         {
+            b.SifraHash = string.IsNullOrWhiteSpace(b.Sifra) ? null : PasswordHasher.Hash(b.Sifra);
             dbBroker.Edit(b);
 
             List<IEntity> stare = dbBroker.GetByCondition(
@@ -49,6 +51,7 @@ namespace SistemskeOperacije.BrokerSO
                 dbBroker.Add(s);
             }
 
+            b.Sifra = null;
             Result = b;
         }
     }

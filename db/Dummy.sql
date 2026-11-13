@@ -26,8 +26,8 @@ DECLARE @idKons1 INT, @idKons2 INT;
 /* ============================================================================
    1. Broker (1)
    ============================================================================ */
-INSERT INTO Broker (korisnickoIme, sifra, ime, prezime, telefon)
-VALUES (N'vtonic', N'Sifra#2026', N'Veljko', N'Tonić', N'0641234567');
+INSERT INTO Broker (korisnickoIme, sifraHash, ime, prezime, telefon)
+VALUES (N'vtonic', N'$2a$11$H4pgUXstlgqPaM7JNa4VEO0eMkv35/k9uHPmY3k.hvi.FJ.F9Qquy', N'Veljko', N'Tonić', N'0641234567');
 SET @idBroker = SCOPE_IDENTITY();
 
 

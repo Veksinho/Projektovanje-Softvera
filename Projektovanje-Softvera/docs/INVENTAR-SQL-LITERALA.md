@@ -27,11 +27,9 @@ git grep -nE "\"'\" *\+|string\.Format" -- "*.cs"
 | `Dogadjaj.cs` | `InsertValues` | `naziv`, `mesto` | vrednost |
 | | `UpdateValues` | `naziv`, `mesto` | `=` |
 | | `SearchCondition` | `d.naziv`, `d.mesto` | `LIKE '%…%'` |
-| `Broker.cs` | `InsertValues` | `korisnickoIme`, `sifra`, `ime`, `prezime`, `telefon` | vrednost |
-| | `UpdateValues` | `korisnickoIme`, `sifra`, `ime`, `prezime`, `telefon` | `=` |
-| | `SearchCondition` (sa šifrom, prijava) | `b.korisnickoIme`, `b.sifra` | `=` |
-| | `SearchCondition` (bez šifre) | `b.korisnickoIme` | `LIKE '%…%'` |
-| | `SearchCondition` | `b.ime`, `b.prezime`, `b.telefon` | `LIKE '%…%'` |
+| `Broker.cs` | `InsertValues` | `korisnickoIme`, `sifraHash`, `ime`, `prezime`, `telefon` | vrednost |
+| | `UpdateValues` | `korisnickoIme`, `ime`, `prezime`, `telefon`; `sifraHash` samo kada je `SifraHash` postavljen (Faza 3) | `=` |
+| | `SearchCondition` | `b.korisnickoIme`, `b.ime`, `b.prezime`, `b.telefon` | `LIKE '%…%'` |
 | `Konsignator.cs` | `InsertValues` | `email`, `telefon`, `adresa` | vrednost |
 | | `UpdateValues` | `email`, `telefon`, `adresa` | `=` |
 | | `SearchCondition` | `k.email`, `k.telefon`, `k.adresa` | `LIKE '%…%'` |
@@ -53,6 +51,8 @@ git grep -nE "\"'\" *\+|string\.Format" -- "*.cs"
 | | `UslovNadKartama` (`KriterijumDogadjaj.Mesto`) | `d2.mesto` | `LIKE '%…%'` |
 | `BrokerKategorijaDogadjaja.cs` | — | nema tekstualnih kolona | — |
 
+Od Faze 3 `Broker.SearchCondition` nema granu za prijavu: `Sifra` se nikad ne koristi u uslovu, a korisničko ime se uvek traži sa `LIKE` (`HESIRANJE-SIFARA.md`).
+
 ## Sistemske operacije (`SistemskeOperacije`)
 
 | Fajl | Član | Kolona | Operator |
@@ -69,7 +69,7 @@ git grep -nE "\"'\" *\+|string\.Format" -- "*.cs"
 | `KonsignatorSO/PromeniKonsignatorSO.cs` | `ProveriJedinstvenostEmaila` (`idKonsignator <>`, Faza 2) | `k.email` | `=` |
 | | `ValidirajFizickoLice` (`idKonsignator <>`) | `fl.jmbg` | `=` |
 | | `ValidirajPravnoLice` (`idKonsignator <>`) | `pl.pib` | `=` |
-| `PrijaviBrokerSO.cs` | `ExecuteConcreteOperation` | koristi `Broker.SearchCondition` (sa šifrom) | `=` |
+| `PrijaviBrokerSO.cs` | `ExecuteConcreteOperation` (sopstveni uslov, Faza 3; šifra se proverava hešom, ne u SQL-u) | `b.korisnickoIme` | `=` |
 
 Ostali uslovi u SO (`ObrisiBrokerSO`, `ObrisiDogadjajSO`, `ObrisiKategorijaDogadjajaSO`, `ObrisiKonsignatorSO`, `KreirajListingSO`, `PromeniListingSO`) sadrže samo celobrojne Id-eve (`= {Id}`, `IN ({identifikatori})`).
 

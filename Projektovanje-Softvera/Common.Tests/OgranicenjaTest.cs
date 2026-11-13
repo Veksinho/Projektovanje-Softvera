@@ -19,7 +19,7 @@ namespace Common.Tests
         [DataRow("Broker.telefon", Ogranicenja.TelefonMaxLength, Ogranicenja.BrokerTelefon)]
         [DataRow("Konsignator.telefon", Ogranicenja.TelefonMaxLength, Ogranicenja.KonsignatorTelefon)]
         [DataRow("FizickoLice.brojLicneKarte", Ogranicenja.BrojLicneKarteDuzina, Ogranicenja.FizickoLiceBrojLicneKarte)]
-        [DataRow("Broker.sifra", Ogranicenja.SifraMax, Ogranicenja.BrokerSifra)]
+        [DataRow("Broker.sifraHash", Ogranicenja.SifraMax, Ogranicenja.BrokerSifraHash)]
         public void TestPraviloStajeUKolonu(string kolonaNaziv, int pravilo, int kolona)
         {
             Assert.IsLessThanOrEqualTo(kolona, pravilo, kolonaNaziv);

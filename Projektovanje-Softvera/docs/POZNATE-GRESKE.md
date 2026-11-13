@@ -2,14 +2,6 @@
 
 Spisak mesta gde se kod ponaša drugačije od specifikacije (`SPECIFIKACIJA-TESTOVA.md`). Testovi za ove slučajeve su napisani kako je specificirano i označeni sa `[Ignore("Poznata greška: …")]`.
 
-## Izmena brokera bez nove šifre briše postojeću šifru
-
-- **SO / klasa:** PromeniBrokerSO / Broker.UpdateValues
-- **Test:** PromeniBrokerSOTest.TestIzvrsiOperacijuBezNoveSifre
-- **Očekivano:** kada je `Sifra = null`, postojeća šifra ostaje nepromenjena i prijava sa starom šifrom uspeva.
-- **Stvarno:** `UpdateValues` uvek upisuje `sifra = '…'`; `Sql.Tekst(null)` vraća prazan string, pa se šifra briše i `PrijaviBrokerSO` baca "Korisničko ime ili šifra nisu ispravni.".
-- **Rešava se u:** Faza 3, korak 5 (`PromeniBrokerSO` bez nove šifre ne upisuje kolonu `sifraHash`; `HESIRANJE-SIFARA.md`, H8)
-
 ## Izmena brokera proverava i staru šifru
 
 - **SO / klasa:** PromeniBrokerSO / UCBroker

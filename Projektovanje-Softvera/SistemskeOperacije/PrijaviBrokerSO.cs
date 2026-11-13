@@ -1,5 +1,7 @@
 ﻿using Common.Domen;
+using Common.Helpers;
 using Common.Validacija;
+using SistemskeOperacije.Bezbednost;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,16 +25,15 @@ namespace SistemskeOperacije
 
         protected override void ExecuteConcreteOperation()
         {
+            List<IEntity> foundBrokers = dbBroker.GetByCondition(
+                new Broker(), $"b.korisnickoIme = N'{Sql.Tekst(b.KorisnickoIme)}'");
 
-            List<IEntity> foundBrokers =
-                dbBroker.GetByCondition(b, b.SearchCondition);
+            Broker? foundBroker = foundBrokers.Cast<Broker>().FirstOrDefault();
 
-            if (foundBrokers.Count == 0)
-            {
+            if (!PasswordHasher.Verify(b.Sifra, foundBroker?.SifraHash))
                 throw new Exception("Korisničko ime ili šifra nisu ispravni.");
-            }
 
-            Result = foundBrokers.Cast<Broker>().FirstOrDefault();
+            Result = foundBroker;
         }
     }
 }
