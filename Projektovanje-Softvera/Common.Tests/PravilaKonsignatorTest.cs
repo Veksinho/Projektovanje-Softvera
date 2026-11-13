@@ -50,8 +50,6 @@ namespace Common.Tests
             StringAssert.StartsWith(ex.Message, "Konsignator mora biti fizičko ili pravno lice.");
         }
 
-        // Zajednička polja
-
         [TestMethod]
         public void TestEmailObavezan()
         {
@@ -125,8 +123,6 @@ namespace Common.Tests
             JednaGreska(PravilaKonsignator.Proveri(k),
                 nameof(Konsignator.Adresa), "Adresa konsignatora može imati najviše 200 znakova.");
         }
-
-        // Fizičko lice
 
         [TestMethod]
         public void TestJmbgObavezan()
@@ -209,8 +205,6 @@ namespace Common.Tests
             JednaGreska(PravilaKonsignator.Proveri(k),
                 nameof(FizickoLice.BrojLicneKarte), "Broj lične karte fizičkog lica mora imati tačno 9 cifara.");
         }
-
-        // Pravno lice
 
         [TestMethod]
         public void TestNazivFirmeObavezan()

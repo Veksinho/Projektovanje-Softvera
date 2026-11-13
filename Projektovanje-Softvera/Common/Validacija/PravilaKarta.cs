@@ -4,7 +4,6 @@ namespace Common.Validacija
 {
     public static class PravilaKarta
     {
-        // novi = true za kreiranje: status se tada ne proverava, jer ga postavlja sistem.
         public static List<GreskaValidacije> Proveri(Karta ka, bool novi)
         {
             ArgumentNullException.ThrowIfNull(ka);

@@ -275,8 +275,6 @@ namespace Common.Tests
             JednaGreska(PravilaListing.Proveri(l, true), nameof(Listing.MinKolicina), poruka);
         }
 
-        // Kriterijum pretrage (O13)
-
         [TestMethod]
         public void TestPrazanKriterijumNemaGresaka()
         {

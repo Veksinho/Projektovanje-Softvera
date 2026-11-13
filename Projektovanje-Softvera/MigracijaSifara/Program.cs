@@ -5,14 +5,6 @@ using System.Text;
 
 namespace MigracijaSifara
 {
-    // Alat za prelazak razvojne baze na heširane šifre (docs/HESIRANJE-SIFARA.md, H3).
-    //
-    // Alat nije deo sistema koji se meri (klijent, server, sistemske operacije), pa za njega
-    // ne važi pravilo iz CLAUDE.md da parametrizacija SQL-a dolazi tek u fazi 6.1:
-    // vrednosti se ovde prosleđuju preko SqlParameter.
-    //
-    // Alat nikad ne ispisuje šifre ni heševe iz baze. Jedini izlaz sa hešom je režim --hesiraj,
-    // koji ne dira bazu.
     internal static class Program
     {
         private const string PrefiksHesa = "$2";
@@ -132,7 +124,6 @@ namespace MigracijaSifara
         {
             using var transaction = connection.BeginTransaction();
 
-            // UPDLOCK/HOLDLOCK: pročitani redovi ostaju zaključani do kraja transakcije.
             var redovi = new List<(int idBroker, string sifra)>();
             using (var select = new SqlCommand(
                 "SELECT idBroker, sifraHash FROM dbo.Broker WITH (UPDLOCK, HOLDLOCK) " +

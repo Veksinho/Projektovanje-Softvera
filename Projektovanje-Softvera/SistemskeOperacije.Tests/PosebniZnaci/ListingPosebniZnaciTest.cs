@@ -34,7 +34,6 @@ namespace SistemskeOperacije.Tests
             return (List<Listing>)so.Result!;
         }
 
-        // kontrolni listing sa običnim tekstom, koji pretraga ne sme da vrati
         private void KreirajKontrolniListing()
         {
             TestPodaci.KreirajListing(broker, konsignator, TestPodaci.KreirajKarte(dogadjaj, konsignator, 1));

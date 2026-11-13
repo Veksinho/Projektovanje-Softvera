@@ -7,7 +7,6 @@ namespace Common.Validacija
         public static readonly string MaxIznosTekst =
             Ogranicenja.MaxIznos.ToString("N2", CultureInfo.GetCultureInfo("sr-Latn-RS"));
 
-        // Obavezno tekstualno polje: prvo obaveznost, pa dužina.
         public static void Tekst(List<GreskaValidacije> greske, string polje, string? vrednost,
             int max, string porukaObavezno, string porukaDuzina)
         {
@@ -17,7 +16,6 @@ namespace Common.Validacija
                 greske.Add(new GreskaValidacije(polje, porukaDuzina));
         }
 
-        // Obavezno polje sa tačnim brojem cifara (JMBG, PIB, matični broj, broj lične karte).
         public static void Cifre(List<GreskaValidacije> greske, string polje, string? vrednost,
             int duzina, string porukaObavezno, string porukaFormat)
         {
@@ -27,7 +25,6 @@ namespace Common.Validacija
                 greske.Add(new GreskaValidacije(polje, porukaFormat));
         }
 
-        // Obavezan telefon: opcioni + na prvom mestu, zatim 6–15 cifara.
         public static void Telefon(List<GreskaValidacije> greske, string polje, string? vrednost,
             string porukaObavezno, string porukaFormat)
         {
@@ -37,8 +34,6 @@ namespace Common.Validacija
                 greske.Add(new GreskaValidacije(polje, porukaFormat));
         }
 
-        // Nenegativan iznos (bez provere znaka): broj decimala, pa gornja granica.
-        // Vraća true ako je dodata greška.
         public static bool Iznos(List<GreskaValidacije> greske, string polje, decimal vrednost, string naziv)
         {
             if (!Provera.ImaNajviseDecimala(vrednost, Ogranicenja.BrojDecimala))

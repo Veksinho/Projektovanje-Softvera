@@ -4,7 +4,6 @@ namespace Common.Validacija
 {
     public static class PravilaDogadjaj
     {
-        // novi = true za unos: datum održavanja tada ne sme biti u prošlosti (pri izmeni se ne proverava).
         public static List<GreskaValidacije> Proveri(Dogadjaj d, bool novi)
         {
             ArgumentNullException.ThrowIfNull(d);

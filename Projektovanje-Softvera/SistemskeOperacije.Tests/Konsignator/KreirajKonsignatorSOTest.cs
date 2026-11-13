@@ -26,7 +26,6 @@ namespace SistemskeOperacije.Tests
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
         }
 
-        // Validate() odbija konsignatora sa datom porukom, a broj redova u tabeli Konsignator se ne menja.
         private void ProveriOdbijanje(Konsignator konsignator, string poruka)
         {
             int brojPre = TestBaza.BrojRedova("Konsignator");

@@ -24,7 +24,6 @@ namespace SistemskeOperacije.Tests
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
         }
 
-        // Validate() odbija brokera sa datom porukom, a broj redova u tabeli Broker se ne menja.
         private void ProveriOdbijanje(string poruka)
         {
             int brojPre = TestBaza.BrojRedova("Broker");

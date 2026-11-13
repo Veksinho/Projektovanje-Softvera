@@ -5,8 +5,6 @@ namespace Common.Validacija
 {
     public static class PravilaListing
     {
-        // novi = true za kreiranje: datum isteka se tada poredi sa današnjim danom,
-        // a status može biti samo nacrt ili objavljen.
         public static List<GreskaValidacije> Proveri(Listing l, bool novi)
         {
             ArgumentNullException.ThrowIfNull(l);
@@ -121,7 +119,6 @@ namespace Common.Validacija
                 greske.Add(new GreskaValidacije(nameof(Listing.MinKolicina), poruka));
         }
 
-        // Vraća true ako je vrednost ispravna (0 znači da kriterijum nije unet).
         private static bool ProveriCenuKriterijuma(List<GreskaValidacije> greske, string polje,
             decimal vrednost, string naziv)
         {

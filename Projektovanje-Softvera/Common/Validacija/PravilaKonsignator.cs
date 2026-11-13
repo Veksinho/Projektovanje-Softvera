@@ -7,7 +7,6 @@ namespace Common.Validacija
         public static List<GreskaValidacije> Proveri(Konsignator k)
         {
             ArgumentNullException.ThrowIfNull(k);
-            // Klijent uvek šalje podtip; drugačiji objekat je programska greška, ne greška unosa.
             if (k is not FizickoLice and not PravnoLice)
                 throw new ArgumentException("Konsignator mora biti fizičko ili pravno lice.", nameof(k));
 

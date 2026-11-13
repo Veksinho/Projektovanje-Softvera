@@ -113,7 +113,6 @@ namespace Klijent.Utils
         private static string DecimalniSeparator =>
             CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
-        // Cifra je samo 0-9, ne char.IsDigit (PRAVILA-VALIDACIJE.md).
         private static bool JeCifra(char c) => c >= '0' && c <= '9';
 
         private static bool JeSeparator(char c) =>

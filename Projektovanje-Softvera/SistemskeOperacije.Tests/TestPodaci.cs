@@ -20,13 +20,10 @@ namespace SistemskeOperacije.Tests
 
         public const string EmailSaApostrofom = "o'brien@test.rs";
 
-        // tekst bez prvog i poslednjeg znaka, za pretragu po delu teksta
         public static string DeoTeksta(string tekst) => tekst[1..^1];
 
-        // kolone red i sediste su nvarchar(10)
         public static string Skrati(string tekst, int duzina) => tekst.Length <= duzina ? tekst : tekst[..duzina];
 
-        // tekst ako zadovoljava pravila šifre, inače tekst sa dopunom (slovo, cifra, dužina)
         public static string Sifra(string tekst) => Provera.JeIspravnaSifra(tekst) ? tekst : tekst + "#2026a";
 
         private static string UniqueSuffix() => Guid.NewGuid().ToString("N")[..8];
@@ -75,7 +72,6 @@ namespace SistemskeOperacije.Tests
             return dogadjaj;
         }
 
-        // UbaciDogadjajSO ne dozvoljava datum u prošlosti, pa se datum menja direktno u bazi.
         public static Dogadjaj KreirajProsliDogadjaj(int danaUnazad)
         {
             Dogadjaj dogadjaj = KreirajDogadjaj(DateTime.Today.AddDays(1));
