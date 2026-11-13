@@ -29,7 +29,7 @@ Tabela se dopunjuje na kraju faze.
 | | `KreirajBrokerSO`, `PromeniBrokerSO` | heširaju šifru pre upisa i postavljaju `Sifra = null` na rezultatu; `PromeniBrokerSO` bez nove šifre ne upisuje `sifraHash` (H8) |
 | | `PrijaviBrokerSO` | čitanje po korisničkom imenu, provera heša, lažni heš za nepostojeće korisničko ime (H6) |
 | `Server` / `SistemskeOperacije.Tests` | `appsettings.json` | ključ `PasswordHashing:WorkFactor`: server 11, testovi 4 (H2) |
-| `db` | `MigracijaFaza3.sql` | preimenovanje kolone `Broker.sifra` u `sifraHash` (H3) |
+| `db` | `MigrationPasswordHash.sql` | preimenovanje kolone `Broker.sifra` u `sifraHash` (H3) |
 | `MigracijaSifara` | konzolni alat | hešira postojeće vrednosti koje još nisu heš (H3) |
 | `Klijent` | `UCBroker`, `FrmLogin` | potvrda šifre, polje „Nova šifra“ u izmeni, `MaxLength` 64 na prijavi (H4, H8) |
 | `SistemskeOperacije.Tests` | `TestBaza`, `Bezbednost/PasswordHasherTest` | pomoćni metod za čitanje `sifraHash` iz baze; jedinični testovi klase `PasswordHasher` (`SPECIFIKACIJA-TESTOVA.md`, 4.10) |
@@ -48,7 +48,7 @@ Tabela se dopunjuje na kraju faze.
 | --- | --- |
 | H1 | `Broker` dobija svojstvo `SifraHash` sa `[JsonIgnore]`. `Sifra` je samo ulaz od klijenta ka serveru i nikad se ne čita iz baze. `SelectColumns` za `Broker` se ne menja, jer su eksplicitne kolone kandidat za optimizaciju 6.2 (10. 11. 2026.) |
 | H2 | Work factor se čita iz `appsettings.json`, ključ `PasswordHashing:WorkFactor` (svojstvo `PasswordHashingConfig.WorkFactor`, H10): server 11, testovi 4, dozvoljen opseg 4–31. Ključ je obavezan (10. 11. 2026.) |
-| H3 | Kolona `Broker.sifra` se preimenuje u `sifraHash` (tip ostaje `nvarchar(100)`). Razvojna baza se prevodi SQL skriptom `db/MigracijaFaza3.sql` (preimenovanje kolone) i konzolnim alatom `MigracijaSifara`, koji hešira samo vrednosti koje još nisu heš (ne počinju sa `$2`). Oba smeju da se pokrenu više puta (10. 11. 2026.) |
+| H3 | Kolona `Broker.sifra` se preimenuje u `sifraHash` (tip ostaje `nvarchar(100)`). Razvojna baza se prevodi SQL skriptom `db/MigrationPasswordHash.sql` (preimenovanje kolone) i konzolnim alatom `MigracijaSifara`, koji hešira samo vrednosti koje još nisu heš (ne počinju sa `$2`). Oba smeju da se pokrenu više puta (10. 11. 2026.) |
 | H4 | Forma brokera ima potvrdu šifre pri kreiranju i pri izmeni. Kreiranje: „Šifra“ i „Potvrda šifre“. Izmena: „Nova šifra“ i „Potvrda nove šifre“; prazna polja znače da šifra ostaje ista, a polje se nikad ne popunjava iz baze. Detalji: oba polja su sakrivena. Potvrdu proverava `PravilaBroker.ProveriPotvrduSifre` u projektu `Common`, samo na klijentu, jer server ne dobija potvrdu (10. 11. 2026.) |
 | H5 | Pri promeni šifre ne traži se unos trenutne šifre (ograničenje) (10. 11. 2026.) |
 | H6 | Za nepostojeće korisničko ime `PrijaviBrokerSO` radi BCrypt proveru nad lažnim hešom, da vreme odziva ne otkriva da li korisničko ime postoji. Poruka ostaje „Korisničko ime ili šifra nisu ispravni.“ (10. 11. 2026.) |
