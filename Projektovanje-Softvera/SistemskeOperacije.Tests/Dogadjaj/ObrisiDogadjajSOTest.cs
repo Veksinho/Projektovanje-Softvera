@@ -5,31 +5,18 @@ using SistemskeOperacije.KartaSO;
 namespace SistemskeOperacije.Tests
 {
     [TestClass]
-    public class ObrisiDogadjajSOTest
+    public class ObrisiDogadjajSOTest : IntegracioniTest
     {
-        private static Konsignator konsignator = null!;
+        private Konsignator konsignator = null!;
 
         private ObrisiDogadjajSO so = null!;
         private Dogadjaj dogadjaj = null!;
 
-        [ClassInitialize]
-        public static void ClassSetUp(TestContext context)
-        {
-            konsignator = TestPodaci.VratiPostojecegKonsignatora();
-        }
-
         [TestInitialize]
         public void SetUp()
         {
+            konsignator = TestPodaci.KreirajFizickoLice();
             dogadjaj = TestPodaci.KreirajDogadjaj();
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            TestPodaci.ObrisiDogadjaj(dogadjaj.IdDogadjaj);
-            so = null!;
-            dogadjaj = null!;
         }
 
         [TestMethod]

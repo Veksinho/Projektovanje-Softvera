@@ -55,7 +55,7 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(13, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(506, 198);
+            groupBox1.Size = new Size(543, 198);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Događaj";
@@ -136,7 +136,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(369, 225);
+            btnIzmeni.Location = new Point(406, 225);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(150, 29);
             btnIzmeni.TabIndex = 10;
@@ -145,7 +145,7 @@
             // 
             // btnKreiraj
             // 
-            btnKreiraj.Location = new Point(312, 225);
+            btnKreiraj.Location = new Point(349, 225);
             btnKreiraj.Name = "btnKreiraj";
             btnKreiraj.Size = new Size(207, 29);
             btnKreiraj.TabIndex = 9;
@@ -161,7 +161,7 @@
             Controls.Add(btnKreiraj);
             Controls.Add(groupBox1);
             Name = "UCDogadjaj";
-            Size = new Size(533, 271);
+            Size = new Size(574, 271);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);

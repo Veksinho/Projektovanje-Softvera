@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
@@ -95,7 +96,7 @@ namespace Klijent.GuiControllers
         private void UbaciDogadjaj(object? sender, EventArgs e)
         {
             Dogadjaj d = ucDogadjaj!.VratiObjekat();
-            if (!Validiraj(d)) return;
+            if (!Validiraj(d, novi: true)) return;
             try
             {
                 Komunikacija.Instance.UbaciDogadjaj(d);
@@ -110,7 +111,7 @@ namespace Klijent.GuiControllers
         private void PromeniDogadjaj(object? sender, EventArgs e)
         {
             Dogadjaj d = ucDogadjaj!.VratiObjekat();
-            if (!Validiraj(d)) return;
+            if (!Validiraj(d, novi: false)) return;
             try
             {
                 Komunikacija.Instance.PromeniDogadjaj(d);
@@ -188,19 +189,10 @@ namespace Klijent.GuiControllers
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-        private bool Validiraj(Dogadjaj d)
+        private bool Validiraj(Dogadjaj d, bool novi)
         {
-            if (string.IsNullOrWhiteSpace(d.Naziv) || string.IsNullOrWhiteSpace(d.Mesto))
-            {
-                MessageBox.Show("Sva polja moraju biti popunjena!");
-                return false;
-            }
-            if (d.DatumOdrzavanja.Date < DateTime.Today)
-            {
-                MessageBox.Show("Datum održavanja ne može biti u prošlosti!");
-                return false;
-            }
-            return true;
+            List<GreskaValidacije> greske = PravilaDogadjaj.Proveri(d, novi);
+            return ucDogadjaj!.ProveraUnosa.Prikazi(greske, ucDogadjaj.Polja);
         }
     }
 }

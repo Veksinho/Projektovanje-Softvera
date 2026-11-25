@@ -86,7 +86,7 @@
             gbPoListingu.Margin = new Padding(3, 4, 3, 4);
             gbPoListingu.Name = "gbPoListingu";
             gbPoListingu.Padding = new Padding(3, 4, 3, 4);
-            gbPoListingu.Size = new Size(555, 160);
+            gbPoListingu.Size = new Size(592, 160);
             gbPoListingu.TabIndex = 0;
             gbPoListingu.TabStop = false;
             gbPoListingu.Text = "Po listingu";
@@ -96,7 +96,7 @@
             lblStatus.AutoSize = true;
             lblStatus.Location = new Point(17, 37);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(52, 20);
+            lblStatus.Size = new Size(49, 20);
             lblStatus.TabIndex = 0;
             lblStatus.Text = "Status";
             // 
@@ -113,9 +113,9 @@
             // lblSplit
             // 
             lblSplit.AutoSize = true;
-            lblSplit.Location = new Point(314, 37);
+            lblSplit.Location = new Point(336, 37);
             lblSplit.Name = "lblSplit";
-            lblSplit.Size = new Size(42, 20);
+            lblSplit.Size = new Size(39, 20);
             lblSplit.TabIndex = 2;
             lblSplit.Text = "Split";
             // 
@@ -123,7 +123,7 @@
             // 
             cmbSplit.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbSplit.FormattingEnabled = true;
-            cmbSplit.Location = new Point(400, 33);
+            cmbSplit.Location = new Point(408, 33);
             cmbSplit.Margin = new Padding(3, 4, 3, 4);
             cmbSplit.Name = "cmbSplit";
             cmbSplit.Size = new Size(148, 28);
@@ -134,7 +134,7 @@
             lblObjavljenOd.AutoSize = true;
             lblObjavljenOd.Location = new Point(17, 73);
             lblObjavljenOd.Name = "lblObjavljenOd";
-            lblObjavljenOd.Size = new Size(97, 20);
+            lblObjavljenOd.Size = new Size(94, 20);
             lblObjavljenOd.TabIndex = 4;
             lblObjavljenOd.Text = "Objavljen od";
             // 
@@ -152,9 +152,9 @@
             // lblObjavljenDo
             // 
             lblObjavljenDo.AutoSize = true;
-            lblObjavljenDo.Location = new Point(314, 73);
+            lblObjavljenDo.Location = new Point(336, 73);
             lblObjavljenDo.Name = "lblObjavljenDo";
-            lblObjavljenDo.Size = new Size(30, 20);
+            lblObjavljenDo.Size = new Size(27, 20);
             lblObjavljenDo.TabIndex = 6;
             lblObjavljenDo.Text = "do";
             // 
@@ -162,7 +162,7 @@
             // 
             dtpObjavljenDo.Checked = false;
             dtpObjavljenDo.Format = DateTimePickerFormat.Short;
-            dtpObjavljenDo.Location = new Point(400, 69);
+            dtpObjavljenDo.Location = new Point(408, 69);
             dtpObjavljenDo.Margin = new Padding(3, 4, 3, 4);
             dtpObjavljenDo.Name = "dtpObjavljenDo";
             dtpObjavljenDo.ShowCheckBox = true;
@@ -174,7 +174,7 @@
             lblCenaOd.AutoSize = true;
             lblCenaOd.Location = new Point(17, 108);
             lblCenaOd.Name = "lblCenaOd";
-            lblCenaOd.Size = new Size(67, 20);
+            lblCenaOd.Size = new Size(64, 20);
             lblCenaOd.TabIndex = 8;
             lblCenaOd.Text = "Cena od";
             // 
@@ -190,15 +190,15 @@
             // lblCenaDo
             // 
             lblCenaDo.AutoSize = true;
-            lblCenaDo.Location = new Point(314, 108);
+            lblCenaDo.Location = new Point(336, 108);
             lblCenaDo.Name = "lblCenaDo";
-            lblCenaDo.Size = new Size(30, 20);
+            lblCenaDo.Size = new Size(27, 20);
             lblCenaDo.TabIndex = 10;
             lblCenaDo.Text = "do";
             // 
             // txtCenaDo
             // 
-            txtCenaDo.Location = new Point(400, 104);
+            txtCenaDo.Location = new Point(408, 104);
             txtCenaDo.Margin = new Padding(3, 4, 3, 4);
             txtCenaDo.Name = "txtCenaDo";
             txtCenaDo.Size = new Size(148, 27);
@@ -207,16 +207,15 @@
             // 
             // gbPoKonsignatoru
             // 
-            gbPoKonsignatoru.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gbPoKonsignatoru.Controls.Add(lblKonsignator);
             gbPoKonsignatoru.Controls.Add(cmbKonsignator);
             gbPoKonsignatoru.Controls.Add(lblNazivKonsignatora);
             gbPoKonsignatoru.Controls.Add(txtNazivKonsignatora);
-            gbPoKonsignatoru.Location = new Point(576, 16);
+            gbPoKonsignatoru.Location = new Point(612, 16);
             gbPoKonsignatoru.Margin = new Padding(3, 4, 3, 4);
             gbPoKonsignatoru.Name = "gbPoKonsignatoru";
             gbPoKonsignatoru.Padding = new Padding(3, 4, 3, 4);
-            gbPoKonsignatoru.Size = new Size(558, 77);
+            gbPoKonsignatoru.Size = new Size(557, 77);
             gbPoKonsignatoru.TabIndex = 1;
             gbPoKonsignatoru.TabStop = false;
             gbPoKonsignatoru.Text = "Po konsignatoru";
@@ -226,7 +225,7 @@
             lblKonsignator.AutoSize = true;
             lblKonsignator.Location = new Point(17, 37);
             lblKonsignator.Name = "lblKonsignator";
-            lblKonsignator.Size = new Size(92, 20);
+            lblKonsignator.Size = new Size(89, 20);
             lblKonsignator.TabIndex = 0;
             lblKonsignator.Text = "Konsignator";
             // 
@@ -245,7 +244,7 @@
             lblNazivKonsignatora.AutoSize = true;
             lblNazivKonsignatora.Location = new Point(326, 37);
             lblNazivKonsignatora.Name = "lblNazivKonsignatora";
-            lblNazivKonsignatora.Size = new Size(49, 20);
+            lblNazivKonsignatora.Size = new Size(46, 20);
             lblNazivKonsignatora.TabIndex = 2;
             lblNazivKonsignatora.Text = "Naziv";
             // 
@@ -259,16 +258,15 @@
             // 
             // gbPoDogadjaju
             // 
-            gbPoDogadjaju.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gbPoDogadjaju.Controls.Add(lblDogadjaj);
             gbPoDogadjaju.Controls.Add(cmbDogadjaj);
             gbPoDogadjaju.Controls.Add(lblMesto);
             gbPoDogadjaju.Controls.Add(txtMesto);
-            gbPoDogadjaju.Location = new Point(576, 101);
+            gbPoDogadjaju.Location = new Point(612, 101);
             gbPoDogadjaju.Margin = new Padding(3, 4, 3, 4);
             gbPoDogadjaju.Name = "gbPoDogadjaju";
             gbPoDogadjaju.Padding = new Padding(3, 4, 3, 4);
-            gbPoDogadjaju.Size = new Size(558, 75);
+            gbPoDogadjaju.Size = new Size(557, 75);
             gbPoDogadjaju.TabIndex = 2;
             gbPoDogadjaju.TabStop = false;
             gbPoDogadjaju.Text = "Po događaju";
@@ -278,7 +276,7 @@
             lblDogadjaj.AutoSize = true;
             lblDogadjaj.Location = new Point(17, 32);
             lblDogadjaj.Name = "lblDogadjaj";
-            lblDogadjaj.Size = new Size(70, 20);
+            lblDogadjaj.Size = new Size(67, 20);
             lblDogadjaj.TabIndex = 0;
             lblDogadjaj.Text = "Događaj";
             // 
@@ -297,7 +295,7 @@
             lblMesto.AutoSize = true;
             lblMesto.Location = new Point(326, 32);
             lblMesto.Name = "lblMesto";
-            lblMesto.Size = new Size(53, 20);
+            lblMesto.Size = new Size(50, 20);
             lblMesto.TabIndex = 2;
             lblMesto.Text = "Mesto";
             // 
@@ -311,7 +309,6 @@
             // 
             // gbPoKarti
             // 
-            gbPoKarti.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gbPoKarti.Controls.Add(lblSektor);
             gbPoKarti.Controls.Add(txtSektor);
             gbPoKarti.Controls.Add(lblTipKarte);
@@ -320,7 +317,7 @@
             gbPoKarti.Margin = new Padding(3, 4, 3, 4);
             gbPoKarti.Name = "gbPoKarti";
             gbPoKarti.Padding = new Padding(3, 4, 3, 4);
-            gbPoKarti.Size = new Size(555, 76);
+            gbPoKarti.Size = new Size(592, 76);
             gbPoKarti.TabIndex = 3;
             gbPoKarti.TabStop = false;
             gbPoKarti.Text = "Po karti";
@@ -330,7 +327,7 @@
             lblSektor.AutoSize = true;
             lblSektor.Location = new Point(17, 32);
             lblSektor.Name = "lblSektor";
-            lblSektor.Size = new Size(54, 20);
+            lblSektor.Size = new Size(51, 20);
             lblSektor.TabIndex = 0;
             lblSektor.Text = "Sektor";
             // 
@@ -345,9 +342,9 @@
             // lblTipKarte
             // 
             lblTipKarte.AutoSize = true;
-            lblTipKarte.Location = new Point(314, 31);
+            lblTipKarte.Location = new Point(336, 32);
             lblTipKarte.Name = "lblTipKarte";
-            lblTipKarte.Size = new Size(70, 20);
+            lblTipKarte.Size = new Size(67, 20);
             lblTipKarte.TabIndex = 2;
             lblTipKarte.Text = "Tip karte";
             // 
@@ -355,7 +352,7 @@
             // 
             cmbTipKarte.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTipKarte.FormattingEnabled = true;
-            cmbTipKarte.Location = new Point(400, 27);
+            cmbTipKarte.Location = new Point(408, 27);
             cmbTipKarte.Margin = new Padding(3, 4, 3, 4);
             cmbTipKarte.Name = "cmbTipKarte";
             cmbTipKarte.Size = new Size(148, 28);
@@ -368,12 +365,12 @@
             dgvRezultati.Margin = new Padding(3, 4, 3, 4);
             dgvRezultati.Name = "dgvRezultati";
             dgvRezultati.RowHeadersWidth = 51;
-            dgvRezultati.Size = new Size(1120, 210);
+            dgvRezultati.Size = new Size(1155, 210);
             dgvRezultati.TabIndex = 8;
             // 
             // btnPonisti
             // 
-            btnPonisti.Location = new Point(1040, 227);
+            btnPonisti.Location = new Point(1075, 227);
             btnPonisti.Name = "btnPonisti";
             btnPonisti.Size = new Size(94, 29);
             btnPonisti.TabIndex = 16;
@@ -382,7 +379,7 @@
             // 
             // btnPretrazi
             // 
-            btnPretrazi.Location = new Point(940, 227);
+            btnPretrazi.Location = new Point(975, 227);
             btnPretrazi.Name = "btnPretrazi";
             btnPretrazi.Size = new Size(94, 29);
             btnPretrazi.TabIndex = 15;
@@ -391,7 +388,7 @@
             // 
             // btnIzmeni
             // 
-            btnIzmeni.Location = new Point(1040, 499);
+            btnIzmeni.Location = new Point(1075, 503);
             btnIzmeni.Name = "btnIzmeni";
             btnIzmeni.Size = new Size(94, 31);
             btnIzmeni.TabIndex = 22;
@@ -400,7 +397,7 @@
             // 
             // btnPrikazi
             // 
-            btnPrikazi.Location = new Point(940, 499);
+            btnPrikazi.Location = new Point(975, 503);
             btnPrikazi.Name = "btnPrikazi";
             btnPrikazi.Size = new Size(94, 31);
             btnPrikazi.TabIndex = 21;
@@ -422,7 +419,7 @@
             Controls.Add(dgvRezultati);
             Margin = new Padding(3, 4, 3, 4);
             Name = "UCPretragaListing";
-            Size = new Size(1148, 555);
+            Size = new Size(1183, 555);
             gbPoListingu.ResumeLayout(false);
             gbPoListingu.PerformLayout();
             gbPoKonsignatoru.ResumeLayout(false);

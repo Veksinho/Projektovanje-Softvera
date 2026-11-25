@@ -3,39 +3,21 @@ using Common.Domen;
 namespace SistemskeOperacije.Tests
 {
     [TestClass]
-    public class PrijaviBrokerSOTest
+    public class PrijaviBrokerSOTest : IntegracioniTest
     {
         private const string FailedLoginMessage = "Korisničko ime ili šifra nisu ispravni.";
         private const string CorrectPassword = "lozinka123";
 
-        private static Broker savedBroker = null!;
+        private Broker savedBroker = null!;
 
         private PrijaviBrokerSO so = null!;
         private Broker broker = null!;
 
-        [ClassInitialize]
-        public static void ClassSetUp(TestContext context)
-        {
-            savedBroker = TestPodaci.KreirajBrokera(CorrectPassword);
-        }
-
-        [ClassCleanup]
-        public static void ClassTearDown()
-        {
-            TestPodaci.ObrisiBrokera(savedBroker.IdBroker);
-        }
-
         [TestInitialize]
         public void SetUp()
         {
+            savedBroker = TestPodaci.KreirajBrokera(CorrectPassword);
             broker = new Broker();
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            so = null!;
-            broker = null!;
         }
 
         [TestMethod]
@@ -96,6 +78,32 @@ namespace SistemskeOperacije.Tests
         }
 
         [TestMethod]
+        public void TestIzvrsiOperacijuOsnovniBroker()
+        {
+            broker.KorisnickoIme = "vtonic";
+            broker.Sifra = "Sifra#2026";
+            so = new PrijaviBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            Assert.IsNotNull(so.Result);
+            Assert.AreEqual(1, ((Broker)so.Result).IdBroker);
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuNeVracaSifru()
+        {
+            broker.KorisnickoIme = savedBroker.KorisnickoIme;
+            broker.Sifra = CorrectPassword;
+            so = new PrijaviBrokerSO(broker);
+
+            so.ExecuteTemplate();
+
+            Assert.IsNotNull(so.Result);
+            Assert.IsNull(((Broker)so.Result).Sifra);
+        }
+
+        [TestMethod]
         public void TestIzvrsiOperacijuPogresnaSifra()
         {
             broker.KorisnickoIme = savedBroker.KorisnickoIme;
@@ -126,6 +134,36 @@ namespace SistemskeOperacije.Tests
         {
             broker.KorisnickoIme = "' OR 1=1 --";
             broker.Sifra = "bilo sta";
+            so = new PrijaviBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(FailedLoginMessage, ex.Message);
+            Assert.IsNull(so.Result);
+        }
+
+        [TestMethod]
+        [DataRow("' OR 1=1 --")]
+        [DataRow("' OR '1'='1")]
+        public void TestIzvrsiOperacijuSqlInjectionKorisnickoIme(string username)
+        {
+            broker.KorisnickoIme = username;
+            broker.Sifra = username;
+            so = new PrijaviBrokerSO(broker);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual(FailedLoginMessage, ex.Message);
+            Assert.IsNull(so.Result);
+        }
+
+        [TestMethod]
+        [DataRow("' OR 1=1 --")]
+        [DataRow("' OR '1'='1")]
+        public void TestIzvrsiOperacijuSqlInjectionSifra(string password)
+        {
+            broker.KorisnickoIme = savedBroker.KorisnickoIme;
+            broker.Sifra = password;
             so = new PrijaviBrokerSO(broker);
 
             Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());

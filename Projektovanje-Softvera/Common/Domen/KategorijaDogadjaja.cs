@@ -27,10 +27,10 @@ namespace Common.Domen
         public string InsertColumns => "naziv, opis";
 
         [JsonIgnore]
-        public string InsertValues => $"'{Sql.Tekst(Naziv)}', '{Sql.Tekst(Opis)}'";
+        public string InsertValues => $"N'{Sql.Tekst(Naziv)}', N'{Sql.Tekst(Opis)}'";
 
         [JsonIgnore]
-        public string UpdateValues => $"naziv = '{Sql.Tekst(Naziv)}', opis = '{Sql.Tekst(Opis)}'";
+        public string UpdateValues => $"naziv = N'{Sql.Tekst(Naziv)}', opis = N'{Sql.Tekst(Opis)}'";
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"kd.idKategorijaDogadjaja = {IdKategorijaDogadjaja}";
@@ -45,9 +45,9 @@ namespace Common.Domen
                 if (IdKategorijaDogadjaja > 0)
                     uslovi.Add($"kd.idKategorijaDogadjaja = {IdKategorijaDogadjaja}");
                 if (!string.IsNullOrWhiteSpace(Naziv))
-                    uslovi.Add($"kd.naziv LIKE '%{Sql.Tekst(Naziv)}%'");
+                    uslovi.Add($"kd.naziv LIKE N'%{Sql.Tekst(Naziv)}%'");
                 if (!string.IsNullOrWhiteSpace(Opis))
-                    uslovi.Add($"kd.opis LIKE '%{Sql.Tekst(Opis)}%'");
+                    uslovi.Add($"kd.opis LIKE N'%{Sql.Tekst(Opis)}%'");
 
                 return string.Join(" AND ", uslovi);
             }

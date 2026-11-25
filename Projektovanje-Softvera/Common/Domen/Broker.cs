@@ -13,7 +13,11 @@ namespace Common.Domen
     {
         public int IdBroker { get; set; }
         public string KorisnickoIme { get; set; }
-        public string Sifra { get; set; }
+        public string? Sifra { get; set; }
+
+        [JsonIgnore]
+        public string? SifraHash { get; set; }
+
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string Telefon { get; set; }
@@ -36,20 +40,30 @@ namespace Common.Domen
             "LEFT JOIN KategorijaDogadjaja kd ON bkd.idKategorijaDogadjaja = kd.idKategorijaDogadjaja";
 
         [JsonIgnore]
-        public string InsertColumns => "korisnickoIme, sifra, ime, prezime, telefon";
+        public string InsertColumns => "korisnickoIme, sifraHash, ime, prezime, telefon";
 
         [JsonIgnore]
         public string InsertValues =>
-            $"'{Sql.Tekst(KorisnickoIme)}', '{Sql.Tekst(Sifra)}', " +
-            $"'{Sql.Tekst(Ime)}', '{Sql.Tekst(Prezime)}', '{Sql.Tekst(Telefon)}'";
+            $"N'{Sql.Tekst(KorisnickoIme)}', N'{Sql.Tekst(SifraHash)}', " +
+            $"N'{Sql.Tekst(Ime)}', N'{Sql.Tekst(Prezime)}', N'{Sql.Tekst(Telefon)}'";
 
         [JsonIgnore]
-        public string UpdateValues =>
-            $"korisnickoIme = '{Sql.Tekst(KorisnickoIme)}', " +
-            $"sifra = '{Sql.Tekst(Sifra)}', " +
-            $"ime = '{Sql.Tekst(Ime)}', " +
-            $"prezime = '{Sql.Tekst(Prezime)}', " +
-            $"telefon = '{Sql.Tekst(Telefon)}'";
+        public string UpdateValues
+        {
+            get
+            {
+                var vrednosti = new List<string> { $"korisnickoIme = N'{Sql.Tekst(KorisnickoIme)}'" };
+
+                if (!string.IsNullOrEmpty(SifraHash))
+                    vrednosti.Add($"sifraHash = N'{Sql.Tekst(SifraHash)}'");
+
+                vrednosti.Add($"ime = N'{Sql.Tekst(Ime)}'");
+                vrednosti.Add($"prezime = N'{Sql.Tekst(Prezime)}'");
+                vrednosti.Add($"telefon = N'{Sql.Tekst(Telefon)}'");
+
+                return string.Join(", ", vrednosti);
+            }
+        }
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"b.idBroker = {IdBroker}";
@@ -64,22 +78,15 @@ namespace Common.Domen
                 if (IdBroker > 0)
                     uslovi.Add($"b.idBroker = {IdBroker}");
 
-                if (!string.IsNullOrWhiteSpace(Sifra))
-                {
-                    uslovi.Add($"b.korisnickoIme = '{Sql.Tekst(KorisnickoIme)}'");
-                    uslovi.Add($"b.sifra = '{Sql.Tekst(Sifra)}'");
-                }
-                else if (!string.IsNullOrWhiteSpace(KorisnickoIme))
-                {
-                    uslovi.Add($"b.korisnickoIme LIKE '%{Sql.Tekst(KorisnickoIme)}%'");
-                }
+                if (!string.IsNullOrWhiteSpace(KorisnickoIme))
+                    uslovi.Add($"b.korisnickoIme LIKE N'%{Sql.Tekst(KorisnickoIme)}%'");
 
                 if (!string.IsNullOrWhiteSpace(Ime))
-                    uslovi.Add($"b.ime LIKE '%{Sql.Tekst(Ime)}%'");
+                    uslovi.Add($"b.ime LIKE N'%{Sql.Tekst(Ime)}%'");
                 if (!string.IsNullOrWhiteSpace(Prezime))
-                    uslovi.Add($"b.prezime LIKE '%{Sql.Tekst(Prezime)}%'");
+                    uslovi.Add($"b.prezime LIKE N'%{Sql.Tekst(Prezime)}%'");
                 if (!string.IsNullOrWhiteSpace(Telefon))
-                    uslovi.Add($"b.telefon LIKE '%{Sql.Tekst(Telefon)}%'");
+                    uslovi.Add($"b.telefon LIKE N'%{Sql.Tekst(Telefon)}%'");
 
                 if (Specijalizacije != null
                     && Specijalizacije.Count > 0
@@ -114,7 +121,7 @@ namespace Common.Domen
                     {
                         IdBroker = id,
                         KorisnickoIme = (string)reader["korisnickoIme"],
-                        Sifra = (string)reader["sifra"],
+                        SifraHash = (string)reader["sifraHash"],
                         Ime = (string)reader["ime"],
                         Prezime = (string)reader["prezime"],
                         Telefon = (string)reader["telefon"]

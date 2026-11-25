@@ -1,4 +1,6 @@
 ﻿using Common.Domen;
+using Common.Helpers;
+using Common.Validacija;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +30,14 @@ namespace SistemskeOperacije.KategorijaDogadjajaSO
                 throw new Exception("Nije prosleđen id kategorije događaja.");
             }
 
-            if (string.IsNullOrWhiteSpace(kd.Naziv))
-            {
-                throw new Exception("Naziv kategorije događaja je obavezan.");
-            }
+            ThrowIfInvalid(PravilaKategorijaDogadjaja.Proveri(kd));
 
-            if (string.IsNullOrWhiteSpace(kd.Opis))
+            List<IEntity> postojece = dbBroker.GetByCondition(new KategorijaDogadjaja(),
+                $"kd.naziv = N'{Sql.Tekst(kd.Naziv)}' AND kd.idKategorijaDogadjaja <> {kd.IdKategorijaDogadjaja}");
+
+            if (postojece.Count > 0)
             {
-                throw new Exception("Opis kategorije događaja je obavezan.");
+                throw new Exception("Kategorija događaja sa unetim nazivom već postoji.");
             }
         }
 

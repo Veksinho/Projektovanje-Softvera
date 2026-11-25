@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Helpers;
+using Common.Validacija;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +23,9 @@ namespace SistemskeOperacije.KonsignatorSO
             if (k is not ISpecialization)
                 throw new Exception("Konsignator mora biti fizičko ili pravno lice.");
 
-            if (string.IsNullOrWhiteSpace(k.Email))
-                throw new Exception("E-mail konsignatora je obavezna.");
-            if (!k.Email.Contains('@'))
-                throw new Exception("E-mail konsignatora nije u odgovarajućem formatu.");
-            if (string.IsNullOrWhiteSpace(k.Telefon))
-                throw new Exception("Telefon konsignatora je obavezan.");
-            if (string.IsNullOrWhiteSpace(k.Adresa))
-                throw new Exception("Adresa konsignatora je obavezna.");
+            ThrowIfInvalid(PravilaKonsignator.Proveri(k));
+
+            ProveriJedinstvenostEmaila();
 
             if (k is FizickoLice fl)
                 ValidirajFizickoLice(fl);
@@ -37,19 +33,19 @@ namespace SistemskeOperacije.KonsignatorSO
                 ValidirajPravnoLice(pl);
         }
 
+        private void ProveriJedinstvenostEmaila()
+        {
+            List<IEntity> postojeci = dbBroker.GetByCondition(
+                new Konsignator(), $"k.email = N'{Sql.Tekst(k.Email)}'");
+
+            if (postojeci.Count > 0)
+                throw new Exception("Konsignator sa unetim e-mailom već postoji.");
+        }
+
         private void ValidirajFizickoLice(FizickoLice fl)
         {
-            if (string.IsNullOrWhiteSpace(fl.Jmbg))
-                throw new Exception("JMBG fizičkog lica je obavezan.");
-            if (string.IsNullOrWhiteSpace(fl.Ime))
-                throw new Exception("Ime fizičkog lica je obavezno.");
-            if (string.IsNullOrWhiteSpace(fl.Prezime))
-                throw new Exception("Prezime fizičkog lica je obavezno.");
-            if (string.IsNullOrWhiteSpace(fl.BrojLicneKarte))
-                throw new Exception("Broj lične karte fizičkog lica je obavezan.");
-
             List<IEntity> postojeci = dbBroker.GetByCondition(
-                new Konsignator(), $"fl.jmbg = '{Sql.Tekst(fl.Jmbg)}'");
+                new Konsignator(), $"fl.jmbg = N'{Sql.Tekst(fl.Jmbg)}'");
 
             if (postojeci.Count > 0)
                 throw new Exception("Konsignator sa unetim JMBG-om već postoji.");
@@ -57,15 +53,8 @@ namespace SistemskeOperacije.KonsignatorSO
 
         private void ValidirajPravnoLice(PravnoLice pl)
         {
-            if (string.IsNullOrWhiteSpace(pl.NazivFirme))
-                throw new Exception("Naziv pravnog lica je obavezan.");
-            if (string.IsNullOrWhiteSpace(pl.Pib))
-                throw new Exception("PIB pravnog lica je obavezan.");
-            if (string.IsNullOrWhiteSpace(pl.MaticniBroj))
-                throw new Exception("Matični broj pravnog lica je obavezan.");
-
             List<IEntity> postojeci = dbBroker.GetByCondition(
-                new Konsignator(), $"pl.pib = '{Sql.Tekst(pl.Pib)}'");
+                new Konsignator(), $"pl.pib = N'{Sql.Tekst(pl.Pib)}'");
 
             if (postojeci.Count > 0)
                 throw new Exception("Konsignator sa unetim PIB-om već postoji.");

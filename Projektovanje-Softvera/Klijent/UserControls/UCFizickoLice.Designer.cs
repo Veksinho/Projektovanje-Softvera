@@ -50,9 +50,9 @@
             groupBox1.Controls.Add(txtIme);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(0, 0);
+            groupBox1.Location = new Point(0, 3);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(574, 178);
+            groupBox1.Size = new Size(602, 172);
             groupBox1.TabIndex = 10;
             groupBox1.TabStop = false;
             groupBox1.Text = "Podaci o fizičkom licu";
@@ -127,7 +127,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
             Name = "UCFizickoLice";
-            Size = new Size(574, 178);
+            Size = new Size(602, 178);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);

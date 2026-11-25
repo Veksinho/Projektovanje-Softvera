@@ -1,0 +1,11 @@
+# PreprodajaKarata – pravila za rad
+- .NET 8, WinForms klijent, TCP/JSON server, SQL Server LocalDB.
+- Imena klasa, metoda i poruka su na srpskom (latinica sa č, ć, ž, š, đ). Izuzetak: omotači spoljnih biblioteka (npr. PasswordHasher) imaju engleske nazive, kao SOBase i DBBroker; poruke ostaju na srpskom (docs/HESIRANJE-SIFARA.md, H10). Commit poruke i tagovi su na engleskom.
+- Radi se na grani improvements. Ne commit-uj i ne pravi tagove bez izričitog zahteva.
+- Testovi: dotnet test u ovom folderu. Integracioni testovi rade samo nad bazom Seminarski-Softveri_Test. Razvojnu bazu Seminarski-Softveri ne menjaj bez pitanja.
+- Ne menjaj tekst postojećih poruka izuzetaka: testovi ih porede doslovno.
+- Tekstualni literal u SQL-u uvek ide kao N'{Sql.Tekst(x)}'. Parametrizacija dolazi tek u fazi 6.1 – ne uvodi je ranije. Izuzetak je alat MigracijaSifara: nije deo sistema koji se meri, pa koristi SqlParameter; nikad ne ispisuje šifre ni heševe iz baze.
+- Šifra se hešira i proverava samo preko SistemskeOperacije.Bezbednost.PasswordHasher. Heš (Broker.SifraHash) nikad ne ide klijentu, ne loguje se i ne prikazuje. Klijent i Common ne referenciraju BCrypt. Work factor je u appsettings.json (PasswordHashing:WorkFactor).
+- U kodu nema komentara (ni //, ni /* */, ni ///). Ne dodaj ih; objašnjenja idu u docs/ ili u ovaj fajl. Izuzetak su komentari koje generiše dizajner u *.Designer.cs.
+- Ne menjaj *.Designer.cs osim kad je to cilj zadatka; MaxLength i događaje polja podešavaj u konstruktoru user control-e.
+- Reference: docs/PRAVILA-VALIDACIJE.md (pravila validacije, Faza 2), docs/POZNATE-GRESKE.md, docs/INVENTAR-SQL-LITERALA.md, docs/SPECIFIKACIJA-TESTOVA.md.

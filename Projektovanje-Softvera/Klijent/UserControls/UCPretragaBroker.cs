@@ -1,4 +1,6 @@
 ﻿using Common.Domen;
+using Common.Validacija;
+using Klijent.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +20,10 @@ namespace Klijent.UserControls
         public UCPretragaBroker()
         {
             InitializeComponent();
+            txtKorisnickoIme.MaxLength = Ogranicenja.BrokerKorisnickoIme;
+            txtIme.MaxLength = Ogranicenja.BrokerIme;
+            txtPrezime.MaxLength = Ogranicenja.BrokerPrezime;
+            UnosPolja.Telefon(txtTelefon);
             SrediTabelu();
 
             Disposed += (s, e) => fontCurrentBrokerRow?.Dispose();

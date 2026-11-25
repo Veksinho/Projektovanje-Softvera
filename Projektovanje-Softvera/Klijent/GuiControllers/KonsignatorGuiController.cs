@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
@@ -241,43 +242,8 @@ namespace Klijent.GuiControllers
 
         private bool Validiraj(Konsignator k)
         {
-            if (string.IsNullOrWhiteSpace(k.Email)
-                || string.IsNullOrWhiteSpace(k.Telefon)
-                || string.IsNullOrWhiteSpace(k.Adresa))
-            {
-                MessageBox.Show("Sva polja moraju biti popunjena!");
-                return false;
-            }
-
-            if (!k.Email.Contains('@'))
-            {
-                MessageBox.Show("E-mail nije u odgovarajućem formatu!");
-                return false;
-            }
-
-            if (k is FizickoLice fl)
-            {
-                if (string.IsNullOrWhiteSpace(fl.Jmbg)
-                    || string.IsNullOrWhiteSpace(fl.Ime)
-                    || string.IsNullOrWhiteSpace(fl.Prezime)
-                    || string.IsNullOrWhiteSpace(fl.BrojLicneKarte))
-                {
-                    MessageBox.Show("Sva polja moraju biti popunjena!");
-                    return false;
-                }
-            }
-            else if (k is PravnoLice pl)
-            {
-                if (string.IsNullOrWhiteSpace(pl.NazivFirme)
-                    || string.IsNullOrWhiteSpace(pl.Pib)
-                    || string.IsNullOrWhiteSpace(pl.MaticniBroj))
-                {
-                    MessageBox.Show("Sva polja moraju biti popunjena!");
-                    return false;
-                }
-            }
-
-            return true;
+            List<GreskaValidacije> greske = PravilaKonsignator.Proveri(k);
+            return ucKonsignator!.ProveraUnosa.Prikazi(greske, ucKonsignator.Polja);
         }
     }
 }

@@ -67,7 +67,7 @@
             mniGlavni.Items.AddRange(new ToolStripItem[] { mniDokumenti, mniPruzalacUsluge, mniPrimalacUsluge, mniSifarnici, podešavanjaToolStripMenuItem, oProgramuToolStripMenuItem, mniOdjava });
             mniGlavni.Location = new Point(0, 0);
             mniGlavni.Name = "mniGlavni";
-            mniGlavni.Size = new Size(1154, 28);
+            mniGlavni.Size = new Size(1220, 28);
             mniGlavni.TabIndex = 2;
             mniGlavni.Text = "menuStrip1";
             // 
@@ -82,26 +82,26 @@
             // 
             mniListing.DropDownItems.AddRange(new ToolStripItem[] { mniListingKreiraj, mniListingPretrazi });
             mniListing.Name = "mniListing";
-            mniListing.Size = new Size(224, 26);
+            mniListing.Size = new Size(135, 26);
             mniListing.Text = "Listing";
             // 
             // mniListingKreiraj
             // 
             mniListingKreiraj.Name = "mniListingKreiraj";
-            mniListingKreiraj.Size = new Size(224, 26);
+            mniListingKreiraj.Size = new Size(142, 26);
             mniListingKreiraj.Text = "Kreiraj";
             // 
             // mniListingPretrazi
             // 
             mniListingPretrazi.Name = "mniListingPretrazi";
-            mniListingPretrazi.Size = new Size(224, 26);
+            mniListingPretrazi.Size = new Size(142, 26);
             mniListingPretrazi.Text = "Pretraži";
             // 
             // mniKarta
             // 
             mniKarta.DropDownItems.AddRange(new ToolStripItem[] { mniKartaKreiraj, mniKartaPretrazi });
             mniKarta.Name = "mniKarta";
-            mniKarta.Size = new Size(224, 26);
+            mniKarta.Size = new Size(135, 26);
             mniKarta.Text = "Karta";
             // 
             // mniKartaKreiraj
@@ -238,7 +238,7 @@
             stsStatus.Items.AddRange(new ToolStripItem[] { lblPrijavljeniBroker });
             stsStatus.Location = new Point(0, 581);
             stsStatus.Name = "stsStatus";
-            stsStatus.Size = new Size(1154, 22);
+            stsStatus.Size = new Size(1220, 22);
             stsStatus.TabIndex = 3;
             stsStatus.Text = "statusStrip1";
             // 
@@ -252,14 +252,14 @@
             pnlSadrzaj.Dock = DockStyle.Fill;
             pnlSadrzaj.Location = new Point(0, 28);
             pnlSadrzaj.Name = "pnlSadrzaj";
-            pnlSadrzaj.Size = new Size(1154, 553);
+            pnlSadrzaj.Size = new Size(1220, 553);
             pnlSadrzaj.TabIndex = 4;
             // 
             // FrmGlavna
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1154, 603);
+            ClientSize = new Size(1220, 603);
             Controls.Add(pnlSadrzaj);
             Controls.Add(stsStatus);
             Controls.Add(mniGlavni);

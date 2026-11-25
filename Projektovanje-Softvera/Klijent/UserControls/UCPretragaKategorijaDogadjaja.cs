@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace Klijent.UserControls
         public UCPretragaKategorijaDogadjaja()
         {
             InitializeComponent();
+            txtNaziv.MaxLength = Ogranicenja.KategorijaDogadjajaNaziv;
             SrediTabelu();
         }
 

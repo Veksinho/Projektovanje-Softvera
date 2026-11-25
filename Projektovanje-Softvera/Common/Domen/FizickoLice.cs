@@ -31,15 +31,15 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string SubtypeInsertValues =>
-            $"{IdKonsignator}, '{Sql.Tekst(Jmbg)}', '{Sql.Tekst(Ime)}', " +
-            $"'{Sql.Tekst(Prezime)}', '{Sql.Tekst(BrojLicneKarte)}'";
+            $"{IdKonsignator}, N'{Sql.Tekst(Jmbg)}', N'{Sql.Tekst(Ime)}', " +
+            $"N'{Sql.Tekst(Prezime)}', N'{Sql.Tekst(BrojLicneKarte)}'";
 
         [JsonIgnore]
         public string SubtypeUpdateValues =>
-            $"jmbg = '{Sql.Tekst(Jmbg)}', " +
-            $"ime = '{Sql.Tekst(Ime)}', " +
-            $"prezime = '{Sql.Tekst(Prezime)}', " +
-            $"brojLicneKarte = '{Sql.Tekst(BrojLicneKarte)}'";
+            $"jmbg = N'{Sql.Tekst(Jmbg)}', " +
+            $"ime = N'{Sql.Tekst(Ime)}', " +
+            $"prezime = N'{Sql.Tekst(Prezime)}', " +
+            $"brojLicneKarte = N'{Sql.Tekst(BrojLicneKarte)}'";
 
         [JsonIgnore]
         public string SubtypePrimaryKeyCondition => $"idKonsignator = {IdKonsignator}";
@@ -51,13 +51,13 @@ namespace Common.Domen
                 var uslovi = new List<string>();
 
                 if (!string.IsNullOrWhiteSpace(Jmbg))
-                    uslovi.Add($"fl.jmbg LIKE '%{Sql.Tekst(Jmbg)}%'");
+                    uslovi.Add($"fl.jmbg LIKE N'%{Sql.Tekst(Jmbg)}%'");
                 if (!string.IsNullOrWhiteSpace(Ime))
-                    uslovi.Add($"fl.ime LIKE '%{Sql.Tekst(Ime)}%'");
+                    uslovi.Add($"fl.ime LIKE N'%{Sql.Tekst(Ime)}%'");
                 if (!string.IsNullOrWhiteSpace(Prezime))
-                    uslovi.Add($"fl.prezime LIKE '%{Sql.Tekst(Prezime)}%'");
+                    uslovi.Add($"fl.prezime LIKE N'%{Sql.Tekst(Prezime)}%'");
                 if (!string.IsNullOrWhiteSpace(BrojLicneKarte))
-                    uslovi.Add($"fl.brojLicneKarte LIKE '%{Sql.Tekst(BrojLicneKarte)}%'");
+                    uslovi.Add($"fl.brojLicneKarte LIKE N'%{Sql.Tekst(BrojLicneKarte)}%'");
 
                 return string.Join(" AND ", uslovi);
             }

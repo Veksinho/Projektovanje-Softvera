@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            label1 = new Label();
-            cmbTipKonsignatora = new ComboBox();
+            btnPonisti = new Button();
+            btnPretrazi = new Button();
+            txtNaziv = new TextBox();
+            label2 = new Label();
             txtTelefon = new TextBox();
             label4 = new Label();
             txtEmail = new TextBox();
             label3 = new Label();
-            txtNaziv = new TextBox();
-            label2 = new Label();
-            btnPonisti = new Button();
-            btnPretrazi = new Button();
+            label1 = new Label();
+            cmbTipKonsignatora = new ComboBox();
             btnIzmeni = new Button();
             btnObrisi = new Button();
             btnPrikazi = new Button();
@@ -66,22 +66,39 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Kriterijum pretrage";
             // 
-            // label1
+            // btnPonisti
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 29);
-            label1.Name = "label1";
-            label1.Size = new Size(30, 20);
-            label1.TabIndex = 3;
-            label1.Text = "Tip";
+            btnPonisti.Location = new Point(700, 103);
+            btnPonisti.Name = "btnPonisti";
+            btnPonisti.Size = new Size(94, 29);
+            btnPonisti.TabIndex = 13;
+            btnPonisti.Text = "Poništi";
+            btnPonisti.UseVisualStyleBackColor = true;
             // 
-            // cmbTipKonsignatora
+            // btnPretrazi
             // 
-            cmbTipKonsignatora.FormattingEnabled = true;
-            cmbTipKonsignatora.Location = new Point(115, 29);
-            cmbTipKonsignatora.Name = "cmbTipKonsignatora";
-            cmbTipKonsignatora.Size = new Size(253, 28);
-            cmbTipKonsignatora.TabIndex = 2;
+            btnPretrazi.Location = new Point(600, 103);
+            btnPretrazi.Name = "btnPretrazi";
+            btnPretrazi.Size = new Size(94, 29);
+            btnPretrazi.TabIndex = 12;
+            btnPretrazi.Text = "Pretraži";
+            btnPretrazi.UseVisualStyleBackColor = true;
+            // 
+            // txtNaziv
+            // 
+            txtNaziv.Location = new Point(520, 62);
+            txtNaziv.Name = "txtNaziv";
+            txtNaziv.Size = new Size(272, 27);
+            txtNaziv.TabIndex = 11;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(397, 66);
+            label2.Name = "label2";
+            label2.Size = new Size(46, 20);
+            label2.TabIndex = 10;
+            label2.Text = "Naziv";
             // 
             // txtTelefon
             // 
@@ -115,39 +132,23 @@
             label3.TabIndex = 6;
             label3.Text = "E-mail";
             // 
-            // txtNaziv
+            // label1
             // 
-            txtNaziv.Location = new Point(520, 62);
-            txtNaziv.Name = "txtNaziv";
-            txtNaziv.Size = new Size(272, 27);
-            txtNaziv.TabIndex = 11;
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 29);
+            label1.Name = "label1";
+            label1.Size = new Size(30, 20);
+            label1.TabIndex = 3;
+            label1.Text = "Tip";
             // 
-            // label2
+            // cmbTipKonsignatora
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(397, 66);
-            label2.Name = "label2";
-            label2.Size = new Size(46, 20);
-            label2.TabIndex = 10;
-            label2.Text = "Naziv";
-            // 
-            // btnPonisti
-            // 
-            btnPonisti.Location = new Point(700, 103);
-            btnPonisti.Name = "btnPonisti";
-            btnPonisti.Size = new Size(94, 29);
-            btnPonisti.TabIndex = 13;
-            btnPonisti.Text = "Poništi";
-            btnPonisti.UseVisualStyleBackColor = true;
-            // 
-            // btnPretrazi
-            // 
-            btnPretrazi.Location = new Point(600, 103);
-            btnPretrazi.Name = "btnPretrazi";
-            btnPretrazi.Size = new Size(94, 29);
-            btnPretrazi.TabIndex = 12;
-            btnPretrazi.Text = "Pretraži";
-            btnPretrazi.UseVisualStyleBackColor = true;
+            cmbTipKonsignatora.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTipKonsignatora.FormattingEnabled = true;
+            cmbTipKonsignatora.Location = new Point(115, 29);
+            cmbTipKonsignatora.Name = "cmbTipKonsignatora";
+            cmbTipKonsignatora.Size = new Size(253, 28);
+            cmbTipKonsignatora.TabIndex = 2;
             // 
             // btnIzmeni
             // 

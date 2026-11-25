@@ -9,13 +9,12 @@ namespace DatabaseBroker
 {
     internal class DBConnection
     {
-        private const string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Seminarski-Softveri;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False";
         private readonly SqlConnection connection;
         private SqlTransaction transaction;
 
         public DBConnection()
         {
-            connection = new SqlConnection(connectionString);
+            connection = new SqlConnection(DBConfig.ConnectionString);
         }
 
         public void OpenConnection()

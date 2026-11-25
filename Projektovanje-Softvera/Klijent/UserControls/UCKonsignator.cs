@@ -1,5 +1,6 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,35 @@ namespace Klijent.UserControls
 
         private ISubtypeControl? podtip;
 
+        internal ProveraUnosa ProveraUnosa { get; }
+
+        internal IReadOnlyDictionary<string, Control> Polja
+        {
+            get
+            {
+                var polja = new Dictionary<string, Control>
+                {
+                    [nameof(Konsignator.Email)] = txtEmail,
+                    [nameof(Konsignator.Telefon)] = txtTelefon,
+                    [nameof(Konsignator.Adresa)] = txtAdresa
+                };
+
+                if (podtip != null)
+                    foreach (KeyValuePair<string, Control> polje in podtip.Polja)
+                        polja.Add(polje.Key, polje.Value);
+
+                return polja;
+            }
+        }
 
         public UCKonsignator(FormMode mode, Konsignator konsignator)
         {
             InitializeComponent();
+            txtEmail.MaxLength = Ogranicenja.KonsignatorEmail;
+            UnosPolja.Telefon(txtTelefon);
+            txtAdresa.MaxLength = Ogranicenja.KonsignatorAdresa;
+
+            ProveraUnosa = new ProveraUnosa(this);
 
             this.k = konsignator;
             this.mode = mode;
@@ -77,11 +103,13 @@ namespace Klijent.UserControls
             if (prikazaniTip == tip) return;
             prikazaniTip = tip;
 
-            pnlPodtip.Controls.Clear();
+            ProveraUnosa.Ocisti();
+
             foreach (Control c in pnlPodtip.Controls.Cast<Control>().ToArray())
             {
                 c.Dispose();
             }
+            pnlPodtip.Controls.Clear();
 
             UserControl podtipKontrola = pravnoLice
                 ? new UCPravnoLice()

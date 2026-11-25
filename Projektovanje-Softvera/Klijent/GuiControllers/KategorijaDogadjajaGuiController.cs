@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.UserControls;
 using Klijent.Utils;
 using System;
@@ -237,13 +238,8 @@ namespace Klijent.GuiControllers
 
         private bool Validiraj(KategorijaDogadjaja category)
         {
-            if (string.IsNullOrWhiteSpace(category.Naziv) || string.IsNullOrWhiteSpace(category.Opis))
-            {
-                MessageBox.Show("Sva polja moraju biti popunjena!");
-                return false;
-            }
-
-            return true;
+            List<GreskaValidacije> greske = PravilaKategorijaDogadjaja.Proveri(category);
+            return ucKategorijaDogadjaja!.ProveraUnosa.Prikazi(greske, ucKategorijaDogadjaja.Polja);
         }
     }
 }

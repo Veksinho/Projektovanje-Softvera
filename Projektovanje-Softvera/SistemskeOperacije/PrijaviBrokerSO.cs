@@ -1,4 +1,7 @@
 ﻿using Common.Domen;
+using Common.Helpers;
+using Common.Validacija;
+using SistemskeOperacije.Bezbednost;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,29 +20,20 @@ namespace SistemskeOperacije
             if (b == null)
                 throw new ArgumentException("Prosleđeni objekat nije instanca klase Broker.");
 
-            if (string.IsNullOrWhiteSpace(b.KorisnickoIme))
-            {
-                throw new Exception("Korisničko ime je obavezno.");
-            }
-
-            if (string.IsNullOrWhiteSpace(b.Sifra))
-            {
-                throw new Exception("Šifra je obavezna.");
-            }
+            ThrowIfInvalid(PravilaBroker.ProveriPrijavu(b));
         }
 
         protected override void ExecuteConcreteOperation()
         {
+            List<IEntity> foundBrokers = dbBroker.GetByCondition(
+                new Broker(), $"b.korisnickoIme = N'{Sql.Tekst(b.KorisnickoIme)}'");
 
-            List<IEntity> foundBrokers =
-                dbBroker.GetByCondition(b, b.SearchCondition);
+            Broker? foundBroker = foundBrokers.Cast<Broker>().FirstOrDefault();
 
-            if (foundBrokers.Count == 0)
-            {
+            if (!PasswordHasher.Verify(b.Sifra, foundBroker?.SifraHash))
                 throw new Exception("Korisničko ime ili šifra nisu ispravni.");
-            }
 
-            Result = foundBrokers.Cast<Broker>().FirstOrDefault();
+            Result = foundBroker;
         }
     }
 }

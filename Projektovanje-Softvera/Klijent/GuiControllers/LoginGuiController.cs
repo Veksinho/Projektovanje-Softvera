@@ -36,19 +36,16 @@ namespace Klijent.GuiControllers
         {
             try
             {
-                if (!frmLogin.Validacija())
-                {
-                    MessageBox.Show("Molimo popunite sva polja.");
-                    return false;
-                }
-
-                Komunikacija.Instance.Connect();
-
                 Broker broker = new Broker
                 {
                     KorisnickoIme = username,
                     Sifra = password
                 };
+
+                if (!frmLogin!.Validacija(broker))
+                    return false;
+
+                Komunikacija.Instance.Connect();
 
                 Session.Instance.LoggedInBroker = Komunikacija.Instance.PrijaviBroker(broker);
 

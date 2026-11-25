@@ -26,6 +26,7 @@ namespace Common.Domen
         public Dogadjaj? Dogadjaj { get; set; }
 
         public bool SamoSlobodne { get; set; }
+        public bool SamoBuduciDogadjaji { get; set; }
 
         [JsonIgnore] public string TipPrikaz => EnumHelper.Naziv(Tip);
         [JsonIgnore] public string FormatPrikaz => EnumHelper.Naziv(Format);
@@ -66,13 +67,13 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string InsertValues =>
-            $"'{Sql.Tekst(Sektor)}', '{Sql.Tekst(Red)}', '{Sql.Tekst(Sediste)}', " +
+            $"N'{Sql.Tekst(Sektor)}', N'{Sql.Tekst(Red)}', N'{Sql.Tekst(Sediste)}', " +
             $"{Sql.Broj(NominalnaCena)}, '{Tip}', '{Format}', '{Status}', " +
             $"NULL, {IdKonsignatorSql}, {IdDogadjajSql}";
 
         [JsonIgnore]
         public string UpdateValues =>
-            $"sektor = '{Sql.Tekst(Sektor)}', red = '{Sql.Tekst(Red)}', sediste = '{Sql.Tekst(Sediste)}', " +
+            $"sektor = N'{Sql.Tekst(Sektor)}', red = N'{Sql.Tekst(Red)}', sediste = N'{Sql.Tekst(Sediste)}', " +
             $"nominalnaCena = {Sql.Broj(NominalnaCena)}, tip = '{Tip}', format = '{Format}', " +
             $"status = '{Status}', idListing = {IdListingSql}, " +
             $"idKonsignator = {IdKonsignatorSql}, idDogadjaj = {IdDogadjajSql}";
@@ -90,11 +91,11 @@ namespace Common.Domen
                 if (IdKarta > 0)
                     uslovi.Add($"ka.idKarta = {IdKarta}");
                 if (!string.IsNullOrWhiteSpace(Sektor))
-                    uslovi.Add($"ka.sektor LIKE '%{Sql.Tekst(Sektor)}%'");
+                    uslovi.Add($"ka.sektor LIKE N'%{Sql.Tekst(Sektor)}%'");
                 if (!string.IsNullOrWhiteSpace(Red))
-                    uslovi.Add($"ka.red LIKE '%{Sql.Tekst(Red)}%'");
+                    uslovi.Add($"ka.red LIKE N'%{Sql.Tekst(Red)}%'");
                 if (!string.IsNullOrWhiteSpace(Sediste))
-                    uslovi.Add($"ka.sediste LIKE '%{Sql.Tekst(Sediste)}%'");
+                    uslovi.Add($"ka.sediste LIKE N'%{Sql.Tekst(Sediste)}%'");
 
                 if (Tip.HasValue)
                     uslovi.Add($"ka.tip = '{Tip}'");
@@ -110,15 +111,17 @@ namespace Common.Domen
                 if (Konsignator != null && !string.IsNullOrWhiteSpace(Konsignator.NazivKriterijum))
                 {
                     string naziv = Sql.Tekst(Konsignator.NazivKriterijum);
-                    uslovi.Add($"(fl.ime LIKE '%{naziv}%' OR fl.prezime LIKE '%{naziv}%' OR pl.naziv LIKE '%{naziv}%')");
+                    uslovi.Add($"(fl.ime LIKE N'%{naziv}%' OR fl.prezime LIKE N'%{naziv}%' OR pl.naziv LIKE N'%{naziv}%')");
                 }
                 if (Dogadjaj != null && Dogadjaj.IdDogadjaj > 0)
                     uslovi.Add($"ka.idDogadjaj = {Dogadjaj.IdDogadjaj}");
                 if (Dogadjaj != null && !string.IsNullOrWhiteSpace(Dogadjaj.Mesto))
-                    uslovi.Add($"d.mesto LIKE '%{Sql.Tekst(Dogadjaj.Mesto)}%'");
+                    uslovi.Add($"d.mesto LIKE N'%{Sql.Tekst(Dogadjaj.Mesto)}%'");
 
                 if (SamoSlobodne)
                     uslovi.Add("ka.idListing IS NULL");
+                if (SamoBuduciDogadjaji)
+                    uslovi.Add($"CAST(d.datumOdrzavanja AS DATE) > '{DateTime.Today:yyyy-MM-dd}'");
 
                 return string.Join(" AND ", uslovi);
             }

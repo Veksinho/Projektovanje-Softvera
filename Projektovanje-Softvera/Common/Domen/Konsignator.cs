@@ -45,14 +45,14 @@ namespace Common.Domen
 
         [JsonIgnore]
         public string InsertValues =>
-            $"'{Sql.Tekst(Email)}', '{Sql.Tekst(Telefon)}', " +
-            $"'{Sql.Tekst(Adresa)}', '{DatumRegistracije:yyyy-MM-dd}'";
+            $"N'{Sql.Tekst(Email)}', N'{Sql.Tekst(Telefon)}', " +
+            $"N'{Sql.Tekst(Adresa)}', '{DatumRegistracije:yyyy-MM-dd}'";
 
         [JsonIgnore]
         public string UpdateValues =>
-            $"email = '{Sql.Tekst(Email)}', " +
-            $"telefon = '{Sql.Tekst(Telefon)}', " +
-            $"adresa = '{Sql.Tekst(Adresa)}'";
+            $"email = N'{Sql.Tekst(Email)}', " +
+            $"telefon = N'{Sql.Tekst(Telefon)}', " +
+            $"adresa = N'{Sql.Tekst(Adresa)}'";
 
         [JsonIgnore]
         public string PrimaryKeyCondition => $"k.idKonsignator = {IdKonsignator}";
@@ -67,11 +67,11 @@ namespace Common.Domen
                 if (IdKonsignator > 0)
                     uslovi.Add($"k.idKonsignator = {IdKonsignator}");
                 if (!string.IsNullOrWhiteSpace(Email))
-                    uslovi.Add($"k.email LIKE '%{Sql.Tekst(Email)}%'");
+                    uslovi.Add($"k.email LIKE N'%{Sql.Tekst(Email)}%'");
                 if (!string.IsNullOrWhiteSpace(Telefon))
-                    uslovi.Add($"k.telefon LIKE '%{Sql.Tekst(Telefon)}%'");
+                    uslovi.Add($"k.telefon LIKE N'%{Sql.Tekst(Telefon)}%'");
                 if (!string.IsNullOrWhiteSpace(Adresa))
-                    uslovi.Add($"k.adresa LIKE '%{Sql.Tekst(Adresa)}%'");
+                    uslovi.Add($"k.adresa LIKE N'%{Sql.Tekst(Adresa)}%'");
 
                 if (TipKriterijum == TipKonsignatora.fizicko_lice)
                     uslovi.Add("fl.idKonsignator IS NOT NULL");
@@ -79,9 +79,9 @@ namespace Common.Domen
                     uslovi.Add("pl.idKonsignator IS NOT NULL");
 
                 if (!string.IsNullOrWhiteSpace(NazivKriterijum))
-                    uslovi.Add($"(fl.ime LIKE '%{Sql.Tekst(NazivKriterijum)}%' " +
-                               $"OR fl.prezime LIKE '%{Sql.Tekst(NazivKriterijum)}%' " +
-                               $"OR pl.naziv LIKE '%{Sql.Tekst(NazivKriterijum)}%')");
+                    uslovi.Add($"(fl.ime LIKE N'%{Sql.Tekst(NazivKriterijum)}%' " +
+                               $"OR fl.prezime LIKE N'%{Sql.Tekst(NazivKriterijum)}%' " +
+                               $"OR pl.naziv LIKE N'%{Sql.Tekst(NazivKriterijum)}%')");
 
                 string dodatni = AdditionalSearchCondition;
                 if (!string.IsNullOrWhiteSpace(dodatni))

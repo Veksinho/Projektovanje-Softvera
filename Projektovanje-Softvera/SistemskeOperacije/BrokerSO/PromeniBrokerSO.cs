@@ -1,5 +1,7 @@
 ﻿using Common.Domen;
 using Common.Helpers;
+using Common.Validacija;
+using SistemskeOperacije.Bezbednost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +22,11 @@ namespace SistemskeOperacije.BrokerSO
                 throw new ArgumentException("Prosleđeni objekat nije instanca klase Broker.");
             if (b.IdBroker <= 0)
                 throw new Exception("Nije prosleđen id brokera.");
-            if (string.IsNullOrWhiteSpace(b.KorisnickoIme))
-                throw new Exception("Korisničko ime brokera je obavezno.");
-            if (string.IsNullOrWhiteSpace(b.Ime))
-                throw new Exception("Ime brokera je obavezno.");
-            if (string.IsNullOrWhiteSpace(b.Prezime))
-                throw new Exception("Prezime brokera je obavezno.");
-            if (string.IsNullOrWhiteSpace(b.Telefon))
-                throw new Exception("Telefon brokera je obavezan.");
+
+            ThrowIfInvalid(PravilaBroker.Proveri(b, sifraObavezna: false));
 
             List<IEntity> postojeci = dbBroker.GetByCondition(new Broker(),
-                $"b.korisnickoIme = '{Sql.Tekst(b.KorisnickoIme)}' AND b.idBroker <> {b.IdBroker}");
+                $"b.korisnickoIme = N'{Sql.Tekst(b.KorisnickoIme)}' AND b.idBroker <> {b.IdBroker}");
 
             if (postojeci.Count > 0)
                 throw new Exception("Broker sa unetim korisničkim imenom već postoji.");
@@ -38,6 +34,7 @@ namespace SistemskeOperacije.BrokerSO
 
         protected override void ExecuteConcreteOperation()
         {
+            b.SifraHash = string.IsNullOrWhiteSpace(b.Sifra) ? null : PasswordHasher.Hash(b.Sifra);
             dbBroker.Edit(b);
 
             List<IEntity> stare = dbBroker.GetByCondition(
@@ -54,6 +51,7 @@ namespace SistemskeOperacije.BrokerSO
                 dbBroker.Add(s);
             }
 
+            b.Sifra = null;
             Result = b;
         }
     }

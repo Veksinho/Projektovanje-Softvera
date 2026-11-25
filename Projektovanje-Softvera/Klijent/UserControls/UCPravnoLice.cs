@@ -1,4 +1,5 @@
 ﻿using Common.Domen;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,19 @@ namespace Klijent.UserControls
         public UCPravnoLice()
         {
             InitializeComponent();
+            txtNaziv.MaxLength = Ogranicenja.PravnoLiceNaziv;
+            UnosPolja.SamoCifre(txtPib, Ogranicenja.PibDuzina);
+            UnosPolja.SamoCifre(txtMaticniBroj, Ogranicenja.MaticniBrojDuzina);
+
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(PravnoLice.NazivFirme)] = txtNaziv,
+                [nameof(PravnoLice.Pib)] = txtPib,
+                [nameof(PravnoLice.MaticniBroj)] = txtMaticniBroj
+            };
         }
+
+        public IReadOnlyDictionary<string, Control> Polja { get; }
 
         public Konsignator NapraviPrazan() => new PravnoLice();
 

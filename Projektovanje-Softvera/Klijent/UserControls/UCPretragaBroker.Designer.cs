@@ -33,6 +33,8 @@
             btnPrikazi = new Button();
             dgvRezultati = new DataGridView();
             groupBox1 = new GroupBox();
+            txtTelefon = new TextBox();
+            label3 = new Label();
             label2 = new Label();
             txtIme = new TextBox();
             label4 = new Label();
@@ -44,8 +46,6 @@
             label1 = new Label();
             btnPonisti = new Button();
             btnPretrazi = new Button();
-            txtTelefon = new TextBox();
-            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvRezultati).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -106,6 +106,22 @@
             groupBox1.TabIndex = 17;
             groupBox1.TabStop = false;
             groupBox1.Text = "Po brokeru";
+            // 
+            // txtTelefon
+            // 
+            txtTelefon.Location = new Point(128, 136);
+            txtTelefon.Name = "txtTelefon";
+            txtTelefon.Size = new Size(250, 27);
+            txtTelefon.TabIndex = 21;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(9, 139);
+            label3.Name = "label3";
+            label3.Size = new Size(58, 20);
+            label3.TabIndex = 20;
+            label3.Text = "Telefon";
             // 
             // label2
             // 
@@ -168,6 +184,7 @@
             // 
             // cmbKategorija
             // 
+            cmbKategorija.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbKategorija.FormattingEnabled = true;
             cmbKategorija.Location = new Point(11, 62);
             cmbKategorija.Name = "cmbKategorija";
@@ -200,22 +217,6 @@
             btnPretrazi.TabIndex = 4;
             btnPretrazi.Text = "Pretraži";
             btnPretrazi.UseVisualStyleBackColor = true;
-            // 
-            // txtTelefon
-            // 
-            txtTelefon.Location = new Point(128, 136);
-            txtTelefon.Name = "txtTelefon";
-            txtTelefon.Size = new Size(250, 27);
-            txtTelefon.TabIndex = 21;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(9, 139);
-            label3.Name = "label3";
-            label3.Size = new Size(58, 20);
-            label3.TabIndex = 20;
-            label3.Text = "Telefon";
             // 
             // UCPretragaBroker
             // 

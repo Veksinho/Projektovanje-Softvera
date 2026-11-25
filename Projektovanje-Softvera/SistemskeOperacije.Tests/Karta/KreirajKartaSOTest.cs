@@ -1,43 +1,25 @@
 using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using SistemskeOperacije.KartaSO;
 
 namespace SistemskeOperacije.Tests
 {
     [TestClass]
-    public class KreirajKartaSOTest
+    public class KreirajKartaSOTest : IntegracioniTest
     {
-        private static Dogadjaj dogadjaj = null!;
-        private static Konsignator konsignator = null!;
+        private Dogadjaj dogadjaj = null!;
+        private Konsignator konsignator = null!;
 
         private KreirajKartaSO so = null!;
         private Karta karta = null!;
 
-        [ClassInitialize]
-        public static void ClassSetUp(TestContext context)
-        {
-            konsignator = TestPodaci.VratiPostojecegKonsignatora();
-            dogadjaj = TestPodaci.KreirajDogadjaj();
-        }
-
-        [ClassCleanup]
-        public static void ClassTearDown()
-        {
-            TestPodaci.ObrisiDogadjaj(dogadjaj.IdDogadjaj);
-        }
-
         [TestInitialize]
         public void SetUp()
         {
+            konsignator = TestPodaci.KreirajFizickoLice();
+            dogadjaj = TestPodaci.KreirajDogadjaj();
             karta = TestPodaci.NapraviKartu(dogadjaj, konsignator);
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            TestPodaci.ObrisiKarteDogadjaja(dogadjaj.IdDogadjaj);
-            so = null!;
-            karta = null!;
         }
 
         [TestMethod]
@@ -54,6 +36,34 @@ namespace SistemskeOperacije.Tests
             so = new KreirajKartaSO(null!);
 
             Assert.ThrowsExactly<ArgumentException>(() => so.ExecuteTemplate());
+        }
+
+        [TestMethod]
+        [DataRow(12.345)]
+        public void TestPredusloviNominalnaCenaTriDecimale(double cena)
+        {
+            int brojPre = TestBaza.BrojRedova("Karta");
+            karta.NominalnaCena = (decimal)cena;
+            so = new KreirajKartaSO(karta);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Nominalna cena karte može imati najviše 2 decimale.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Karta"));
+        }
+
+        [TestMethod]
+        [DataRow(Ogranicenja.KartaSektor + 1)]
+        public void TestPredusloviPredugackiSektor(int duzina)
+        {
+            int brojPre = TestBaza.BrojRedova("Karta");
+            karta.Sektor = new string('a', duzina);
+            so = new KreirajKartaSO(karta);
+
+            Exception ex = Assert.Throws<Exception>(() => so.ExecuteTemplate());
+
+            Assert.AreEqual("Sektor karte može imati najviše 50 znakova.", ex.Message);
+            Assert.AreEqual(brojPre, TestBaza.BrojRedova("Karta"));
         }
 
         [TestMethod]
@@ -162,6 +172,21 @@ namespace SistemskeOperacije.Tests
 
             Assert.AreEqual(StatusKarte.u_inventaru, saved.Status);
             Assert.IsNull(saved.Listing);
+        }
+
+        [TestMethod]
+        public void TestIzvrsiOperacijuCenaSaDecimalama()
+        {
+            karta.NominalnaCena = 12.50m;
+            so = new KreirajKartaSO(karta);
+
+            so.ExecuteTemplate();
+
+            PretraziKartaSO searchSo = new PretraziKartaSO(new Karta { IdKarta = karta.IdKarta });
+            searchSo.ExecuteTemplate();
+            Karta saved = (Karta)searchSo.Result!;
+
+            Assert.AreEqual(12.50m, saved.NominalnaCena);
         }
     }
 }

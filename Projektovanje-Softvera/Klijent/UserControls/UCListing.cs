@@ -1,12 +1,12 @@
 ﻿using Common.Domen;
 using Common.Domen.Enumeracije;
+using Common.Validacija;
 using Klijent.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +22,31 @@ namespace Klijent.UserControls
         private readonly BindingList<Karta> slobodneKarte = new BindingList<Karta>();
         private readonly BindingList<Karta> karteNaListingu = new BindingList<Karta>();
 
+        internal ProveraUnosa ProveraUnosa { get; }
+        internal IReadOnlyDictionary<string, Control> Polja { get; }
+
         public UCListing(FormMode mode, Listing listing, List<Broker> sviBrokeri,
             List<Konsignator> sviKonsignatori)
         {
             InitializeComponent();
+            UnosPolja.DecimalniBroj(txtCenaPoKarti);
+            UnosPolja.DecimalniBroj(txtProcenatProvizije);
+            txtNapomena.MaxLength = Ogranicenja.ListingNapomena;
+
+            ProveraUnosa = new ProveraUnosa(this);
+            Polja = new Dictionary<string, Control>
+            {
+                [nameof(Listing.Broker)] = cmbBroker,
+                [nameof(Listing.Konsignator)] = cmbKonsignator,
+                [nameof(Listing.Status)] = cmbStatus,
+                [nameof(Listing.Split)] = cmbSplit,
+                [nameof(Listing.CenaPoKarti)] = txtCenaPoKarti,
+                [nameof(Listing.ProcenatProvizije)] = txtProcenatProvizije,
+                [nameof(Listing.Napomena)] = txtNapomena,
+                [nameof(Listing.DatumIsteka)] = dtpDatumIsteka,
+                [nameof(Listing.Karte)] = dgvKarteNaListingu,
+                [nameof(Listing.MinKolicina)] = numMinKolicina
+            };
 
             this.l = listing;
             this.sviBrokeri = sviBrokeri;
@@ -55,10 +76,10 @@ namespace Klijent.UserControls
                 ? DateTime.Today.AddDays(1)
                 : l.DatumIsteka;
 
-            txtCenaPoKarti.Text = mode == FormMode.Add ? "" : l.CenaPoKarti.ToString("N2");
+            txtCenaPoKarti.Text = mode == FormMode.Add ? "" : l.CenaPoKarti.ToString("F2");
             txtProcenatProvizije.Text = mode == FormMode.Add
                 ? ""
-                : l.ProcenatProvizije.ToString("N2");
+                : l.ProcenatProvizije.ToString("F2");
             numMinKolicina.Value = l.MinKolicina < numMinKolicina.Minimum
                 ? numMinKolicina.Minimum
                 : l.MinKolicina;
@@ -105,11 +126,10 @@ namespace Klijent.UserControls
             l.Status = (cmbStatus.SelectedItem as StavkaEnuma<StatusListinga>)?.Vrednost;
             l.Split = (cmbSplit.SelectedItem as StavkaEnuma<TipSplita>)?.Vrednost;
             l.DatumIsteka = dtpDatumIsteka.Value.Date;
-            l.CenaPoKarti = decimal.TryParse(txtCenaPoKarti.Text.Trim(), NumberStyles.Number,
-                CultureInfo.CurrentCulture, out decimal cena) ? cena : -1;
-            l.ProcenatProvizije = decimal.TryParse(txtProcenatProvizije.Text.Trim(),
-                NumberStyles.Number, CultureInfo.CurrentCulture, out decimal provizija)
-                ? provizija : -1;
+            UnosPolja.TryParseIznos(txtCenaPoKarti.Text, out decimal cena);
+            l.CenaPoKarti = cena;
+            UnosPolja.TryParseIznos(txtProcenatProvizije.Text, out decimal provizija);
+            l.ProcenatProvizije = provizija;
             l.MinKolicina = (int)numMinKolicina.Value;
             l.Napomena = string.IsNullOrWhiteSpace(txtNapomena.Text) ? null : txtNapomena.Text.Trim();
             l.Karte = karteNaListingu.ToList();
@@ -141,10 +161,8 @@ namespace Klijent.UserControls
 
         private void OsveziPrikaz()
         {
-            decimal cena = decimal.TryParse(txtCenaPoKarti.Text.Trim(), NumberStyles.Number,
-                CultureInfo.CurrentCulture, out decimal c) ? c : 0m;
-            decimal procenat = decimal.TryParse(txtProcenatProvizije.Text.Trim(),
-                NumberStyles.Number, CultureInfo.CurrentCulture, out decimal p) ? p : 0m;
+            UnosPolja.TryParseIznos(txtCenaPoKarti.Text, out decimal cena);
+            UnosPolja.TryParseIznos(txtProcenatProvizije.Text, out decimal procenat);
             decimal ukupno = cena * karteNaListingu.Count;
 
             lblBrojSlobodnih.Text = $"Slobodnih: {slobodneKarte.Count}";
